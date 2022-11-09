@@ -2,6 +2,8 @@ extends CanvasLayer
 
 var active : bool = false setget set_active
 
+onready var open_sfx := $OpenSFX
+
 
 # Toggles option menu on "pause" press.
 func _input(event: InputEvent) -> void:
@@ -10,14 +12,7 @@ func _input(event: InputEvent) -> void:
 		get_tree().set_input_as_handled()
 		
 		# Play click sfx
-		var sfx := AudioStreamPlayer.new()
-		sfx.bus = "SFX"
-		sfx.stream = preload("res://assets/sfx/button_pressed.wav")
-		sfx.pause_mode = Node.PAUSE_MODE_PROCESS
-		sfx.volume_db = -15
-		add_child(sfx)
-		sfx.play()
-		sfx.connect("finished", sfx, "queue_free")
+		open_sfx.play()
 
 
 # Sets the active of the option menu.

@@ -27,12 +27,12 @@ func _state_logic(delta: float) -> void:
 func _get_transition(delta: float):
 	match state:
 		states.idle:
-			if Input.is_action_just_pressed("dash") and parent.prev_input:
+			if Input.is_action_just_pressed("dash"):
 				return states.dash
 			if parent.input:
 				return states.walk
 		states.walk:
-			if Input.is_action_just_pressed("dash") and parent.prev_input:
+			if Input.is_action_just_pressed("dash"):
 				return states.dash
 			if not parent.input:
 				return states.idle

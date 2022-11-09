@@ -3,14 +3,20 @@ extends KinematicBody2D
 export(Color) var good_color := Color.green
 export(Color) var bad_color := Color.red
 export(int) var num_rays := 16
-export(int) var ray_dist := 50.0
+export(int) var ray_dist := 20.0
 export(int) var num_calc_rays := 32
 export(bool) var avoid := false
-export(int) var min_shape_target_dist := 40
-export(int) var far_shape_target_dist := 60
+export(int) var min_shape_target_dist := 20
+export(int) var far_shape_target_dist := 200
 
-export(float) var max_speed := 100.0
-export(float) var acceleration := 100.0
+export(int) var min_speed_dist := 20
+export(int) var far_speed_dist := 80
+export(float) var max_speed := 300.0
+export(float) var min_speed := 50.0
+export(float) var min_acceleration := 50.0
+export(float) var max_acceleration := 1000.0
+
+export(float, 1.0) var continue_straight_weight := 0.5
 
 var rays := []
 var calc_rays := []
@@ -19,8 +25,11 @@ var velocity := Vector2()
 
 onready var min_shape_target_dist_squared := pow(min_shape_target_dist, 2)
 onready var far_shape_target_dist_squared := pow(far_shape_target_dist, 2)
+onready var min_speed_dist_squared := pow(min_speed_dist, 2)
+onready var far_speed_dist_squared := pow(far_speed_dist, 2)
 
-onready var anim_sprite := $AnimatedSprite
+onready var anim_sprite := $Pivot/AnimatedSprite
+onready var pivot := $Pivot
 
 
 func _ready() -> void:
@@ -28,6 +37,7 @@ func _ready() -> void:
 		var r := RayCast2D.new()
 		r.cast_to = Vector2.RIGHT.rotated(i / float(num_rays) * 2 * PI) *\
 				ray_dist
+		r.collision_mask = 3
 		add_child(r)
 		rays.append(r)
 	for i in num_calc_rays:
@@ -54,16 +64,29 @@ func set_player(p: Node2D) -> void:
 func move(delta: float) -> void:
 	apply_acceleration(delta)
 	velocity = move_and_slide(velocity)
+	set_facing(target.position - position)
 
 
 func apply_acceleration(delta: float) -> void:
-	var acceleration_amount := acceleration * delta
-	var desired_vel := max_speed * get_desired_dir()
+	var speed_weight := clamp(
+			(position.distance_squared_to(target.position) - \
+			min_speed_dist_squared) / (far_speed_dist_squared - \
+			min_speed_dist_squared), 0, 1)
+	print(speed_weight)
+	var acceleration_amount: float = lerp(max_acceleration, min_acceleration,
+			speed_weight) * delta
+	var desired_vel: Vector2 = lerp(max_speed, min_speed, speed_weight) *\
+			get_desired_dir()
 	if velocity.distance_to(desired_vel) <= acceleration_amount:
 		velocity = desired_vel
 	else:
 		velocity += velocity.direction_to(desired_vel) * acceleration_amount
-	
+
+
+func set_facing(dir: Vector2) -> void:
+	if (pivot.scale.x < 0 and dir.x > 0) or\
+			(pivot.scale.x > 0 and dir.x < 0):
+		pivot.scale.x *= -1
 
 
 func get_desired_dir() -> Vector2:
@@ -74,7 +97,7 @@ func get_desired_dir() -> Vector2:
 	var target_dist_weight := clamp(
 			(position.distance_squared_to(target.position) - \
 			min_shape_target_dist_squared) / (far_shape_target_dist_squared - \
-			min_shape_target_dist), 0, 1)
+			min_shape_target_dist_squared), 0, 1)
 	
 	for i in len(calc_rays):
 		var rot: float = i / float(num_calc_rays) * 2.0 * PI
@@ -96,7 +119,7 @@ func get_desired_dir() -> Vector2:
 		var rot: float = i / float(num_calc_rays) * 2.0 * PI
 		var dot := velocity.normalized()\
 				.dot(Vector2.RIGHT.rotated(rot))
-		calc_rays[i] += max(dot, 0) * 0.2
+		calc_rays[i] += max(dot, 0) * continue_straight_weight
 	update()
 	
 	# Calculate desired rotation

@@ -28,12 +28,15 @@ animations = [ {
 extents = Vector2( 4, 4 )
 
 [node name="FoodEnemy" type="KinematicBody2D" groups=["food", "needs_player"]]
+collision_layer = 2
 script = ExtResource( 4 )
 
 [node name="FoodEnemyStates" type="Node" parent="."]
 script = ExtResource( 5 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="Pivot" type="Node2D" parent="."]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Pivot"]
 position = Vector2( 0, -5 )
 frames = SubResource( 1 )
 animation = "idle"

@@ -1,8 +1,12 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://utils/AnimatedButton.gd" type="Script" id=1]
-[ext_resource path="res://assets/sfx/button_hover.wav" type="AudioStream" id=2]
-[ext_resource path="res://assets/sfx/button_pressed.wav" type="AudioStream" id=3]
+[ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/sfx/menu/button_click_2.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/sfx/menu/button_click_1.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/sfx/menu/button_hover_1.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sfx/menu/button_hover_3.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sfx/menu/button_hover_2.wav" type="AudioStream" id=7]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -22,17 +26,15 @@ mouse_filter = 2
 
 [node name="Tween" type="Tween" parent="."]
 
-[node name="HoverSFX" type="AudioStreamPlayer" parent="."]
-pause_mode = 2
-stream = ExtResource( 2 )
-volume_db = -20.0
-bus = "SFX"
+[node name="HoverSFX" parent="." instance=ExtResource( 2 )]
+stream = null
+volume_db = -5.0
+audio_streams = [ ExtResource( 5 ), ExtResource( 7 ), ExtResource( 6 ) ]
 
-[node name="PressedSFX" type="AudioStreamPlayer" parent="."]
-pause_mode = 2
-stream = ExtResource( 3 )
-volume_db = -15.0
-bus = "SFX"
+[node name="PressedSFX" parent="." instance=ExtResource( 2 )]
+stream = null
+volume_db = 5.0
+audio_streams = [ ExtResource( 4 ), ExtResource( 3 ) ]
 
 [connection signal="button_down" from="." to="." method="_on_AnimButton_button_down"]
 [connection signal="button_up" from="." to="." method="_on_AnimButton_button_up"]

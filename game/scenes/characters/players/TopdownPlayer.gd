@@ -1,22 +1,18 @@
 extends KinematicBody2D
 
-const DashLine := preload("res://scenes/characters/players/DashLine.tscn")
-
 export(float) var acceleration := 600.0
 export(float) var turn_acceleration_multiplier := 3.0
 export(float) var friction := 1000.0
-export(float) var max_speed := 200.0
+export(float) var max_speed := 100.0
 
 export(float) var dash_dist := 100.0
 export(float) var dash_hit_dur := 0.3
 export(float) var fov := 180.0
 export(float) var dash_eat_padding := 10.0
 
-var prev_input := Vector2()
+var prev_input := Vector2.RIGHT
 var input := Vector2()
 var velocity := Vector2()
-var arrow_t: SceneTreeTween
-var camera_t: SceneTreeTween
 var line: Line2D
 
 onready var dash_dist_squared := pow(dash_dist, 2)
@@ -26,9 +22,10 @@ onready var pivot := $Pivot
 onready var anim_sprite := $Pivot/AnimatedSprite
 onready var dash_timer := $DashTimer
 onready var topdown_player_states := $TopdownPlayerStates
-onready var arrow := $Arrow
-onready var dash_arrow := $Arrow/DashArrow
-onready var camera := $Camera2D
+onready var dash_line := $DashLine
+
+onready var dash_sfx := $DashSFX
+onready var eat_sfx := $EatSFX
 
 
 func _process(delta: float) -> void:
@@ -46,12 +43,9 @@ func move(delta: float) -> void:
 	apply_friction(delta)
 	velocity = move_and_slide(velocity)
 	set_facing(input)
-	set_arrow_dir()
 
 
 func dash() -> void:
-	if arrow_t:
-		arrow_t.kill()
 	var prev_pos := position
 	var line_dur: float = dash_timer.wait_time
 	
@@ -64,25 +58,23 @@ func dash() -> void:
 		topdown_player_states.call_deferred("set_state", "idle")
 		line_dur = dash_hit_dur
 		velocity = vec.normalized() * max_speed
-		arrow.modulate.a = 1
 	else:
-		arrow.modulate.a = 0
 		velocity = Vector2()
 		dash_timer.start()
 		move_and_collide(prev_input * dash_dist)
 	
-	var rel_vect := prev_pos - position
+	eat_sfx.play()
+	dash_sfx.play()
+	var rel_vec := prev_pos - position
 	if is_instance_valid(line):
 		line.queue_free()
-	line = DashLine.instance()
-	line.points = PoolVector2Array([Vector2(), rel_vect])
-	line.dur = line_dur
-	add_child(line)
-	if camera_t:
-		camera_t.kill()
-	camera_t = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-	camera_t.tween_property(camera, "offset", Vector2(),
-			line_dur).from(rel_vect)
+	var new_points := PoolVector2Array()
+	new_points.append(Vector2())
+	for point in dash_line.points:
+		new_points.append(point + rel_vec)
+	dash_line.points = new_points
+	dash_line.dur = line_dur
+	dash_line.start()
 
 
 func apply_acceleration(delta: float) -> void:
@@ -96,11 +88,6 @@ func apply_acceleration(delta: float) -> void:
 		velocity = desired_vel
 	else:
 		velocity += velocity.direction_to(desired_vel) * acceleration_amoount
-
-
-func set_arrow_dir() -> void:
-	if velocity:
-		dash_arrow.rotation = velocity.angle()
 
 
 func set_facing(dir: Vector2) -> void:
@@ -143,9 +130,4 @@ func is_pos_dashable(pos: Vector2) -> bool:
 
 
 func _on_DashTimer_timeout() -> void:
-	if arrow_t:
-		arrow_t.kill()
-	arrow_t = create_tween()
-	arrow_t.tween_interval(0.1)
-	arrow_t.tween_property(arrow, "modulate:a", 1.0, 0.2)
 	topdown_player_states.call_deferred("set_state", "idle")
