@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/dialog_friend_2.ogg-dacf8c9a0081b3ae9db670f6ea519fa3.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/dialog/dialog_friend_2.ogg"
+dest_files=[ "res://.import/dialog_friend_2.ogg-dacf8c9a0081b3ae9db670f6ea519fa3.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
