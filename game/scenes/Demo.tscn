@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://utils/ButtonChangeScene.gd" type="Script" id=1]
 [ext_resource path="res://utils/InputFormatLabel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/tasks/FoodTask.tscn" type="PackedScene" id=3]
 
 [node name="Demo" type="Node2D"]
 
@@ -14,9 +15,12 @@ script = ExtResource( 1 )
 next_scene = "res://scenes/Demo.tscn"
 
 [node name="InputFormatLabel" parent="." instance=ExtResource( 2 )]
-margin_left = 9.0
-margin_top = 73.0
-margin_right = 439.0
-margin_bottom = 178.0
-text = "{up}, {down}, {left}, {right}, {pause}"
+margin_left = 1.0
+margin_top = 22.0
+margin_right = 431.0
+margin_bottom = 127.0
+text = "Press {dash} to eat.
+Press {up}, {down}, {left}, {right} to move"
 autowrap = true
+
+[node name="FoodTask" parent="." instance=ExtResource( 3 )]
