@@ -7,26 +7,38 @@ export(int) var ray_dist := 20.0
 export(int) var num_calc_rays := 32
 export(bool) var avoid := false
 export(int) var min_shape_target_dist := 20
+export(float) var min_shape_target_dist_offset := 20.0
 export(int) var far_shape_target_dist := 200
+export(float) var far_shape_target_dist_offset := 20.0
 
 export(int) var min_speed_dist := 20
+export(float) var min_speed_dist_offset := 20.0
 export(int) var far_speed_dist := 80
-export(float) var max_speed := 300.0
+export(float) var far_speed_dist_offset := 20.0
+export(float) var max_speed := 200.0
 export(float) var min_speed := 50.0
-export(float) var min_acceleration := 50.0
-export(float) var max_acceleration := 1000.0
+export(float) var min_acceleration := 200.0
+export(float) var max_acceleration := 800.0
 
-export(float, 1.0) var continue_straight_weight := 0.5
+export(float, 1.0) var continue_straight_weight := 1
 
 var rays := []
 var calc_rays := []
 var target: Node2D
 var velocity := Vector2()
 
-onready var min_shape_target_dist_squared := pow(min_shape_target_dist, 2)
-onready var far_shape_target_dist_squared := pow(far_shape_target_dist, 2)
-onready var min_speed_dist_squared := pow(min_speed_dist, 2)
-onready var far_speed_dist_squared := pow(far_speed_dist, 2)
+onready var min_shape_target_dist_squared := pow(min_shape_target_dist + \
+		Variables.rng.randf_range(-min_speed_dist_offset,
+		min_speed_dist_offset), 2)
+onready var far_shape_target_dist_squared := pow(far_shape_target_dist + \
+		Variables.rng.randf_range(-far_speed_dist_offset,
+		far_speed_dist_offset), 2)
+onready var min_speed_dist_squared := pow(min_speed_dist + \
+		Variables.rng.randf_range(-min_shape_target_dist_offset,
+		min_shape_target_dist_offset), 2)
+onready var far_speed_dist_squared := pow(far_speed_dist + \
+		Variables.rng.randf_range(-far_shape_target_dist_offset,
+		far_shape_target_dist_offset), 2)
 
 onready var anim_sprite := $Pivot/AnimatedSprite
 onready var pivot := $Pivot
@@ -72,7 +84,6 @@ func apply_acceleration(delta: float) -> void:
 			(position.distance_squared_to(target.position) - \
 			min_speed_dist_squared) / (far_speed_dist_squared - \
 			min_speed_dist_squared), 0, 1)
-	print(speed_weight)
 	var acceleration_amount: float = lerp(max_acceleration, min_acceleration,
 			speed_weight) * delta
 	var desired_vel: Vector2 = lerp(max_speed, min_speed, speed_weight) *\

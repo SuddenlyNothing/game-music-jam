@@ -1,5 +1,7 @@
 extends StateMachine
 
+var died := false
+
 
 func _ready() -> void:
 	add_state("idle")
@@ -72,3 +74,11 @@ func _exit_state(old_state, new_state: String) -> void:
 			pass
 		states.death:
 			pass
+
+
+func set_state(new_state: String) -> void:
+	if died:
+		return
+	if new_state == states.death:
+		died = true
+	.set_state(new_state)

@@ -44,6 +44,15 @@ position = Vector2( 224, 128 )
 [node name="FoodEnemy" parent="YSort" instance=ExtResource( 3 )]
 position = Vector2( 262, 130 )
 
+[node name="FoodEnemy2" parent="YSort" instance=ExtResource( 3 )]
+position = Vector2( 241, 87 )
+
+[node name="FoodEnemy3" parent="YSort" instance=ExtResource( 3 )]
+position = Vector2( 154, 107 )
+
+[node name="FoodEnemy4" parent="YSort" instance=ExtResource( 3 )]
+position = Vector2( 156, 147 )
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
@@ -72,5 +81,6 @@ position = Vector2( -214, 5 )
 shape = SubResource( 2 )
 
 [node name="SpawnInterval" type="Timer" parent="."]
+autostart = true
 
 [connection signal="timeout" from="SpawnInterval" to="." method="_on_SpawnInterval_timeout"]

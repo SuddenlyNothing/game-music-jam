@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+const TextFloater := preload("res://utils/TextFloater.tscn")
+
 export(float) var acceleration := 600.0
 export(float) var turn_acceleration_multiplier := 3.0
 export(float) var friction := 1000.0
@@ -13,7 +15,9 @@ export(float) var dash_eat_padding := 10.0
 var prev_input := Vector2.RIGHT
 var input := Vector2()
 var velocity := Vector2()
-var line: Line2D
+var anim_queue := ""
+var dash_finished := true
+var combo: int = 0
 
 onready var dash_dist_squared := pow(dash_dist, 2)
 onready var dash_eat_padding_squared := pow(dash_eat_padding, 2)
@@ -35,7 +39,13 @@ func _process(delta: float) -> void:
 
 
 func play_anim(anim: String) -> void:
-	anim_sprite.play(anim)
+	if not dash_finished and anim_sprite.animation == "dash" and anim != "dash":
+		anim_queue = anim
+	else:
+		if anim == "dash":
+			dash_finished = false
+		anim_queue = ""
+		anim_sprite.play(anim)
 
 
 func move(delta: float) -> void:
@@ -49,6 +59,9 @@ func dash() -> void:
 	var prev_pos := position
 	var line_dur: float = dash_timer.wait_time
 	
+	if dash_line.points.size() <= 1:
+		combo = 0
+	
 	var dash_food := get_closest_dashable_food()
 	if dash_food:
 		yield(get_tree(), "idle_frame")
@@ -58,16 +71,23 @@ func dash() -> void:
 		topdown_player_states.call_deferred("set_state", "idle")
 		line_dur = dash_hit_dur
 		velocity = vec.normalized() * max_speed
+		eat_sfx.play()
+		combo += 1
 	else:
+		combo = 0
 		velocity = Vector2()
 		dash_timer.start()
 		move_and_collide(prev_input * dash_dist)
+		dash_sfx.play()
 	
-	eat_sfx.play()
-	dash_sfx.play()
+	if combo > 1:
+		var text_floater := TextFloater.instance()
+		text_floater.position = position
+		text_floater.text = str(combo - 1)
+		text_floater.pitch_scale = 1 + min(combo - 1, 20) * 0.1
+		get_parent().add_child(text_floater)
+	
 	var rel_vec := prev_pos - position
-	if is_instance_valid(line):
-		line.queue_free()
 	var new_points := PoolVector2Array()
 	new_points.append(Vector2())
 	for point in dash_line.points:
@@ -131,3 +151,10 @@ func is_pos_dashable(pos: Vector2) -> bool:
 
 func _on_DashTimer_timeout() -> void:
 	topdown_player_states.call_deferred("set_state", "idle")
+
+
+func _on_AnimatedSprite_animation_finished() -> void:
+	if anim_sprite.animation == "dash":
+		dash_finished = true
+		if anim_queue:
+			play_anim(anim_queue)
