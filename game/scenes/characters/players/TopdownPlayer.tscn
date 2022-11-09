@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/ui/reset.png" type="Texture" id=1]
+[ext_resource path="res://scenes/characters/players/TopdownPlayer.gd" type="Script" id=2]
+[ext_resource path="res://scenes/characters/players/TopdownPlayerStates.gd" type="Script" id=3]
+[ext_resource path="res://assets/ui/mute.png" type="Texture" id=4]
+[ext_resource path="res://assets/ui/speaker.png" type="Texture" id=5]
+[ext_resource path="res://assets/temp/dash_arrow.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "dash",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "death",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "walk",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 3, 3 )
+
+[node name="TopdownPlayer" type="KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="TopdownPlayerStates" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Pivot" type="Node2D" parent="."]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Pivot"]
+position = Vector2( 0, -5 )
+frames = SubResource( 1 )
+animation = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[node name="DashTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="Arrow" type="Node2D" parent="."]
+scale = Vector2( 1, 0.7 )
+
+[node name="DashArrow" type="Sprite" parent="Arrow"]
+z_index = -5
+texture = ExtResource( 6 )
+offset = Vector2( 10, 0 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
+[connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
