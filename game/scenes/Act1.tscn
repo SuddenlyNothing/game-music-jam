@@ -25,55 +25,59 @@ visible = true
 [node name="Spring" parent="Outside" index="3"]
 visible = true
 
-[node name="RoomElements" parent="." index="2"]
+[node name="RoomElements" parent="YSort" index="0"]
 visible = true
-modulate = Color( 0, 0, 0, 0 )
+modulate = Color( 1, 1, 1, 0 )
 
-[node name="Waypoints" parent="." index="3" instance=ExtResource( 4 )]
+[node name="LightsOver" parent="YSort/RoomElements" index="7"]
+z_index = 0
+
+[node name="Waypoints" parent="YSort" index="1" instance=ExtResource( 4 )]
 position = Vector2( -32, -1 )
 
-[node name="Position2D" type="Position2D" parent="Waypoints" index="0"]
+[node name="Position2D" type="Position2D" parent="YSort/Waypoints" index="0"]
 position = Vector2( 370, -27 )
 
-[node name="Position2D2" type="Position2D" parent="Waypoints" index="1"]
+[node name="Position2D2" type="Position2D" parent="YSort/Waypoints" index="1"]
 position = Vector2( 126, 95 )
 
-[node name="Position2D7" type="Position2D" parent="Waypoints" index="2"]
+[node name="Position2D7" type="Position2D" parent="YSort/Waypoints" index="2"]
 position = Vector2( 201, 161 )
 
-[node name="Position2D8" type="Position2D" parent="Waypoints" index="3"]
+[node name="Position2D8" type="Position2D" parent="YSort/Waypoints" index="3"]
 position = Vector2( 249, 99 )
 
-[node name="Position2D3" type="Position2D" parent="Waypoints" index="4"]
+[node name="Position2D3" type="Position2D" parent="YSort/Waypoints" index="4"]
 position = Vector2( 257, 231 )
 
-[node name="Position2D4" type="Position2D" parent="Waypoints" index="5"]
+[node name="Position2D4" type="Position2D" parent="YSort/Waypoints" index="5"]
 position = Vector2( 279, 241 )
 
-[node name="Position2D5" type="Position2D" parent="Waypoints" index="6"]
+[node name="Position2D5" type="Position2D" parent="YSort/Waypoints" index="6"]
 position = Vector2( 301, 249 )
 
-[node name="Position2D6" type="Position2D" parent="Waypoints" index="7"]
+[node name="Position2D6" type="Position2D" parent="YSort/Waypoints" index="7"]
 position = Vector2( 351, 251 )
 
-[node name="PlayerPuppet" parent="." index="4" instance=ExtResource( 2 )]
-position = Vector2( 335, -29 )
+[node name="PlayerPuppet" parent="YSort" index="2" instance=ExtResource( 2 )]
+position = Vector2( 338, -28 )
 z_index = -30
 waypoints_path = NodePath("../Waypoints")
+move_speed = 60
 
-[node name="Camera2D" type="Camera2D" parent="PlayerPuppet" index="0"]
+[node name="Camera2D" type="Camera2D" parent="YSort/PlayerPuppet" index="0"]
 current = true
 limit_left = 0
 limit_top = 0
 limit_right = 384
 limit_bottom = 256
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." index="5"]
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="3"]
 
 [node name="DialogPlayer" parent="CanvasLayer" index="0" instance=ExtResource( 5 )]
 
 [node name="Menu" parent="CanvasLayer" index="1" instance=ExtResource( 6 )]
 
-[connection signal="reached_last_waypoint" from="PlayerPuppet" to="." method="_on_PlayerPuppet_reached_last_waypoint"]
-[connection signal="reached_waypoint" from="PlayerPuppet" to="." method="_on_PlayerPuppet_reached_waypoint"]
+[connection signal="reached_last_waypoint" from="YSort/PlayerPuppet" to="." method="_on_PlayerPuppet_reached_last_waypoint"]
+[connection signal="reached_waypoint" from="YSort/PlayerPuppet" to="." method="_on_PlayerPuppet_reached_waypoint"]
 [connection signal="started" from="CanvasLayer/Menu" to="." method="_on_Menu_started"]

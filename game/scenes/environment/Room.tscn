@@ -162,31 +162,35 @@ texture = ExtResource( 12 )
 z_index = 20
 texture = ExtResource( 13 )
 
-[node name="RoomElements" type="Node2D" parent="."]
+[node name="YSort" type="YSort" parent="."]
+
+[node name="RoomElements" type="YSort" parent="YSort"]
 visible = false
 position = Vector2( 326, 200.5 )
 
-[node name="RoomBackground" type="Sprite" parent="RoomElements"]
+[node name="RoomBackground" type="Sprite" parent="YSort/RoomElements"]
 texture = ExtResource( 1 )
 
-[node name="TrashCan" type="Sprite" parent="RoomElements"]
+[node name="TrashCan" type="Sprite" parent="YSort/RoomElements"]
 texture = ExtResource( 2 )
 
-[node name="Weights" type="Sprite" parent="RoomElements"]
+[node name="Weights" type="Sprite" parent="YSort/RoomElements"]
 texture = ExtResource( 3 )
 
-[node name="Bed" type="Sprite" parent="RoomElements"]
+[node name="Bed" type="Sprite" parent="YSort/RoomElements"]
 texture = ExtResource( 5 )
 
-[node name="Desk" type="Sprite" parent="RoomElements"]
+[node name="Desk" type="Sprite" parent="YSort/RoomElements"]
 texture = ExtResource( 6 )
 
-[node name="Door" type="Sprite" parent="RoomElements"]
+[node name="Door" type="Sprite" parent="YSort/RoomElements"]
 texture = ExtResource( 7 )
 
-[node name="LightUnder" type="Sprite" parent="RoomElements"]
+[node name="LightUnder" type="Sprite" parent="YSort/RoomElements"]
 texture = ExtResource( 19 )
 
-[node name="LightsOver" type="Sprite" parent="RoomElements"]
+[node name="LightsOver" type="Sprite" parent="YSort/RoomElements"]
+position = Vector2( 0, 45 )
 z_index = 20
 texture = ExtResource( 20 )
+offset = Vector2( 0, -45 )

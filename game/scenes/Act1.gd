@@ -5,10 +5,10 @@ export(float) var betwee_dur := 0.5
 
 export(Array, Array, String, MULTILINE) var dialogs
 
-onready var player_puppet := $PlayerPuppet
-onready var door := $RoomElements/Door
-onready var camera := $PlayerPuppet/Camera2D
-onready var room_elements := $RoomElements
+onready var player_puppet := $YSort/PlayerPuppet
+onready var door := $YSort/RoomElements/Door
+onready var camera := $YSort/PlayerPuppet/Camera2D
+onready var room_elements := $YSort/RoomElements
 onready var dialog := $CanvasLayer/DialogPlayer
 
 var seasons_t: SceneTreeTween
@@ -68,6 +68,7 @@ func _on_PlayerPuppet_reached_waypoint(waypoint_ind: int) -> void:
 		5:
 			var t := create_tween()
 			t.tween_property(outside, "modulate:a", 0.0, 0.5)
+			t.tween_callback(outside, "hide")
 			player_puppet.z_index = 0
 		6:
 			door.show()
@@ -75,7 +76,6 @@ func _on_PlayerPuppet_reached_waypoint(waypoint_ind: int) -> void:
 
 
 func _on_PlayerPuppet_reached_last_waypoint() -> void:
-	
 	unlock_camera()
 	player_puppet.remove_child(camera)
 	add_child(camera)
