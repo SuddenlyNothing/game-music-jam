@@ -11,9 +11,9 @@ func _ready() -> void:
 func _pressed() -> void:
 	var sfx := AudioStreamPlayer.new()
 	sfx.bus = "SFX"
-	sfx.stream = preload("res://assets/sfx/button_pressed.wav")
+	sfx.stream = preload("res://assets/sfx/menu/click_sfx/button_click_1.wav")
 	sfx.pause_mode = Node.PAUSE_MODE_PROCESS
-	sfx.volume_db = -15
+#	sfx.volume_db = -15
 	add_child(sfx)
 	sfx.play()
 	sfx.connect("finished", sfx, "queue_free")
@@ -25,9 +25,9 @@ func _play_hover_sfx() -> void:
 		return
 	var sfx := AudioStreamPlayer.new()
 	sfx.bus = "SFX"
-	sfx.stream = preload("res://assets/sfx/button_hover.wav")
+	sfx.stream = preload("res://assets/sfx/menu/hover_sfx/button_hover_1.wav")
 	sfx.pause_mode = Node.PAUSE_MODE_PROCESS
-	sfx.volume_db = -20
+#	sfx.volume_db = -20
 	add_child(sfx)
 	sfx.play()
 	sfx.connect("finished", sfx, "queue_free")

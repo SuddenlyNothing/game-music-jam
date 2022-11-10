@@ -19,11 +19,13 @@ z_index = -410
 [node name="ColorRect" type="ColorRect" parent="Node2D"]
 margin_right = 448.0
 margin_bottom = 256.0
+mouse_filter = 2
 color = Color( 0.266667, 0.0196078, 0.0196078, 1 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Node2D/ColorRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
@@ -34,24 +36,16 @@ margin_left = 10.0
 margin_top = 10.0
 margin_right = 438.0
 margin_bottom = 246.0
+mouse_filter = 2
 color = Color( 0.329412, 0.592157, 0.431373, 1 )
 
 [node name="YSort" type="YSort" parent="."]
 
 [node name="TopdownPlayer" parent="YSort" instance=ExtResource( 1 )]
-position = Vector2( 224, 128 )
+position = Vector2( 224, 133 )
 
 [node name="FoodEnemy" parent="YSort" instance=ExtResource( 3 )]
 position = Vector2( 262, 130 )
-
-[node name="FoodEnemy2" parent="YSort" instance=ExtResource( 3 )]
-position = Vector2( 241, 87 )
-
-[node name="FoodEnemy3" parent="YSort" instance=ExtResource( 3 )]
-position = Vector2( 154, 107 )
-
-[node name="FoodEnemy4" parent="YSort" instance=ExtResource( 3 )]
-position = Vector2( 156, 147 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -81,6 +75,5 @@ position = Vector2( -214, 5 )
 shape = SubResource( 2 )
 
 [node name="SpawnInterval" type="Timer" parent="."]
-autostart = true
 
 [connection signal="timeout" from="SpawnInterval" to="." method="_on_SpawnInterval_timeout"]

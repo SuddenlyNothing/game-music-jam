@@ -18,6 +18,7 @@ var velocity := Vector2()
 var anim_queue := ""
 var dash_finished := true
 var combo: int = 0
+var locked := false setget set_locked
 
 onready var dash_dist_squared := pow(dash_dist, 2)
 onready var dash_eat_padding_squared := pow(dash_eat_padding, 2)
@@ -38,6 +39,14 @@ func _process(delta: float) -> void:
 		prev_input = input.normalized()
 
 
+func set_locked(val: bool) -> void:
+	locked = val
+	set_process(not val)
+	if val:
+		input = Vector2()
+		topdown_player_states.call_deferred("set_state", "idle")
+
+
 func play_anim(anim: String) -> void:
 	if not dash_finished and anim_sprite.animation == "dash" and anim != "dash":
 		anim_queue = anim
@@ -53,6 +62,10 @@ func move(delta: float) -> void:
 	apply_friction(delta)
 	velocity = move_and_slide(velocity)
 	set_facing(input)
+
+
+func can_dash() -> bool:
+	return Input.is_action_pressed("dash", true) and not locked
 
 
 func dash() -> void:

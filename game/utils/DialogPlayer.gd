@@ -2,6 +2,15 @@ extends Control
 
 signal dialog_finished
 
+enum Characters {
+	MC1 = 0,
+	MC2 = 1,
+	MC3 = 2,
+	BOSS = 3,
+	FRIEND = 4,
+	MISC = 5,
+}
+
 const PAUSE_SYMBOLS := {
 	".": 13,
 	",": 5,
@@ -11,12 +20,14 @@ const PAUSE_SYMBOLS := {
 	";": 10,
 }
 
+export(Characters) var character
 export(bool) var autoplay := false
-export(float) var read_speed: float = 30.0
-export(AudioStream) var default_audio
+export(float) var read_speed: float = 40.0
 export(Color) var default_color = Color.white
 export(String) var empty_dialog := "..."
 export(Array, String, MULTILINE) var autoplay_dialog := []
+export(Array, Array, AudioStream) var character_audios
+export(Array, Color) var character_colors
 
 var dialogs: Array
 var d_ind: int
@@ -24,9 +35,13 @@ var reading: bool = false
 var has_dialog: bool = false
 var curr_text: String = ""
 var t: SceneTreeTween
+var enter_exit_t: SceneTreeTween
 
 onready var label := $"%RichTextLabel"
 onready var text_sfx := $TextSFX
+onready var next_indicator_container := $M/ColorRect/NextIndicatorContainer
+onready var interact_sfx := $InteractSFX
+onready var text_sfx_interval := $TextSFXInterval
 
 
 func _ready() -> void:
@@ -34,39 +49,41 @@ func _ready() -> void:
 		read(autoplay_dialog)
 
 
-func _gui_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if has_dialog:
 		if event.is_action_pressed("continue", false, false):
 			if reading:
 				t.kill()
 				label.percent_visible = 1.0
-				reading = false
-				text_sfx.stop()
+				stop_reading()
 			else:
+				interact_sfx.play()
 				read_next()
 			accept_event()
 
 
-func read(d: Array, color: Color = default_color,
-		sfx: AudioStream = default_audio) -> void:
-	if not sfx:
-		sfx = default_audio
-	label.modulate = color
-	text_sfx.stream = sfx
+func read(d: Array, c: int = character) -> void:
+	label.modulate = character_colors[c]
+	text_sfx.audio_streams = character_audios[c]
 	has_dialog = true
+	if t:
+		t.kill()
+	label.percent_visible = 0.0
 	d_ind = -1
 	dialogs = d
-	read_next()
+	next_indicator_container.hide()
 	call_deferred("show")
+	if enter_exit_t:
+		enter_exit_t.kill()
+	enter_exit_t = create_tween()
+	enter_exit_t.tween_property(self, "modulate:a", 1.0, 0.43).from(0.0)
+	enter_exit_t.tween_callback(self, "read_next")
 
 
 func read_next() -> void:
 	d_ind += 1
 	if d_ind >= dialogs.size():
-		has_dialog = false
-		emit_signal("dialog_finished")
-		text_sfx.stop()
-		hide()
+		stop()
 		return
 	text_sfx.play()
 	curr_text = dialogs[d_ind]
@@ -74,6 +91,8 @@ func read_next() -> void:
 	if len(new_dialog) <= 0:
 		new_dialog = empty_dialog
 	label.bbcode_text = new_dialog
+	next_indicator_container.hide()
+	text_sfx_interval.start()
 	
 	set_read_tween(new_dialog)
 	
@@ -112,11 +131,19 @@ func set_read_tween(new_dialog: String,
 
 
 func stop() -> void:
+	emit_signal("dialog_finished")
 	reading = false
 	has_dialog = false
-	t.kill()
+	text_sfx_interval.stop()
+	if t:
+		t.kill()
 	text_sfx.stop()
-	hide()
+	next_indicator_container.hide()
+	if enter_exit_t:
+		enter_exit_t.kill()
+	enter_exit_t = create_tween()
+	enter_exit_t.tween_property(self, "modulate:a", 0.0, 0.1)
+	enter_exit_t.tween_callback(self, "hide")
 
 
 func update_keys():
@@ -131,3 +158,16 @@ func update_keys():
 func stop_reading() -> void:
 	reading = false
 	text_sfx.stop()
+	next_indicator_container.show()
+	interact_sfx.play()
+	text_sfx_interval.stop()
+
+
+func _on_TextSFX_finished() -> void:
+	if reading:
+		text_sfx.play()
+
+
+func _on_TextSFXInterval_timeout() -> void:
+	if reading:
+		text_sfx.play()
