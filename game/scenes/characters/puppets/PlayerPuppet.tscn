@@ -1,8 +1,13 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://assets/characters/mc/mc_walking.png" type="Texture" id=1]
 [ext_resource path="res://assets/characters/mc/mc_idle.png" type="Texture" id=2]
 [ext_resource path="res://scenes/characters/puppets/PlayerPuppet.gd" type="Script" id=3]
+[ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/temp/step1.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/temp/step2.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/temp/step3.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/characters/mc/shadow.png" type="Texture" id=8]
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 2 )
@@ -85,9 +90,22 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="AudioStreamRandomPitch" id=14]
+resource_local_to_scene = true
+
 [node name="PlayerPuppet" type="AnimatedSprite"]
 frames = SubResource( 1 )
 animation = "idle1"
-speed_scale = 2.0
+speed_scale = 1.5
 offset = Vector2( 2, -32 )
 script = ExtResource( 3 )
+
+[node name="StepSFX" parent="." instance=ExtResource( 4 )]
+stream = SubResource( 14 )
+audio_streams = [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ]
+
+[node name="Shadow" type="Sprite" parent="."]
+z_index = -2
+texture = ExtResource( 8 )
+
+[connection signal="frame_changed" from="." to="." method="_on_PlayerPuppet_frame_changed"]

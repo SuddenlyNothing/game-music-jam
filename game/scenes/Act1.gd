@@ -1,5 +1,7 @@
 extends StreetRoom
 
+const RoomPlayer := preload("res://scenes/characters/players/RoomPlayer.tscn")
+
 export(float) var season_dur := 1.0
 export(float) var betwee_dur := 1.5
 
@@ -10,6 +12,8 @@ onready var door := $YSort/RoomElements/Door
 onready var camera := $YSort/PlayerPuppet/Camera2D
 onready var room_elements := $YSort/RoomElements
 onready var dialog := $CanvasLayer/DialogPlayer
+onready var ysort := $YSort
+onready var minigames_manager := $MinigamesManager
 
 var seasons_t: SceneTreeTween
 
@@ -87,7 +91,33 @@ func _on_PlayerPuppet_reached_last_waypoint() -> void:
 	t.tween_callback(dialog, "read", [dialogs[4]])
 	yield(dialog, "dialog_finished")
 	get_tree().call_group("sprite_select", "set_disabled", false)
+	var room_player := RoomPlayer.instance()
+	room_player.position = player_puppet.position
+	room_player.z_index = player_puppet.z_index
+	player_puppet.queue_free()
+	ysort.add_child(room_player)
 
 
 func _on_Menu_started() -> void:
 	start()
+
+
+func _on_MinigamesManager_view_street(season: String) -> void:
+	var t := create_tween().set_trans(Tween.TRANS_QUAD)\
+			.set_ease(Tween.EASE_OUT)
+	t.tween_property(camera, "position", Vector2(192, 128), 0.5)\
+			.set_ease(Tween.EASE_OUT)
+	t.tween_callback(outside, "show")
+	t.tween_property(outside, "modulate:a", 1.0, 0.5)
+	t.parallel().tween_property(room_elements, "modulate",
+			Color("#00000000"), 0.5)
+	if season:
+		t.tween_callback(self, "set_season", [season, 1.5])
+		t.tween_interval(2.0)
+	t.tween_interval(1.0)
+	t.tween_property(outside, "modulate:a", 0.0, 0.5)
+	t.parallel().tween_property(room_elements, "modulate",
+			Color.white, 0.5)
+	t.tween_callback(outside, "hide")
+	t.tween_property(camera, "position", camera.position, 0.5)
+	t.tween_callback(minigames_manager, "finished_viewing_street")

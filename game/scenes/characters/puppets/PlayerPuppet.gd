@@ -4,19 +4,21 @@ signal reached_last_waypoint
 signal reached_waypoint(waypoint)
 
 export(NodePath) var waypoints_path
-export(String, "1", "2", "3") var act := "1"
+export(String, "1", "2", "3") var act := "1" setget set_act
 export(int) var move_speed := 50
+export(bool) var muted := false
 
 var target: Vector2
 
-onready var waypoints := get_node(waypoints_path)
+onready var waypoints := get_node_or_null(waypoints_path)
+onready var step_sfx := $StepSFX
 
 
 func _ready() -> void:
-	if waypoints.has_start_point():
+	if waypoints and waypoints.has_start_point():
 		position = waypoints.get_start_point()
 	set_physics_process(false)
-	play("idle" + act)
+	play_anim("idle")
 
 
 func _physics_process(delta: float) -> void:
@@ -35,11 +37,16 @@ func _physics_process(delta: float) -> void:
 		set_facing(dir)
 
 
+func set_act(val: String) -> void:
+	act = val
+	play_anim(animation.substr(0, len(animation) - 1))
+
+
 func goto_next() -> void:
 	if waypoints.has_next_point():
 		set_physics_process(true)
 		target = waypoints.get_next_point()
-		play("walk" + act)
+		play_anim("walk")
 	else:
 		emit_signal("reached_last_waypoint")
 
@@ -48,3 +55,16 @@ func set_facing(dir: Vector2) -> void:
 	if (dir.x > 0 and scale.x < 0) or\
 			(dir.x < 0 and scale.x > 0):
 		scale.x *= -1
+
+
+func play_anim(anim: String) -> void:
+	play(anim + act)
+
+
+func _on_PlayerPuppet_frame_changed() -> void:
+	if muted:
+		return
+	if animation.begins_with("walk"):
+		match frame:
+			1, 4:
+				step_sfx.play()

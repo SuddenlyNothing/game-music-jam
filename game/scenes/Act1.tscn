@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/environment/Room.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/characters/puppets/PlayerPuppet.tscn" type="PackedScene" id=2]
@@ -104,6 +104,12 @@ shader = SubResource( 6 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
+[sub_resource type="ShaderMaterial" id=10]
+resource_local_to_scene = true
+shader = SubResource( 6 )
+shader_param/line_scale = 0.0
+shader_param/outline_color = Color( 1, 1, 1, 1 )
+
 [node name="Act1" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
 season_dur = 1.0
@@ -116,23 +122,26 @@ z_index = 30
 [node name="RoomElements" parent="YSort" index="0"]
 modulate = Color( 1, 1, 1, 0 )
 
-[node name="Weights" parent="YSort/RoomElements" index="2"]
+[node name="Desk" parent="YSort/RoomElements/Enterables" index="0"]
 material = SubResource( 7 )
 
-[node name="Bed" parent="YSort/RoomElements" index="3"]
+[node name="Window" parent="YSort/RoomElements/Enterables" index="1"]
 material = SubResource( 8 )
 
-[node name="Desk" parent="YSort/RoomElements" index="4"]
+[node name="Weights" parent="YSort/RoomElements/Enterables" index="2"]
 material = SubResource( 9 )
 
-[node name="LightsOver" parent="YSort/RoomElements" index="7"]
+[node name="Bed" parent="YSort/RoomElements/Enterables" index="3"]
+material = SubResource( 10 )
+
+[node name="LightsOver" parent="YSort/RoomElements" index="5"]
 z_index = 0
 
 [node name="Waypoints" parent="YSort" index="1" instance=ExtResource( 4 )]
 position = Vector2( -32, -1 )
 
 [node name="Position2D" type="Position2D" parent="YSort/Waypoints" index="0"]
-position = Vector2( 370, -27 )
+position = Vector2( 322, -2 )
 
 [node name="Position2D2" type="Position2D" parent="YSort/Waypoints" index="1"]
 position = Vector2( 126, 95 )
@@ -156,10 +165,10 @@ position = Vector2( 301, 249 )
 position = Vector2( 351, 251 )
 
 [node name="PlayerPuppet" parent="YSort" index="2" instance=ExtResource( 2 )]
-position = Vector2( 338, -28 )
+position = Vector2( 290, -3 )
 z_index = -130
 waypoints_path = NodePath("../Waypoints")
-move_speed = 60
+move_speed = 300
 
 [node name="Camera2D" type="Camera2D" parent="YSort/PlayerPuppet" index="0"]
 current = true
@@ -168,12 +177,14 @@ limit_top = 0
 limit_right = 384
 limit_bottom = 256
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." index="3"]
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="4"]
 
 [node name="DialogPlayer" parent="CanvasLayer" index="0" instance=ExtResource( 5 )]
 
 [node name="Menu" parent="CanvasLayer" index="1" instance=ExtResource( 6 )]
 
+[connection signal="interacted" from="YSort/RoomElements/Enterables/Window" to="MinigamesManager" method="_on_Window_interacted"]
 [connection signal="reached_last_waypoint" from="YSort/PlayerPuppet" to="." method="_on_PlayerPuppet_reached_last_waypoint"]
 [connection signal="reached_waypoint" from="YSort/PlayerPuppet" to="." method="_on_PlayerPuppet_reached_waypoint"]
+[connection signal="view_street" from="MinigamesManager" to="." method="_on_MinigamesManager_view_street"]
 [connection signal="started" from="CanvasLayer/Menu" to="." method="_on_Menu_started"]
