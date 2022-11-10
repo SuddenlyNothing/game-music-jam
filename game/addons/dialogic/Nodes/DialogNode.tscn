@@ -22,7 +22,7 @@ bg_color = Color( 1, 1, 1, 0 )
 expand_margin_left = 10.0
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 448, 256 )
+extents = Vector2( 1724, 230 )
 
 [node name="DialogNode" type="Control"]
 anchor_right = 1.0
@@ -34,19 +34,15 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = 224.0
-margin_top = 256.0
-margin_right = 224.0
-margin_bottom = 256.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextBubble" parent="." instance=ExtResource( 1 )]
-margin_left = 24.0
-margin_top = 156.0
-margin_right = 424.0
-margin_bottom = 256.0
+margin_left = -200.0
+margin_top = -100.0
+margin_right = 200.0
+margin_bottom = 0.0
 
 [node name="Options" type="VBoxContainer" parent="."]
 visible = false
@@ -188,7 +184,7 @@ script = ExtResource( 10 )
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
 shape = SubResource( 2 )
 shape_visible = false
-action = "dialogic_default_action"
+action = "continue"
 visibility_mode = 1
 
 [connection signal="timeout" from="DefinitionInfo/Timer" to="." method="_on_Definition_Timer_timeout"]

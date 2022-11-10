@@ -88,6 +88,11 @@ _global_script_classes=[ {
 "class": "StateMachine",
 "language": "GDScript",
 "path": "res://scenes/characters/StateMachine.gd"
+}, {
+"base": "Node2D",
+"class": "StreetRoom",
+"language": "GDScript",
+"path": "res://scenes/environment/Room.gd"
 } ]
 _global_script_class_icons={
 "AnimatedButton": "",
@@ -105,13 +110,14 @@ _global_script_class_icons={
 "DialogicUtil": "",
 "HistoryRow": "",
 "SaveData": "",
-"StateMachine": ""
+"StateMachine": "",
+"StreetRoom": ""
 }
 
 [application]
 
 config/name="game music jam"
-run/main_scene="res://scenes/Demo.tscn"
+run/main_scene="res://scenes/Act1.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -125,9 +131,9 @@ MusicPlayer="*res://auto_loads/MusicPlayer.tscn"
 
 [display]
 
-window/size/width=448
+window/size/width=384
 window/size/height=256
-window/size/test_width=896
+window/size/test_width=768
 window/size/test_height=512
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"

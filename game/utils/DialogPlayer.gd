@@ -41,6 +41,7 @@ onready var label := $"%RichTextLabel"
 onready var text_sfx := $TextSFX
 onready var next_indicator_container := $M/ColorRect/NextIndicatorContainer
 onready var interact_sfx := $InteractSFX
+onready var text_sfx_interval := $TextSFXInterval
 
 
 func _ready() -> void:
@@ -91,6 +92,7 @@ func read_next() -> void:
 		new_dialog = empty_dialog
 	label.bbcode_text = new_dialog
 	next_indicator_container.hide()
+	text_sfx_interval.start()
 	
 	set_read_tween(new_dialog)
 	
@@ -132,9 +134,10 @@ func stop() -> void:
 	emit_signal("dialog_finished")
 	reading = false
 	has_dialog = false
+	text_sfx_interval.stop()
 	if t:
 		t.kill()
-	text_sfx.call_deferred("stop")
+	text_sfx.stop()
 	next_indicator_container.hide()
 	if enter_exit_t:
 		enter_exit_t.kill()
@@ -154,11 +157,17 @@ func update_keys():
 
 func stop_reading() -> void:
 	reading = false
-	text_sfx.call_deferred("stop")
+	text_sfx.stop()
 	next_indicator_container.show()
 	interact_sfx.play()
+	text_sfx_interval.stop()
 
 
 func _on_TextSFX_finished() -> void:
+	if reading:
+		text_sfx.play()
+
+
+func _on_TextSFXInterval_timeout() -> void:
 	if reading:
 		text_sfx.play()

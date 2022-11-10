@@ -31,7 +31,9 @@ autowrap = true
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="DialogPlayer" parent="CanvasLayer" instance=ExtResource( 5 )]
-visible = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
 autoplay = true
 autoplay_dialog = [ "Hello Worldppppp Test", "Do you like pie?", "Me too!" ]
 

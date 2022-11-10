@@ -396,7 +396,7 @@ func play_audio(name):
 	var node = $FX/Audio.get_node(name.capitalize())
 	name = name.to_lower()
 	if audio_data[name].enable:
-		if audio_data[name].allow_interrupt or not node.is_playing():
+		if (audio_data[name].allow_interrupt and node.get_playback_position() > 0.05) or not node.is_playing():
 			node.play()
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://utils/DialogPlayer.gd" type="Script" id=1]
 [ext_resource path="res://assets/sfx/dialog/boss/dialog_boss_1.ogg" type="AudioStream" id=2]
@@ -14,10 +14,10 @@
 [ext_resource path="res://assets/sfx/dialog/friend/dialog_friend_3.ogg" type="AudioStream" id=12]
 [ext_resource path="res://assets/sfx/dialog/friend/dialog_friend_4.ogg" type="AudioStream" id=13]
 [ext_resource path="res://assets/sfx/dialog/friend/dialog_friend_12.ogg" type="AudioStream" id=14]
-[ext_resource path="res://assets/sfx/dialog/mc_act1/dialog_player_act1_1.ogg" type="AudioStream" id=15]
-[ext_resource path="res://assets/sfx/dialog/mc_act1/dialog_player_act1_2.ogg" type="AudioStream" id=16]
-[ext_resource path="res://assets/sfx/dialog/mc_act1/dialog_player_act1_3.ogg" type="AudioStream" id=17]
-[ext_resource path="res://assets/sfx/dialog/mc_act1/dialog_player_act1_4.ogg" type="AudioStream" id=18]
+[ext_resource path="res://assets/sfx/dialog/mc_act1/4.wav" type="AudioStream" id=15]
+[ext_resource path="res://assets/sfx/dialog/mc_act1/3.wav" type="AudioStream" id=16]
+[ext_resource path="res://assets/sfx/dialog/mc_act1/7.wav" type="AudioStream" id=17]
+[ext_resource path="res://assets/sfx/dialog/mc_act1/8.wav" type="AudioStream" id=18]
 [ext_resource path="res://assets/sfx/dialog/mc_act2/dialog_player_act2_1.ogg" type="AudioStream" id=19]
 [ext_resource path="res://assets/sfx/dialog/mc_act2/dialog_player_act2_2.ogg" type="AudioStream" id=20]
 [ext_resource path="res://assets/sfx/dialog/mc_act2/dialog_player_act2_3.ogg" type="AudioStream" id=21]
@@ -27,6 +27,10 @@
 [ext_resource path="res://assets/sfx/dialog/mc_act3/dialog_player_act3_3.ogg" type="AudioStream" id=25]
 [ext_resource path="res://assets/sfx/dialog/mc_act3/dialog_player_act3_4.ogg" type="AudioStream" id=26]
 [ext_resource path="res://assets/sfx/text.ogg" type="AudioStream" id=27]
+[ext_resource path="res://assets/sfx/dialog/mc_act1/6.wav" type="AudioStream" id=28]
+[ext_resource path="res://assets/sfx/dialog/mc_act1/2.wav" type="AudioStream" id=29]
+[ext_resource path="res://assets/sfx/dialog/mc_act1/5.wav" type="AudioStream" id=30]
+[ext_resource path="res://assets/sfx/dialog/mc_act1/1.wav" type="AudioStream" id=31]
 
 [sub_resource type="Animation" id=1]
 loop = true
@@ -64,24 +68,22 @@ tracks/0/keys = {
 resource_local_to_scene = true
 
 [node name="DialogPlayer" type="Control" groups=["needs_keys"]]
-visible = false
 modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-character = 5
-character_audios = [ [ ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ) ], [ ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ) ], [ ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ) ], [ ExtResource( 2 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ], [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ], [ ExtResource( 27 ) ] ]
+character_audios = [ [ ExtResource( 31 ), ExtResource( 29 ), ExtResource( 16 ), ExtResource( 15 ), ExtResource( 30 ), ExtResource( 28 ), ExtResource( 17 ), ExtResource( 18 ) ], [ ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ) ], [ ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ) ], [ ExtResource( 2 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ], [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ], [ ExtResource( 27 ) ] ]
 character_colors = [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 
 [node name="M" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_top = 156
+custom_constants/margin_top = 196
 
 [node name="ColorRect" type="ColorRect" parent="M"]
-margin_top = 156.0
-margin_right = 448.0
+margin_top = 196.0
+margin_right = 384.0
 margin_bottom = 256.0
 mouse_filter = 2
 color = Color( 0, 0, 0, 0.392157 )
@@ -90,30 +92,32 @@ color = Color( 0, 0, 0, 0.392157 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_right = 44
+custom_constants/margin_right = 12
 custom_constants/margin_top = 10
-custom_constants/margin_left = 44
+custom_constants/margin_left = 12
 custom_constants/margin_bottom = 10
 
 [node name="RichTextLabel" type="RichTextLabel" parent="M/ColorRect/M"]
 unique_name_in_owner = true
-margin_left = 44.0
+margin_left = 12.0
 margin_top = 10.0
-margin_right = 404.0
-margin_bottom = 90.0
+margin_right = 372.0
+margin_bottom = 50.0
+rect_clip_content = false
 mouse_filter = 2
+bbcode_enabled = true
+scroll_active = false
 
 [node name="NextIndicatorContainer" type="Control" parent="M/ColorRect"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="NextIndicator" type="TextureRect" parent="M/ColorRect/NextIndicatorContainer"]
-margin_left = 407.0
-margin_top = 81.0
-margin_right = 414.0
-margin_bottom = 90.0
+margin_left = 365.0
+margin_top = 41.0
+margin_right = 372.0
+margin_bottom = 50.0
 mouse_filter = 2
 texture = ExtResource( 3 )
 stretch_mode = 4
@@ -131,4 +135,8 @@ stream = SubResource( 4 )
 stream = null
 audio_streams = [ ExtResource( 6 ), ExtResource( 5 ) ]
 
+[node name="TextSFXInterval" type="Timer" parent="."]
+wait_time = 0.1
+
 [connection signal="finished" from="TextSFX" to="." method="_on_TextSFX_finished"]
+[connection signal="timeout" from="TextSFXInterval" to="." method="_on_TextSFXInterval_timeout"]

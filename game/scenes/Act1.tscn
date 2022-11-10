@@ -1,0 +1,79 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/environment/Room.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/characters/puppets/PlayerPuppet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Act1.gd" type="Script" id=3]
+[ext_resource path="res://scenes/characters/puppets/Waypoints.tscn" type="PackedScene" id=4]
+[ext_resource path="res://utils/DialogPlayer.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/ui/Menu.tscn" type="PackedScene" id=6]
+
+[node name="Act1" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+season_dur = 2.0
+betwee_dur = 0.5
+dialogs = [ [ "Stupid! Stupid! Stupid!", "Why do I even go there? To learn? What a joke!", "That sad excuse for a garbage dump isn't fit for dogs!" ], [ "I hate it here!", "Nobody pays attention to me or even tries to help.", "[shake level=13]Why!?[/shake] [shake rate=3][fade start=10 length=26]Why will no one sit with me?" ], [ "I don't want to go back.", "There's only pain there." ], [ "What if I stay here?", "Will they notice?" ], [ "I'm safe here.", "No one will know." ] ]
+
+[node name="Summer" parent="Outside" index="0"]
+z_index = 30
+
+[node name="Fall" parent="Outside" index="1"]
+visible = true
+
+[node name="Winter" parent="Outside" index="2"]
+visible = true
+
+[node name="Spring" parent="Outside" index="3"]
+visible = true
+
+[node name="RoomElements" parent="." index="2"]
+visible = true
+modulate = Color( 0, 0, 0, 0 )
+
+[node name="Waypoints" parent="." index="3" instance=ExtResource( 4 )]
+position = Vector2( -32, -1 )
+
+[node name="Position2D" type="Position2D" parent="Waypoints" index="0"]
+position = Vector2( 370, -27 )
+
+[node name="Position2D2" type="Position2D" parent="Waypoints" index="1"]
+position = Vector2( 126, 95 )
+
+[node name="Position2D7" type="Position2D" parent="Waypoints" index="2"]
+position = Vector2( 201, 161 )
+
+[node name="Position2D8" type="Position2D" parent="Waypoints" index="3"]
+position = Vector2( 249, 99 )
+
+[node name="Position2D3" type="Position2D" parent="Waypoints" index="4"]
+position = Vector2( 257, 231 )
+
+[node name="Position2D4" type="Position2D" parent="Waypoints" index="5"]
+position = Vector2( 279, 241 )
+
+[node name="Position2D5" type="Position2D" parent="Waypoints" index="6"]
+position = Vector2( 301, 249 )
+
+[node name="Position2D6" type="Position2D" parent="Waypoints" index="7"]
+position = Vector2( 351, 251 )
+
+[node name="PlayerPuppet" parent="." index="4" instance=ExtResource( 2 )]
+position = Vector2( 335, -29 )
+z_index = -30
+waypoints_path = NodePath("../Waypoints")
+
+[node name="Camera2D" type="Camera2D" parent="PlayerPuppet" index="0"]
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 384
+limit_bottom = 256
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="5"]
+
+[node name="DialogPlayer" parent="CanvasLayer" index="0" instance=ExtResource( 5 )]
+
+[node name="Menu" parent="CanvasLayer" index="1" instance=ExtResource( 6 )]
+
+[connection signal="reached_last_waypoint" from="PlayerPuppet" to="." method="_on_PlayerPuppet_reached_last_waypoint"]
+[connection signal="reached_waypoint" from="PlayerPuppet" to="." method="_on_PlayerPuppet_reached_waypoint"]
+[connection signal="started" from="CanvasLayer/Menu" to="." method="_on_Menu_started"]

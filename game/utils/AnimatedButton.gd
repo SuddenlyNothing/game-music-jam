@@ -26,6 +26,9 @@ enum Easing {
 
 export(String, FILE, "*.tscn") var next_scene
 
+export(bool) var play_hover := true
+export(bool) var play_pressed := true
+
 export(bool) var refresh_theme := false setget set_refresh_theme
 export(Transitions) var transition_type := Transitions.TRANS_BACK
 export(Easing) var easing_type := Easing.EASE_OUT
@@ -64,7 +67,8 @@ func _ready() -> void:
 func _pressed() -> void:
 	if next_scene:
 		SceneHandler.goto_scene(next_scene)
-	pressed_sfx.play()
+	if play_pressed:
+		pressed_sfx.play()
 
 
 # Setget used to refresh theme
@@ -315,7 +319,8 @@ func _on_AnimButton_mouse_entered() -> void:
 	if pressed or disabled:
 		return
 	set_style("hover")
-	hover_sfx.play()
+	if play_hover:
+		hover_sfx.play()
 
 
 # Detects unhover
@@ -329,7 +334,7 @@ func _on_AnimButton_mouse_exited() -> void:
 # Detects pressed
 func _on_AnimButton_button_down() -> void:
 	pressing = true
-	if action_mode == ACTION_MODE_BUTTON_PRESS:
+	if action_mode == ACTION_MODE_BUTTON_PRESS and play_pressed:
 		pressed_sfx.play()
 	if disabled:
 		return
@@ -342,7 +347,8 @@ func _on_AnimButton_button_up() -> void:
 	yield(get_tree(), "idle_frame")
 	if action_mode == ACTION_MODE_BUTTON_RELEASE and \
 			(is_mouse_inside or not is_visible_in_tree()):
-		pressed_sfx.play()
+		if play_pressed:
+			pressed_sfx.play()
 	if pressed or disabled:
 		return
 	if is_mouse_inside and is_visible_in_tree():
