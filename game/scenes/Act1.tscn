@@ -9,8 +9,8 @@
 
 [node name="Act1" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
-season_dur = 2.0
-betwee_dur = 0.5
+season_dur = 1.0
+betwee_dur = 1.5
 dialogs = [ [ "Stupid! Stupid! Stupid!", "Why do I even go there? To learn? What a joke!", "That sad excuse for a garbage dump isn't fit for dogs!" ], [ "I hate it here!", "Nobody pays attention to me or even tries to help.", "[shake level=13]Why!?[/shake] [shake rate=3][fade start=10 length=26]Why will no one sit with me?" ], [ "I don't want to go back.", "There's only pain there." ], [ "What if I stay here?", "Will they notice?" ], [ "I'm safe here.", "No one will know." ] ]
 
 [node name="Summer" parent="Outside" index="0"]
@@ -45,7 +45,7 @@ position = Vector2( 126, 95 )
 position = Vector2( 201, 161 )
 
 [node name="Position2D8" type="Position2D" parent="YSort/Waypoints" index="3"]
-position = Vector2( 249, 99 )
+position = Vector2( 250, 109 )
 
 [node name="Position2D3" type="Position2D" parent="YSort/Waypoints" index="4"]
 position = Vector2( 257, 231 )

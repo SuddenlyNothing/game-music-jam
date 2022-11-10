@@ -1,7 +1,7 @@
 extends StreetRoom
 
-export(float) var season_dur := 2.0
-export(float) var betwee_dur := 0.5
+export(float) var season_dur := 1.0
+export(float) var betwee_dur := 1.5
 
 export(Array, Array, String, MULTILINE) var dialogs
 

@@ -61,7 +61,7 @@ z_index = -100
 texture = ExtResource( 10 )
 
 [node name="Foreground" type="Sprite" parent="Outside/Summer"]
-z_index = 20
+z_index = 70
 texture = ExtResource( 11 )
 
 [node name="Fall" type="Node2D" parent="Outside"]
@@ -79,28 +79,35 @@ preprocess = 10.0
 texture = ExtResource( 16 )
 emission_shape = 2
 emission_rect_extents = Vector2( 192, 128 )
+spread = 180.0
 gravity = Vector2( 0, 10 )
-angular_velocity = 50.0
+initial_velocity = 20.0
+initial_velocity_random = 1.0
+angular_velocity = 100.0
 angular_velocity_random = 1.0
 scale_amount_curve = SubResource( 2 )
 anim_offset = 1.0
 anim_offset_random = 1.0
 
 [node name="Foreground" type="Sprite" parent="Outside/Fall"]
-z_index = 20
+z_index = 70
 texture = ExtResource( 9 )
 
 [node name="Leaves" type="CPUParticles2D" parent="Outside/Fall/Foreground"]
 material = SubResource( 1 )
 position = Vector2( 0, -64 )
+z_index = -70
 amount = 16
 lifetime = 5.0
 preprocess = 10.0
 texture = ExtResource( 16 )
 emission_shape = 2
 emission_rect_extents = Vector2( 192, 128 )
+spread = 180.0
 gravity = Vector2( 0, 10 )
-angular_velocity = 50.0
+initial_velocity = 20.0
+initial_velocity_random = 1.0
+angular_velocity = 100.0
 angular_velocity_random = 1.0
 scale_amount_curve = SubResource( 2 )
 anim_offset = 1.0
@@ -131,12 +138,13 @@ anim_offset = 1.0
 anim_offset_random = 1.0
 
 [node name="Foreground" type="Sprite" parent="Outside/Winter"]
-z_index = 20
+z_index = 70
 texture = ExtResource( 15 )
 
 [node name="Snow" type="CPUParticles2D" parent="Outside/Winter/Foreground"]
 material = SubResource( 3 )
 position = Vector2( 0, -64 )
+z_index = -70
 amount = 20
 lifetime = 8.0
 preprocess = 30.0
@@ -159,7 +167,7 @@ visible = false
 texture = ExtResource( 12 )
 
 [node name="Foreground" type="Sprite" parent="Outside/Spring"]
-z_index = 20
+z_index = 70
 texture = ExtResource( 13 )
 
 [node name="YSort" type="YSort" parent="."]

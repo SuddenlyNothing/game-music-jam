@@ -79,24 +79,30 @@ margin_top = 275.0
 margin_right = 168.0
 margin_bottom = 341.0
 
-[node name="V" type="VBoxContainer" parent="Credits"]
+[node name="M" type="MarginContainer" parent="Credits"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 146.0
+margin_right = 147.0
 margin_bottom = 61.0
+custom_constants/margin_left = 1
 
-[node name="Code" type="Label" parent="Credits/V"]
+[node name="V" type="VBoxContainer" parent="Credits/M"]
+margin_left = 1.0
+margin_right = 142.0
+margin_bottom = 56.0
+
+[node name="Code" type="Label" parent="Credits/M/V"]
 margin_right = 141.0
 margin_bottom = 16.0
 text = "Code - Nothing#3367"
 
-[node name="Art" type="Label" parent="Credits/V"]
+[node name="Art" type="Label" parent="Credits/M/V"]
 margin_top = 20.0
 margin_right = 141.0
 margin_bottom = 36.0
 text = "Art - AJ#3414"
 
-[node name="Audio" type="Label" parent="Credits/V"]
+[node name="Audio" type="Label" parent="Credits/M/V"]
 margin_top = 40.0
 margin_right = 141.0
 margin_bottom = 56.0
