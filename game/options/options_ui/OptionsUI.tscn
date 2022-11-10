@@ -13,8 +13,8 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 1, 1, 1, 1 )
 corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
 corner_radius_bottom_left = 4
 expand_margin_left = 2.0
 expand_margin_right = 1.0
@@ -28,8 +28,8 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 1, 1, 1, 1 )
 corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
 corner_radius_bottom_left = 4
 expand_margin_left = 2.0
 expand_margin_right = 1.0
@@ -43,8 +43,8 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 1, 1, 1, 1 )
 corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
 corner_radius_bottom_left = 4
 expand_margin_left = 2.0
 expand_margin_right = 1.0
@@ -58,8 +58,8 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 0.87451, 0.87451, 0.87451, 1 )
 corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
 corner_radius_bottom_left = 4
 expand_margin_left = 2.0
 expand_margin_right = 1.0
@@ -111,7 +111,7 @@ margin_bottom = 23.0
 custom_constants/separation = 10
 
 [node name="H" type="HBoxContainer" parent="M/V/PanelContainer/H"]
-margin_right = 256.0
+margin_right = 254.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 theme = SubResource( 16 )
@@ -131,7 +131,7 @@ disabled_timing = 0.2
 [node name="Controls" parent="M/V/PanelContainer/H/H" instance=ExtResource( 1 )]
 unique_name_in_owner = true
 margin_left = 86.0
-margin_right = 169.0
+margin_right = 168.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 toggle_mode = true
@@ -141,8 +141,8 @@ disabled_timing = 0.2
 
 [node name="ScreenSettings" parent="M/V/PanelContainer/H/H" instance=ExtResource( 1 )]
 unique_name_in_owner = true
-margin_left = 173.0
-margin_right = 256.0
+margin_left = 172.0
+margin_right = 254.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 toggle_mode = true
@@ -151,26 +151,30 @@ pressed_timing = 0.2
 disabled_timing = 0.2
 
 [node name="H2" type="HBoxContainer" parent="M/V/PanelContainer/H"]
-margin_left = 266.0
+margin_left = 264.0
 margin_right = 334.0
 margin_bottom = 18.0
 rect_pivot_offset = Vector2( -524, 33 )
 
 [node name="Back" parent="M/V/PanelContainer/H/H2" instance=ExtResource( 1 )]
 unique_name_in_owner = true
-margin_right = 32.2188
+margin_right = 33.0
 margin_bottom = 18.0
+rect_min_size = Vector2( 33, 0 )
 size_flags_horizontal = 3
 text = "Back"
+play_pressed = false
 
 [node name="Menu" parent="M/V/PanelContainer/H/H2" instance=ExtResource( 1 )]
 unique_name_in_owner = true
-margin_left = 36.0
-margin_right = 68.2188
+margin_left = 37.0
+margin_right = 70.0
 margin_bottom = 18.0
+rect_min_size = Vector2( 33, 0 )
 size_flags_horizontal = 3
 text = "Menu"
 next_scene = "res://scenes/Act1.tscn"
+play_pressed = false
 
 [node name="M" type="MarginContainer" parent="M/V"]
 margin_top = 32.0

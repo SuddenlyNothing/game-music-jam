@@ -15,6 +15,7 @@ var seasons_t: SceneTreeTween
 
 
 func _ready() -> void:
+	get_tree().call_group("sprite_select", "set_disabled", true)
 	seasons_t = create_tween().set_loops()
 	seasons_t.tween_callback(self, "set_season", ["fall", season_dur])
 	seasons_t.tween_interval(season_dur + betwee_dur)
@@ -85,6 +86,7 @@ func _on_PlayerPuppet_reached_last_waypoint() -> void:
 			.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	t.tween_callback(dialog, "read", [dialogs[4]])
 	yield(dialog, "dialog_finished")
+	get_tree().call_group("sprite_select", "set_disabled", false)
 
 
 func _on_Menu_started() -> void:
