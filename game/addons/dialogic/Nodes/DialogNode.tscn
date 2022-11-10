@@ -22,7 +22,7 @@ bg_color = Color( 1, 1, 1, 0 )
 expand_margin_left = 10.0
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 1724, 230 )
+extents = Vector2( 384, 256 )
 
 [node name="DialogNode" type="Control"]
 anchor_right = 1.0
@@ -40,14 +40,14 @@ __meta__ = {
 
 [node name="TextBubble" parent="." instance=ExtResource( 1 )]
 margin_left = -200.0
-margin_top = -100.0
+margin_top = -60.0
 margin_right = 200.0
 margin_bottom = 0.0
 
 [node name="Options" type="VBoxContainer" parent="."]
 visible = false
 margin_top = -2.0
-margin_right = 448.0
+margin_right = 384.0
 margin_bottom = 254.0
 grow_horizontal = 2
 grow_vertical = 2
