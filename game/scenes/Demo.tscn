@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://utils/ButtonChangeScene.gd" type="Script" id=1]
 [ext_resource path="res://utils/InputFormatLabel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/tasks/FoodTask.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Demo.gd" type="Script" id=4]
+[ext_resource path="res://utils/DialogPlayer.tscn" type="PackedScene" id=5]
 
 [node name="Demo" type="Node2D"]
+script = ExtResource( 4 )
 
 [node name="ChangeScene" type="Button" parent="."]
 margin_right = 12.0
@@ -24,3 +27,12 @@ Press {up}, {down}, {left}, {right} to move"
 autowrap = true
 
 [node name="FoodTask" parent="." instance=ExtResource( 3 )]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DialogPlayer" parent="CanvasLayer" instance=ExtResource( 5 )]
+visible = true
+autoplay = true
+autoplay_dialog = [ "Hello Worldppppp Test", "Do you like pie?", "Me too!" ]
+
+[connection signal="dialog_finished" from="CanvasLayer/DialogPlayer" to="." method="_on_DialogPlayer_dialog_finished"]

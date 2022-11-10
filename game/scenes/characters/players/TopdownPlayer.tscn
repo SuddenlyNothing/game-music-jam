@@ -133,7 +133,8 @@ script = ExtResource( 3 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Pivot"]
 position = Vector2( 0, -8 )
 frames = SubResource( 1 )
-animation = "idle"
+animation = "dash"
+frame = 7
 speed_scale = 2.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -141,10 +142,11 @@ position = Vector2( 0, -2 )
 shape = SubResource( 2 )
 
 [node name="DashTimer" type="Timer" parent="."]
+wait_time = 0.7
 one_shot = true
 
 [node name="DashLine" parent="." instance=ExtResource( 19 )]
-position = Vector2( 0, -4 )
+position = Vector2( 0, -5 )
 
 [node name="DashSFX" parent="." instance=ExtResource( 7 )]
 stream = SubResource( 3 )

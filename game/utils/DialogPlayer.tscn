@@ -1,23 +1,86 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://utils/DialogPlayer.gd" type="Script" id=1]
-[ext_resource path="res://assets/sfx/text.ogg" type="AudioStream" id=2]
+[ext_resource path="res://assets/sfx/dialog/boss/dialog_boss_1.ogg" type="AudioStream" id=2]
+[ext_resource path="res://assets/ui/next_dialog.png" type="Texture" id=3]
+[ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/sfx/menu/click_sfx/button_click_2.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sfx/menu/click_sfx/button_click_1.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sfx/dialog/boss/dialog_boss_2.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/sfx/dialog/boss/dialog_boss_3.ogg" type="AudioStream" id=8]
+[ext_resource path="res://assets/sfx/dialog/boss/dialog_boss_4.ogg" type="AudioStream" id=9]
+[ext_resource path="res://assets/sfx/dialog/friend/dialog_friend_1.ogg" type="AudioStream" id=10]
+[ext_resource path="res://assets/sfx/dialog/friend/dialog_friend_2.ogg" type="AudioStream" id=11]
+[ext_resource path="res://assets/sfx/dialog/friend/dialog_friend_3.ogg" type="AudioStream" id=12]
+[ext_resource path="res://assets/sfx/dialog/friend/dialog_friend_4.ogg" type="AudioStream" id=13]
+[ext_resource path="res://assets/sfx/dialog/friend/dialog_friend_12.ogg" type="AudioStream" id=14]
+[ext_resource path="res://assets/sfx/dialog/mc_act1/dialog_player_act1_1.ogg" type="AudioStream" id=15]
+[ext_resource path="res://assets/sfx/dialog/mc_act1/dialog_player_act1_2.ogg" type="AudioStream" id=16]
+[ext_resource path="res://assets/sfx/dialog/mc_act1/dialog_player_act1_3.ogg" type="AudioStream" id=17]
+[ext_resource path="res://assets/sfx/dialog/mc_act1/dialog_player_act1_4.ogg" type="AudioStream" id=18]
+[ext_resource path="res://assets/sfx/dialog/mc_act2/dialog_player_act2_1.ogg" type="AudioStream" id=19]
+[ext_resource path="res://assets/sfx/dialog/mc_act2/dialog_player_act2_2.ogg" type="AudioStream" id=20]
+[ext_resource path="res://assets/sfx/dialog/mc_act2/dialog_player_act2_3.ogg" type="AudioStream" id=21]
+[ext_resource path="res://assets/sfx/dialog/mc_act2/dialog_player_act2_4.ogg" type="AudioStream" id=22]
+[ext_resource path="res://assets/sfx/dialog/mc_act3/dialog_player_act3_1.ogg" type="AudioStream" id=23]
+[ext_resource path="res://assets/sfx/dialog/mc_act3/dialog_player_act3_2.ogg" type="AudioStream" id=24]
+[ext_resource path="res://assets/sfx/dialog/mc_act3/dialog_player_act3_3.ogg" type="AudioStream" id=25]
+[ext_resource path="res://assets/sfx/dialog/mc_act3/dialog_player_act3_4.ogg" type="AudioStream" id=26]
+[ext_resource path="res://assets/sfx/text.ogg" type="AudioStream" id=27]
+
+[sub_resource type="Animation" id=1]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+
+[sub_resource type="Animation" id=3]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("..:rect_position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -3 ) ]
+}
+
+[sub_resource type="AudioStreamRandomPitch" id=4]
+resource_local_to_scene = true
 
 [node name="DialogPlayer" type="Control" groups=["needs_keys"]]
 visible = false
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-default_audio = ExtResource( 2 )
+character = 5
+character_audios = [ [ ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ) ], [ ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ) ], [ ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ) ], [ ExtResource( 2 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ], [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ], [ ExtResource( 27 ) ] ]
+character_colors = [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 
 [node name="M" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_top = 174
+custom_constants/margin_top = 156
 
 [node name="ColorRect" type="ColorRect" parent="M"]
-margin_top = 174.0
+margin_top = 156.0
 margin_right = 448.0
 margin_bottom = 256.0
 mouse_filter = 2
@@ -27,19 +90,45 @@ color = Color( 0, 0, 0, 0.392157 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_right = 50
+custom_constants/margin_right = 44
 custom_constants/margin_top = 10
-custom_constants/margin_left = 50
+custom_constants/margin_left = 44
 custom_constants/margin_bottom = 10
 
 [node name="RichTextLabel" type="RichTextLabel" parent="M/ColorRect/M"]
 unique_name_in_owner = true
-margin_left = 50.0
-margin_top = 33.0
-margin_right = 398.0
-margin_bottom = 49.0
-custom_styles/normal = SubResource( 1 )
-autowrap = true
+margin_left = 44.0
+margin_top = 10.0
+margin_right = 404.0
+margin_bottom = 90.0
+mouse_filter = 2
 
-[node name="TextSFX" type="AudioStreamPlayer" parent="."]
-bus = "SFX"
+[node name="NextIndicatorContainer" type="Control" parent="M/ColorRect"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="NextIndicator" type="TextureRect" parent="M/ColorRect/NextIndicatorContainer"]
+margin_left = 407.0
+margin_top = 81.0
+margin_right = 414.0
+margin_bottom = 90.0
+mouse_filter = 2
+texture = ExtResource( 3 )
+stretch_mode = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="M/ColorRect/NextIndicatorContainer/NextIndicator"]
+autoplay = "Up and down"
+anims/Pulse = SubResource( 1 )
+anims/Static = SubResource( 2 )
+"anims/Up and down" = SubResource( 3 )
+
+[node name="TextSFX" parent="." instance=ExtResource( 4 )]
+stream = SubResource( 4 )
+
+[node name="InteractSFX" parent="." instance=ExtResource( 4 )]
+stream = null
+audio_streams = [ ExtResource( 6 ), ExtResource( 5 ) ]
+
+[connection signal="finished" from="TextSFX" to="." method="_on_TextSFX_finished"]
