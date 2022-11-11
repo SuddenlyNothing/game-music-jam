@@ -135,11 +135,11 @@ func dash() -> void:
 		powerup_count = 0
 		powerup_particles.emitting = false
 	
-	if combo > 1:
+	if combo > 0:
 		var text_floater := TextFloater.instance()
 		text_floater.position = position
-		text_floater.text = str(combo - 1)
-		text_floater.pitch_scale = 1 + min(combo - 1, 20) * 0.1
+		text_floater.text = str(combo)
+		text_floater.pitch_scale = 1 + min(combo, 20) * 0.1
 		get_parent().add_child(text_floater)
 	
 	var rel_vec := prev_pos - position

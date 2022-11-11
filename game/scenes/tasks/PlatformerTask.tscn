@@ -18,7 +18,13 @@ margin_left = 192.0
 margin_right = 192.0
 margin_bottom = 3.0
 
-[node name="PlayTimer" parent="." index="3"]
+[node name="Hint" parent="." index="2"]
+hint_name = "platformer"
+label_hint = "Press {left} and {right} to move.
+Press {up} to jump
+Collect as many coins as possible."
+
+[node name="PlayTimer" parent="." index="4"]
 wait_time = 15.0
 
 [connection signal="collected" from="M/M/PC/M/VC/Viewport/Platformer" to="." method="_on_Platformer_collected"]

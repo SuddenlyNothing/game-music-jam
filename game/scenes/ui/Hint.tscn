@@ -1,0 +1,81 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://utils/InputFormatLabel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/ui/Hint.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "fade"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.588235 ) ]
+}
+
+[node name="Hint" type="CanvasLayer"]
+layer = 10
+visible = false
+script = ExtResource( 2 )
+
+[node name="C" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="C"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.392157 )
+
+[node name="M" type="MarginContainer" parent="C/ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 26
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 5
+
+[node name="InputFormatLabel" parent="C/ColorRect/M" instance=ExtResource( 1 )]
+margin_left = 20.0
+margin_top = 130.0
+margin_right = 364.0
+margin_bottom = 146.0
+align = 1
+valign = 1
+autowrap = true
+
+[node name="NextHint" parent="C/ColorRect/M" instance=ExtResource( 1 )]
+margin_left = 20.0
+margin_top = 26.0
+margin_right = 364.0
+margin_bottom = 42.0
+size_flags_vertical = 0
+text = "Press {continue} to continue"
+align = 1
+valign = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="C/ColorRect/M/NextHint"]
+autoplay = "fade"
+anims/RESET = SubResource( 2 )
+anims/fade = SubResource( 1 )

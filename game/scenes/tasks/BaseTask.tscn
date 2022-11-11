@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/tasks/BaseTask.gd" type="Script" id=1]
+[ext_resource path="res://scenes/ui/Hint.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/ui/progress.png" type="Texture" id=3]
 [ext_resource path="res://assets/ui/progress_under.png" type="Texture" id=4]
 [ext_resource path="res://assets/ui/progress_over.png" type="Texture" id=5]
@@ -110,6 +111,8 @@ size_flags_vertical = 0
 text = "0"
 align = 1
 
+[node name="Hint" parent="." instance=ExtResource( 2 )]
+
 [node name="ShakeTimer" type="Timer" parent="."]
 one_shot = true
 
@@ -117,5 +120,6 @@ one_shot = true
 wait_time = 30.0
 one_shot = true
 
+[connection signal="completed" from="Hint" to="." method="_on_Hint_completed"]
 [connection signal="timeout" from="ShakeTimer" to="." method="_on_ShakeTimer_timeout"]
 [connection signal="timeout" from="PlayTimer" to="." method="_on_PlayTimer_timeout"]

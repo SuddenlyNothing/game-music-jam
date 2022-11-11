@@ -20,6 +20,7 @@ var bar_particle_settings := {
 	"initial_velocity": [0, 100],
 	"scale_amount": [1, 2],
 }
+var diff: float
 
 onready var min_dist_to_player_squared := pow(min_dist_to_player, 2)
 
@@ -32,6 +33,7 @@ onready var score_label_position: Vector2 = score_label.rect_position
 onready var play_timer := $PlayTimer
 onready var bar_particles: CPUParticles2D
 onready var time_progress := $M/M2/TimeProgress
+onready var hint := $Hint
 
 
 func _process(delta: float) -> void:
@@ -52,14 +54,12 @@ func _process(delta: float) -> void:
 
 # Start minigame with difficulty 0-1
 func start(difficulty: float) -> void:
+	time_progress.value = 0
+	difficulty = diff
 	if bar_particles and is_instance_valid(bar_particles):
 		bar_particles.queue_free()
 	score = 0
 	score_label.text = "0"
-	bar_particles = BarParticles.instance()
-	bar_particles.position.y = 6.5
-	time_progress.add_child(bar_particles)
-	play_timer.start()
 	show()
 	if t:
 		t.kill()
@@ -71,11 +71,7 @@ func start(difficulty: float) -> void:
 			.set_trans(Tween.TRANS_BACK)
 	t.tween_property(self, "modulate:a", 1.0, start_dur)\
 			.set_trans(Tween.TRANS_QUAD)
-	player = Player.instance()
-	player.position = Vector2(192, 133)
-	ysort.call_deferred("add_child", player)
-	for _i in round(lerp(min_food, max_food, difficulty)):
-		spawn_enemy(false)
+	t.chain().tween_callback(hint, "start")
 
 
 # Stop abruptly
@@ -150,3 +146,15 @@ func _on_PlayTimer_timeout() -> void:
 	t.set_parallel(false)
 	t.tween_callback(self, "stop")
 	t.tween_callback(self, "finished", [score])
+
+
+func _on_Hint_completed() -> void:
+	bar_particles = BarParticles.instance()
+	bar_particles.position.y = 6.5
+	time_progress.add_child(bar_particles)
+	play_timer.start()
+	player = Player.instance()
+	player.position = Vector2(192, 133)
+	ysort.call_deferred("add_child", player)
+	for _i in round(lerp(min_food, max_food, diff)):
+		spawn_enemy(false)

@@ -15,3 +15,5 @@ var user_keys := PoolStringArray([
 var input_format := {}
 
 var rng := RandomNumberGenerator.new()
+
+var hints := {}

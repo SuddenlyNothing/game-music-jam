@@ -75,7 +75,7 @@ min_x = 44
 max_x = 340
 min_normal_speed = 1.0
 max_normal_speed = 1.2
-min_size = 10.0
+min_size = 20.0
 max_size = 40.0
 easy_color = Color( 0, 0.572549, 0.631373, 1 )
 hard_color = Color( 0.811765, 0.368627, 0.152941, 1 )
@@ -116,8 +116,10 @@ margin_left = 192.0
 margin_right = 192.0
 margin_bottom = 3.0
 
-[node name="PlayTimer" parent="." index="3"]
-wait_time = 15.0
+[node name="Hint" parent="." index="2"]
+hint_name = "workout"
+label_hint = "Press {continue} while the crosshair is over the colored rectangle to do a curl.
+Do as many curls as possible."
 
 [node name="M2" type="MarginContainer" parent="." index="4"]
 anchor_right = 1.0
@@ -158,3 +160,6 @@ anims/slide = SubResource( 6 )
 [node name="HitSFX" type="AudioStreamPlayer" parent="." index="7"]
 stream = SubResource( 8 )
 bus = "SFX"
+
+[node name="PlayTimer" parent="." index="8"]
+wait_time = 15.0

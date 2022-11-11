@@ -14,6 +14,7 @@ onready var room_elements := $YSort/RoomElements
 onready var dialog := $CanvasLayer/DialogPlayer
 onready var ysort := $YSort
 onready var minigames_manager := $MinigamesManager
+onready var hint := $Hint
 
 var seasons_t: SceneTreeTween
 
@@ -118,12 +119,7 @@ func _on_PlayerPuppet_reached_last_waypoint() -> void:
 			.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	t.tween_callback(dialog, "read", [dialogs[4]])
 	yield(dialog, "dialog_finished")
-	get_tree().call_group("sprite_select", "set_disabled", false)
-	var room_player := RoomPlayer.instance()
-	room_player.position = player_puppet.position
-	room_player.z_index = player_puppet.z_index
-	player_puppet.queue_free()
-	ysort.add_child(room_player)
+	hint.start()
 
 
 func _on_Menu_started() -> void:
@@ -132,3 +128,12 @@ func _on_Menu_started() -> void:
 
 func _on_MinigamesManager_view_street(season: String) -> void:
 	view_street(season)
+
+
+func _on_Hint_completed() -> void:
+	get_tree().call_group("sprite_select", "set_disabled", false)
+	var room_player := RoomPlayer.instance()
+	room_player.position = player_puppet.position
+	room_player.z_index = player_puppet.z_index
+	player_puppet.queue_free()
+	ysort.add_child(room_player)

@@ -29,6 +29,7 @@ func _on_Credits_pressed() -> void:
 
 func _on_Start_pressed() -> void:
 	emit_signal("started")
+	Variables.hints = {}
 	for btn in buttons:
 		btn.disabled = true
 	var tw := create_tween().set_ease(Tween.EASE_IN)\

@@ -546,6 +546,7 @@ texture = ExtResource( 1 )
 [node name="Desk" parent="YSort/RoomElements/Enterables" instance=ExtResource( 21 )]
 material = SubResource( 7 )
 position = Vector2( 0, -1 )
+input_hint_text = "play a game"
 
 [node name="Default" type="Sprite" parent="YSort/RoomElements/Enterables/Desk"]
 use_parent_material = true
@@ -587,6 +588,7 @@ texture = ExtResource( 22 )
 
 [node name="Weights" parent="YSort/RoomElements/Enterables" instance=ExtResource( 21 )]
 material = SubResource( 24 )
+input_hint_text = "pump iron"
 
 [node name="Default" type="Sprite" parent="YSort/RoomElements/Enterables/Weights"]
 use_parent_material = true
@@ -603,6 +605,7 @@ polygon = PoolVector2Array( -67, 63.5, -40, 75.5, -26, 71.5, -57, 55.5 )
 
 [node name="Bed" parent="YSort/RoomElements/Enterables" instance=ExtResource( 21 )]
 material = SubResource( 25 )
+input_hint_text = "sleep"
 
 [node name="Default" type="Sprite" parent="YSort/RoomElements/Enterables/Bed"]
 use_parent_material = true

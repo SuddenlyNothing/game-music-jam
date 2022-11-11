@@ -19,6 +19,7 @@ var bar_particle_settings := {
 	"initial_velocity": [0, 100],
 	"scale_amount": [1, 2],
 }
+var diff: float
 
 onready var score_label: Label = $"%ScoreLabel"
 onready var pc: PanelContainer = $"%PC"
@@ -27,6 +28,7 @@ onready var score_label_position: Vector2 = score_label.rect_position
 onready var play_timer := $PlayTimer
 onready var bar_particles: CPUParticles2D
 onready var time_progress := $M/M2/TimeProgress
+onready var hint := $Hint
 
 
 func _input(event: InputEvent) -> void:
@@ -53,14 +55,13 @@ func _process(delta: float) -> void:
 
 # Start minigame with difficulty 0-1
 func start(difficulty: float) -> void:
+	diff = difficulty
+	play_timer.stop()
+	time_progress.value = 0
 	if bar_particles and is_instance_valid(bar_particles):
 		bar_particles.queue_free()
 	score = 0
 	score_label.text = "0"
-	bar_particles = BarParticles.instance()
-	bar_particles.position.y = 6.5
-	time_progress.add_child(bar_particles)
-	play_timer.start()
 	show()
 	if t:
 		t.kill()
@@ -72,7 +73,7 @@ func start(difficulty: float) -> void:
 			.set_trans(Tween.TRANS_BACK)
 	t.tween_property(self, "modulate:a", 1.0, start_dur)\
 			.set_trans(Tween.TRANS_QUAD)
-	init(difficulty)
+	t.chain().tween_callback(hint, "start")
 
 
 func add_score() -> void:
@@ -127,3 +128,11 @@ func _on_PlayTimer_timeout() -> void:
 	t.set_parallel(false)
 	t.tween_callback(self, "stop")
 	t.tween_callback(self, "finished", [score])
+
+
+func _on_Hint_completed() -> void:
+	play_timer.start()
+	bar_particles = BarParticles.instance()
+	bar_particles.position.y = 6.5
+	time_progress.add_child(bar_particles)
+	init(diff)

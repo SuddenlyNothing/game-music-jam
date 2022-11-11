@@ -4,7 +4,7 @@ export(int) var min_x := 44
 export(int) var max_x := 340
 export(float) var min_normal_speed := 1
 export(float) var max_normal_speed := 1.2
-export(float) var min_size := 10
+export(float) var min_size := 20
 export(float) var max_size := 40
 export(Color) var easy_color
 export(Color) var hard_color

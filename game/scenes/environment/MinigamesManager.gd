@@ -1,3 +1,4 @@
+class_name MinigamesManager
 extends CanvasLayer
 
 signal view_street(season)
