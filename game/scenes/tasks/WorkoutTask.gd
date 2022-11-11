@@ -3,7 +3,7 @@ extends BaseTask
 export(int) var min_x := 44
 export(int) var max_x := 340
 export(float) var min_normal_speed := 1
-export(float) var max_normal_speed := 1.5
+export(float) var max_normal_speed := 1.2
 export(float) var min_size := 10
 export(float) var max_size := 40
 export(Color) var easy_color
@@ -17,12 +17,14 @@ onready var hit := $Hit
 onready var aim := $Aim
 onready var anim_player := $Aim/AnimationPlayer
 onready var anim_sprite := $M/M/PC/M/VC/Viewport/Player
+onready var hit_sfx := $HitSFX
 
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("continue", false, true) and playing:
 		if is_position_in_hit():
 			add_score()
+			hit_sfx.play()
 			set_hit_pos()
 			anim_sprite.frame = 0
 			anim_sprite.play("curl")

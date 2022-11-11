@@ -20,6 +20,8 @@ visible = false
 [node name="DialogPlayer" parent="." instance=ExtResource( 4 )]
 
 [node name="WorkoutTask" parent="." instance=ExtResource( 5 )]
+min_normal_speed = 1.0
+max_normal_speed = 1.2
 
 [connection signal="added_points" from="ScoreRenderer" to="." method="_on_ScoreRenderer_added_points"]
 [connection signal="max_points_reached" from="ScoreRenderer" to="." method="_on_ScoreRenderer_max_points_reached"]
