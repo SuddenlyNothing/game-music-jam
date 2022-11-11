@@ -35,7 +35,8 @@ func start() -> void:
 	if seasons_t:
 		seasons_t.kill()
 	set_season("summer", 2.0)
-	var t := create_tween()
+	var t := create_tween().set_ease(Tween.EASE_IN_OUT)\
+			.set_trans(Tween.TRANS_QUAD)
 	t.tween_interval(2.5)
 	t.tween_callback(player_puppet, "goto_next")
 	t.tween_callback(dialog, "read", [dialogs[0]])
@@ -48,6 +49,29 @@ func unlock_camera() -> void:
 	camera.limit_left = -10000
 	camera.limit_right = 10000
 	camera.limit_top = -10000
+
+
+func view_street(season: String) -> void:
+	var t := create_tween().set_trans(Tween.TRANS_QUAD)\
+			.set_ease(Tween.EASE_OUT)
+	t.tween_property(camera, "position", Vector2(192, 128), 0.5)\
+			.set_ease(Tween.EASE_OUT)
+	t.tween_callback(self, "set_outdoor", [true, 0.5])
+	t.tween_property(cover, "modulate:a", 0.0, 0.5)
+	t.parallel().tween_property(room_elements, "modulate",
+			Color("#0000"), 0.5)
+	t.tween_callback(cover, "hide")
+	if season:
+		t.tween_callback(self, "set_season", [season, 1.5])
+		t.tween_interval(2.0)
+	t.tween_interval(1.0)
+	t.tween_callback(cover, "show")
+	t.tween_callback(self, "set_outdoor", [false, 0.5])
+	t.tween_property(cover, "modulate:a", 1.0, 0.5)
+	t.parallel().tween_property(room_elements, "modulate",
+			Color.white, 0.5)
+	t.tween_property(camera, "position", camera.position, 0.5)
+	t.tween_callback(minigames_manager, "finished_viewing_street")
 
 
 func _on_PlayerPuppet_reached_waypoint(waypoint_ind: int) -> void:
@@ -107,23 +131,4 @@ func _on_Menu_started() -> void:
 
 
 func _on_MinigamesManager_view_street(season: String) -> void:
-	var t := create_tween().set_trans(Tween.TRANS_QUAD)\
-			.set_ease(Tween.EASE_OUT)
-	t.tween_property(camera, "position", Vector2(192, 128), 0.5)\
-			.set_ease(Tween.EASE_OUT)
-	t.tween_callback(self, "set_outdoor", [true, 0.5])
-	t.tween_property(cover, "modulate:a", 0.0, 0.5)
-	t.parallel().tween_property(room_elements, "modulate",
-			Color("#0000"), 0.5)
-	t.tween_callback(cover, "hide")
-	if season:
-		t.tween_callback(self, "set_season", [season, 1.5])
-		t.tween_interval(2.0)
-	t.tween_interval(1.0)
-	t.tween_callback(cover, "show")
-	t.tween_callback(self, "set_outdoor", [false, 0.5])
-	t.tween_property(cover, "modulate:a", 1.0, 0.5)
-	t.parallel().tween_property(room_elements, "modulate",
-			Color.white, 0.5)
-	t.tween_property(camera, "position", camera.position, 0.5)
-	t.tween_callback(minigames_manager, "finished_viewing_street")
+	view_street(season)

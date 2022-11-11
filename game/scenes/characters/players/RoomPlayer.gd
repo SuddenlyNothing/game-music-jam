@@ -36,7 +36,7 @@ func move(delta: float) -> void:
 				if entered_collision:
 					entered_collision.exit()
 				entered_collision = collision.collider
-				entered_collision.enter()
+				entered_collision.enter(act)
 				player_puppet.hide()
 				player_puppet.muted = true
 				break

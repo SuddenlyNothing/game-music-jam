@@ -44,22 +44,22 @@ margin_left = 3.0
 margin_top = 3.0
 margin_right = 381.0
 margin_bottom = 253.0
-custom_constants/margin_right = 15
+custom_constants/margin_right = 5
 custom_constants/margin_top = 18
-custom_constants/margin_left = 15
-custom_constants/margin_bottom = 15
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
 
 [node name="PC" type="PanelContainer" parent="M/M"]
 unique_name_in_owner = true
-margin_left = 15.0
+margin_left = 5.0
 margin_top = 18.0
-margin_right = 363.0
-margin_bottom = 235.0
+margin_right = 373.0
+margin_bottom = 245.0
 custom_styles/panel = SubResource( 3 )
 
 [node name="M" type="MarginContainer" parent="M/M/PC"]
-margin_right = 348.0
-margin_bottom = 220.0
+margin_right = 368.0
+margin_bottom = 217.0
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
 custom_constants/margin_left = 5
@@ -68,11 +68,12 @@ custom_constants/margin_bottom = 5
 [node name="VC" type="ViewportContainer" parent="M/M/PC/M"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 343.0
-margin_bottom = 215.0
+margin_right = 363.0
+margin_bottom = 212.0
+stretch = true
 
 [node name="Viewport" type="Viewport" parent="M/M/PC/M/VC"]
-size = Vector2( 338, 210 )
+size = Vector2( 358, 207 )
 transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 0
@@ -161,7 +162,7 @@ align = 1
 one_shot = true
 
 [node name="PlayTimer" type="Timer" parent="."]
-wait_time = 20.0
+wait_time = 30.0
 one_shot = true
 
 [connection signal="timeout" from="ShakeTimer" to="." method="_on_ShakeTimer_timeout"]

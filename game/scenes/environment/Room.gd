@@ -21,8 +21,9 @@ func set_season(season: String, dur: float = 1.0) -> void:
 	for child in outside.get_children():
 		if child == cover:
 			continue
+		child.modulate.a = 1
 		if child.name == season:
-			if child.modulate.a > 0.5:
+			if child.modulate.a >= 1:
 				child.modulate.a = 0
 			t.tween_property(child, "modulate:a", 1.0, dur)
 			child.z_index = 60
@@ -32,6 +33,7 @@ func set_season(season: String, dur: float = 1.0) -> void:
 				child.z_index = 25
 			else:
 				child.z_index = 0
+				child.modulate.a = 0
 			t.tween_callback(child, "hide").set_delay(dur)
 	
 	for child in outdoor_audio.get_children():

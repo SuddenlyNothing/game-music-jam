@@ -34,11 +34,6 @@ onready var bar_particles: CPUParticles2D
 onready var time_progress := $M/M2/TimeProgress
 
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_focus_next"):
-		start(1)
-
-
 func _process(delta: float) -> void:
 	if not shake_timer.is_stopped():
 		score_label.rect_position = Vector2(
@@ -57,6 +52,8 @@ func _process(delta: float) -> void:
 
 # Start minigame with difficulty 0-1
 func start(difficulty: float) -> void:
+	score = 0
+	score_label.text = "0"
 	bar_particles = BarParticles.instance()
 	bar_particles.position.y = 6.5
 	time_progress.add_child(bar_particles)
@@ -138,8 +135,10 @@ func _on_PlayTimer_timeout() -> void:
 	get_tree().call_group("food", "set_locked", true)
 	if t:
 		t.kill()
-	t = create_tween().set_parallel()
+	t = create_tween()
+	t.tween_interval(1)
 	t.tween_property(self, "modulate:a", 0.0, end_dur)
+	t.set_parallel()
 	t.tween_property(pc, "rect_scale", Vector2(), end_dur)\
 			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
 	t.set_parallel(false)

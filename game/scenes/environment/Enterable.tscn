@@ -7,7 +7,7 @@
 [sub_resource type="Animation" id=2]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("InputHint/M/InputFormatLabel:modulate")
+tracks/0/path = NodePath("InputHint/M/H:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -23,8 +23,8 @@ tracks/0/keys = {
 resource_name = "fade"
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("InputHint/M/InputFormatLabel:modulate")
-tracks/0/interp = 2
+tracks/0/path = NodePath("InputHint/M/H:modulate")
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -32,7 +32,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.705882 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.588235 ) ]
 }
 
 [node name="Enterable" type="StaticBody2D" groups=["enterable"]]
@@ -48,15 +48,30 @@ anchor_bottom = 1.0
 mouse_filter = 2
 custom_constants/margin_bottom = 5
 
-[node name="InputFormatLabel" parent="InputHint/M" instance=ExtResource( 3 )]
-margin_top = 235.0
+[node name="H" type="HBoxContainer" parent="InputHint/M"]
 margin_right = 384.0
 margin_bottom = 251.0
+alignment = 1
+
+[node name="InputFormatLabel" parent="InputHint/M/H" instance=ExtResource( 3 )]
+margin_left = 108.0
+margin_top = 235.0
+margin_right = 223.0
+margin_bottom = 251.0
 size_flags_vertical = 8
-text = "Press {continue} to interact"
+text = "Press {continue} to"
 align = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="InputHint/M/InputFormatLabel"]
+[node name="Label" type="Label" parent="InputHint/M/H"]
+unique_name_in_owner = true
+margin_left = 227.0
+margin_top = 235.0
+margin_right = 275.0
+margin_bottom = 251.0
+size_flags_vertical = 8
+text = "interact"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="InputHint/M/H"]
 root_node = NodePath("../../../..")
 autoplay = "fade"
 anims/RESET = SubResource( 2 )
