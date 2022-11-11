@@ -5,7 +5,7 @@ signal reached_waypoint(waypoint)
 
 export(NodePath) var waypoints_path
 export(String, "1", "2", "3") var act := "1" setget set_act
-export(int) var move_speed := 50
+export(int) var move_speed := 50 setget set_move_speed
 export(bool) var muted := false
 export(bool) var outside := false
 
@@ -14,6 +14,8 @@ var target: Vector2
 onready var waypoints := get_node_or_null(waypoints_path)
 onready var outdoor_step_sfx := $OutdoorStepSFX
 onready var indoor_step_sfx := $IndoorStepSFX
+onready var start_speed_scale := speed_scale
+onready var start_move_speed := move_speed
 
 
 func _ready() -> void:
@@ -37,6 +39,11 @@ func _physics_process(delta: float) -> void:
 		var dir := position.direction_to(target)
 		position += dir * move_amount
 		set_facing(dir)
+
+
+func set_move_speed(val: int) -> void:
+	move_speed = val
+	speed_scale = move_speed / start_move_speed * start_speed_scale
 
 
 func set_act(val: String) -> void:

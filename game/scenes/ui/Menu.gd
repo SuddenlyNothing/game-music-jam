@@ -19,10 +19,10 @@ func _on_Credits_pressed() -> void:
 		t.kill()
 	t = create_tween()
 	if showing_credits:
-		t.tween_property(credits, "rect_position:y", 275.0, 0.4)\
+		t.tween_property(credits, "rect_position:y", 276.0, 0.4)\
 				.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	else:
-		t.tween_property(credits, "rect_position:y", 116.0, 0.5)\
+		t.tween_property(credits, "rect_position:y", 128.0, 0.5)\
 				.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
 	showing_credits = not showing_credits
 

@@ -9,24 +9,79 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_vertical_guides_": [ 192.0 ]
+}
+
+[node name="Cover" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.392157 )
 
 [node name="M" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_pivot_offset = Vector2( -125, -96 )
+mouse_filter = 2
 custom_constants/margin_top = 4
 
-[node name="TimeProgress" type="TextureProgress" parent="M"]
+[node name="Bar" type="TextureProgress" parent="M"]
 margin_left = 42.0
 margin_top = 4.0
 margin_right = 342.0
 margin_bottom = 17.0
+mouse_filter = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 max_value = 1.0
 step = 0.0
-value = 1.0
 texture_under = ExtResource( 3 )
 texture_over = ExtResource( 4 )
 texture_progress = ExtResource( 2 )
 texture_progress_offset = Vector2( 2, 2 )
+
+[node name="BarEnd" type="Position2D" parent="M/Bar"]
+position = Vector2( 2, 6.5 )
+
+[node name="M2" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="H" type="HBoxContainer" parent="M2"]
+visible = false
+margin_right = 384.0
+margin_bottom = 256.0
+mouse_filter = 2
+custom_constants/separation = 5
+alignment = 1
+
+[node name="PointsLabel" type="Label" parent="M2/H"]
+margin_top = 120.0
+margin_right = 188.0
+margin_bottom = 136.0
+size_flags_horizontal = 3
+align = 2
+
+[node name="X" type="Label" parent="M2/H"]
+margin_left = 188.0
+margin_top = 120.0
+margin_right = 196.0
+margin_bottom = 136.0
+text = "x"
+align = 1
+
+[node name="MultLabel" type="Label" parent="M2/H"]
+margin_left = 196.0
+margin_top = 120.0
+margin_right = 384.0
+margin_bottom = 136.0
+size_flags_horizontal = 3
+
+[node name="TotalLabel" type="Label" parent="M2"]
+visible = false
+margin_top = 120.0
+margin_right = 384.0
+margin_bottom = 136.0
+align = 1

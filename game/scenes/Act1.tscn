@@ -114,7 +114,7 @@ shader_param/outline_color = Color( 1, 1, 1, 1 )
 script = ExtResource( 3 )
 season_dur = 1.0
 betwee_dur = 1.5
-dialogs = [ [ "Stupid! Stupid! Stupid!", "Why do I even go there? To learn? What a joke!", "That sad excuse for a garbage dump isn't fit for dogs!" ], [ "I hate it here!", "Nobody pays attention to me or even tries to help.", "[shake level=13]Why!?[/shake] [shake rate=3][fade start=10 length=26]Why will no one sit with me?" ], [ "I don't want to go back.", "There's only pain there." ], [ "What if I stay here?", "Will they notice?" ], [ "I'm safe here.", "No one will know." ] ]
+dialogs = [ [ "Stupid! Stupid! Stupid!", "Why do I even go there? To learn? What a joke!", "That sad excuse for a garbage dump isn't fit for dogs!" ], [ "I hate it here!", "[shake level=13]Why!?[/shake] [shake rate=3]Why won't anyone help? Why doesn't anyone look at me?", "[shake rate=3][fade start=10 length=45]Why will no one sit with me and talk with me?" ], [ "I don't want to go back.", "There's only pain there." ], [ "What if I stay here?", "Will they notice?" ], [ "I'm safe here.", "No one will know." ] ]
 
 [node name="Summer" parent="Outside" index="0"]
 z_index = 30
@@ -147,7 +147,7 @@ position = Vector2( 322, -2 )
 position = Vector2( 126, 95 )
 
 [node name="Position2D7" type="Position2D" parent="YSort/Waypoints" index="2"]
-position = Vector2( 201, 161 )
+position = Vector2( 183, 144 )
 
 [node name="Position2D8" type="Position2D" parent="YSort/Waypoints" index="3"]
 position = Vector2( 250, 109 )

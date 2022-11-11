@@ -62,7 +62,7 @@ func _input(event: InputEvent) -> void:
 			accept_event()
 
 
-func read(d: Array, c: int = character) -> void:
+func read(d: Array = autoplay_dialog, c: int = character) -> void:
 	label.modulate = character_colors[c]
 	text_sfx.audio_streams = character_audios[c]
 	has_dialog = true

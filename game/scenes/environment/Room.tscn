@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=79 format=2]
 
 [ext_resource path="res://assets/environment/room/room_background.png" type="Texture" id=1]
 [ext_resource path="res://assets/environment/room/trash_can.png" type="Texture" id=2]
@@ -22,7 +22,7 @@
 [ext_resource path="res://assets/environment/room/lights_over.png" type="Texture" id=20]
 [ext_resource path="res://scenes/environment/Enterable.tscn" type="PackedScene" id=21]
 [ext_resource path="res://assets/environment/room/window.png" type="Texture" id=22]
-[ext_resource path="res://assets/characters/mc/mc_idle.png" type="Texture" id=23]
+[ext_resource path="res://assets/characters/mc/mc_idle_padding.png" type="Texture" id=23]
 [ext_resource path="res://assets/sfx/ambient/room/room_clock.ogg" type="AudioStream" id=24]
 [ext_resource path="res://assets/sfx/ambient/outdoor/outdoor_ambient_fall_loop.ogg" type="AudioStream" id=25]
 [ext_resource path="res://assets/sfx/ambient/outdoor/outdoor_ambient_spring_loop.ogg" type="AudioStream" id=26]
@@ -32,6 +32,17 @@
 [ext_resource path="res://assets/environment/outside/cover.png" type="Texture" id=30]
 [ext_resource path="res://assets/environment/room/window_mask.png" type="Texture" id=31]
 [ext_resource path="res://assets/sfx/scene/act1/act1_player_open_close_door.ogg" type="AudioStream" id=32]
+[ext_resource path="res://assets/characters/mc/mid/mc_mid_padding_idle.png" type="Texture" id=33]
+[ext_resource path="res://assets/characters/mc/large/mc_large_padding_idle.png" type="Texture" id=34]
+[ext_resource path="res://assets/characters/mc/at_tasks/act1/gaming.png" type="Texture" id=35]
+[ext_resource path="res://assets/characters/mc/at_tasks/act2/gaming.png" type="Texture" id=36]
+[ext_resource path="res://assets/characters/mc/at_tasks/act3/gaming.png" type="Texture" id=37]
+[ext_resource path="res://assets/characters/mc/at_tasks/act3/sleeping.png" type="Texture" id=38]
+[ext_resource path="res://assets/characters/mc/at_tasks/act2/sleeping.png" type="Texture" id=39]
+[ext_resource path="res://assets/characters/mc/at_tasks/act1/sleeping.png" type="Texture" id=40]
+[ext_resource path="res://assets/characters/mc/at_tasks/act1/workout.png" type="Texture" id=41]
+[ext_resource path="res://assets/characters/mc/at_tasks/act2/workout.png" type="Texture" id=42]
+[ext_resource path="res://assets/characters/mc/at_tasks/act3/workout.png" type="Texture" id=43]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 particles_animation = true
@@ -153,23 +164,171 @@ shader = SubResource( 6 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
+[sub_resource type="AtlasTexture" id=45]
+atlas = ExtResource( 35 )
+region = Rect2( 0, 0, 256, 256 )
+
+[sub_resource type="SpriteFrames" id=44]
+animations = [ {
+"frames": [ SubResource( 45 ) ],
+"loop": true,
+"name": "1",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 36 ) ],
+"loop": true,
+"name": "2",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 37 ) ],
+"loop": true,
+"name": "3",
+"speed": 5.0
+} ]
+
 [sub_resource type="ShaderMaterial" id=8]
 resource_local_to_scene = true
 shader = SubResource( 6 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="ShaderMaterial" id=9]
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 23 )
+region = Rect2( 0, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 23 )
+region = Rect2( 64, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 23 )
+region = Rect2( 128, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=29]
+atlas = ExtResource( 23 )
+region = Rect2( 192, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=30]
+atlas = ExtResource( 23 )
+region = Rect2( 256, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=31]
+atlas = ExtResource( 23 )
+region = Rect2( 320, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=32]
+atlas = ExtResource( 33 )
+region = Rect2( 0, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=33]
+atlas = ExtResource( 33 )
+region = Rect2( 64, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = ExtResource( 33 )
+region = Rect2( 128, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 33 )
+region = Rect2( 192, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 33 )
+region = Rect2( 256, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=37]
+atlas = ExtResource( 33 )
+region = Rect2( 320, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=38]
+atlas = ExtResource( 34 )
+region = Rect2( 0, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=39]
+atlas = ExtResource( 34 )
+region = Rect2( 64, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=40]
+atlas = ExtResource( 34 )
+region = Rect2( 128, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=41]
+atlas = ExtResource( 34 )
+region = Rect2( 192, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=42]
+atlas = ExtResource( 34 )
+region = Rect2( 256, 0, 64, 70 )
+
+[sub_resource type="AtlasTexture" id=43]
+atlas = ExtResource( 34 )
+region = Rect2( 320, 0, 64, 70 )
+
+[sub_resource type="SpriteFrames" id=23]
+animations = [ {
+"frames": [ SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
+"loop": true,
+"name": "1",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ) ],
+"loop": true,
+"name": "2",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ) ],
+"loop": true,
+"name": "3",
+"speed": 5.0
+} ]
+
+[sub_resource type="ShaderMaterial" id=24]
 resource_local_to_scene = true
 shader = SubResource( 6 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="ShaderMaterial" id=10]
+[sub_resource type="SpriteFrames" id=46]
+animations = [ {
+"frames": [ ExtResource( 41 ) ],
+"loop": true,
+"name": "1",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 42 ) ],
+"loop": true,
+"name": "2",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 43 ) ],
+"loop": true,
+"name": "3",
+"speed": 5.0
+} ]
+
+[sub_resource type="ShaderMaterial" id=25]
 resource_local_to_scene = true
 shader = SubResource( 6 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="SpriteFrames" id=47]
+animations = [ {
+"frames": [ ExtResource( 40 ) ],
+"loop": true,
+"name": "1",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 39 ) ],
+"loop": true,
+"name": "2",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 38 ) ],
+"loop": true,
+"name": "3",
+"speed": 5.0
+} ]
 
 [node name="Room" type="Node2D"]
 script = ExtResource( 18 )
@@ -221,6 +380,7 @@ position = Vector2( 192, 128 )
 z_index = -100
 
 [node name="Summer" type="Node2D" parent="Outside"]
+z_index = 60
 
 [node name="Background" type="Sprite" parent="Outside/Summer"]
 texture = ExtResource( 10 )
@@ -231,6 +391,7 @@ texture = ExtResource( 11 )
 
 [node name="Fall" type="Node2D" parent="Outside"]
 visible = false
+z_index = 25
 
 [node name="Background" type="Sprite" parent="Outside/Fall"]
 texture = ExtResource( 8 )
@@ -391,17 +552,19 @@ use_parent_material = true
 position = Vector2( 0, 1 )
 texture = ExtResource( 6 )
 
-[node name="Entered" type="Sprite" parent="YSort/RoomElements/Enterables/Desk"]
+[node name="Entered" type="AnimatedSprite" parent="YSort/RoomElements/Enterables/Desk"]
 visible = false
 use_parent_material = true
-position = Vector2( 0, 1 )
-texture = ExtResource( 6 )
+position = Vector2( 0, 8 )
+frames = SubResource( 44 )
+animation = "1"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="YSort/RoomElements/Enterables/Desk"]
 polygon = PoolVector2Array( -8, 29.5, 10, 37.5, 20, 35.5, 28, 23.5, 28, 15.5, 18, 9.5, -8, 23.5 )
 
 [node name="Window" parent="YSort/RoomElements/Enterables" instance=ExtResource( 21 )]
 material = SubResource( 8 )
+input_hint_text = "look outside"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="YSort/RoomElements/Enterables/Window"]
 polygon = PoolVector2Array( -56, 27.5, -56, 29.5, -54, 29.5, -30, 17.5, -32, 15.5 )
@@ -410,46 +573,48 @@ polygon = PoolVector2Array( -56, 27.5, -56, 29.5, -54, 29.5, -30, 17.5, -32, 15.
 use_parent_material = true
 texture = ExtResource( 22 )
 
-[node name="Entered" type="Sprite" parent="YSort/RoomElements/Enterables/Window"]
+[node name="Entered" type="AnimatedSprite" parent="YSort/RoomElements/Enterables/Window"]
 visible = false
 use_parent_material = true
-texture = ExtResource( 22 )
+frames = SubResource( 23 )
+animation = "1"
+offset = Vector2( -42, -3 )
+flip_h = true
 
 [node name="Sprite" type="Sprite" parent="YSort/RoomElements/Enterables/Window/Entered"]
-position = Vector2( -42, -2.5 )
-texture = ExtResource( 23 )
-flip_h = true
-region_enabled = true
-region_rect = Rect2( 0, 0, 64, 64 )
+show_behind_parent = true
+texture = ExtResource( 22 )
 
 [node name="Weights" parent="YSort/RoomElements/Enterables" instance=ExtResource( 21 )]
-material = SubResource( 9 )
+material = SubResource( 24 )
 
 [node name="Default" type="Sprite" parent="YSort/RoomElements/Enterables/Weights"]
 use_parent_material = true
 texture = ExtResource( 3 )
 
-[node name="Entered" type="Sprite" parent="YSort/RoomElements/Enterables/Weights"]
+[node name="Entered" type="AnimatedSprite" parent="YSort/RoomElements/Enterables/Weights"]
 visible = false
 use_parent_material = true
-texture = ExtResource( 3 )
+frames = SubResource( 46 )
+animation = "1"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="YSort/RoomElements/Enterables/Weights"]
 polygon = PoolVector2Array( -67, 63.5, -40, 75.5, -26, 71.5, -57, 55.5 )
 
 [node name="Bed" parent="YSort/RoomElements/Enterables" instance=ExtResource( 21 )]
-material = SubResource( 10 )
+material = SubResource( 25 )
 
 [node name="Default" type="Sprite" parent="YSort/RoomElements/Enterables/Bed"]
 use_parent_material = true
 z_index = 10
 texture = ExtResource( 5 )
 
-[node name="Entered" type="Sprite" parent="YSort/RoomElements/Enterables/Bed"]
+[node name="Entered" type="AnimatedSprite" parent="YSort/RoomElements/Enterables/Bed"]
 visible = false
 use_parent_material = true
 z_index = 10
-texture = ExtResource( 5 )
+frames = SubResource( 47 )
+animation = "1"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="YSort/RoomElements/Enterables/Bed"]
 polygon = PoolVector2Array( -22, 89.5, 3, 102.5, 51, 77.5, 26, 65.5 )

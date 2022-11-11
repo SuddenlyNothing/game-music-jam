@@ -2,11 +2,18 @@ extends StaticBody2D
 
 signal interacted
 
+export(String) var input_hint_text := "interact"
+
 var is_inside := false
 
 onready var default := $Default
 onready var entered := $Entered
 onready var input_hint := $InputHint
+onready var hint_label := $"%Label"
+
+
+func _ready() -> void:
+	hint_label.text = input_hint_text
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -14,10 +21,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		emit_signal("interacted")
 
 
-func enter() -> void:
+func enter(act: String) -> void:
 	is_inside = true
 	get_material().set_shader_param("line_scale", 1.0)
 	default.hide()
+	entered.play(act)
 	entered.show()
 	input_hint.show()
 

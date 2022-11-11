@@ -8,7 +8,6 @@
 extents = Vector2( 11.5, 2 )
 
 [node name="RoomPlayer" type="KinematicBody2D" groups=["room_player"]]
-position = Vector2( 122, 60 )
 script = ExtResource( 2 )
 
 [node name="RoomPlayerStates" type="Node" parent="."]
@@ -19,4 +18,3 @@ position = Vector2( 2.5, -1 )
 shape = SubResource( 1 )
 
 [node name="PlayerPuppet" parent="." instance=ExtResource( 1 )]
-animation = "walk1"
