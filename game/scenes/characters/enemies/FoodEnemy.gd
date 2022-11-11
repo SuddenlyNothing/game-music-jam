@@ -1,5 +1,17 @@
 extends KinematicBody2D
 
+signal died
+
+const DeathParticles := preload(
+		"res://scenes/characters/enemies/DeathParticles.tscn")
+
+const FOODS := [
+	"pizza",
+	"burger",
+	"fries",
+	"donut",
+]
+
 export(Color) var good_color := Color.green
 export(Color) var bad_color := Color.red
 export(int) var num_rays := 16
@@ -8,17 +20,25 @@ export(int) var num_calc_rays := 32
 export(bool) var avoid := false
 export(int) var min_shape_target_dist := 20
 export(float) var min_shape_target_dist_offset := 20.0
-export(int) var far_shape_target_dist := 200
-export(float) var far_shape_target_dist_offset := 20.0
+export(int) var far_shape_target_dist := 300
+export(float) var far_shape_target_dist_offset := 200.0
 
 export(int) var min_speed_dist := 20
 export(float) var min_speed_dist_offset := 20.0
 export(int) var far_speed_dist := 80
-export(float) var far_speed_dist_offset := 20.0
-export(float) var max_speed := 200.0
+export(float) var far_speed_dist_offset := 30.0
+export(float) var max_speed := 100.0
 export(float) var min_speed := 50.0
-export(float) var min_acceleration := 200.0
-export(float) var max_acceleration := 800.0
+export(float) var min_acceleration := 100.0
+export(float) var max_acceleration := 500.0
+
+export(float) var friction := 100.0
+
+export(float) var min_idle_time := 0.1
+export(float) var max_idle_time := 2.0
+
+export(float) var min_walk_time := 2.0
+export(float) var max_walk_time := 5.0
 
 export(float, 1.0) var continue_straight_weight := 1
 
@@ -26,25 +46,32 @@ var rays := []
 var calc_rays := []
 var target: Node2D
 var velocity := Vector2()
+var food: String
+var locked := false setget set_locked
 
 onready var min_shape_target_dist_squared := pow(min_shape_target_dist + \
-		Variables.rng.randf_range(-min_speed_dist_offset,
-		min_speed_dist_offset), 2)
-onready var far_shape_target_dist_squared := pow(far_shape_target_dist + \
-		Variables.rng.randf_range(-far_speed_dist_offset,
-		far_speed_dist_offset), 2)
-onready var min_speed_dist_squared := pow(min_speed_dist + \
 		Variables.rng.randf_range(-min_shape_target_dist_offset,
 		min_shape_target_dist_offset), 2)
-onready var far_speed_dist_squared := pow(far_speed_dist + \
+onready var far_shape_target_dist_squared := pow(far_shape_target_dist + \
 		Variables.rng.randf_range(-far_shape_target_dist_offset,
 		far_shape_target_dist_offset), 2)
+onready var min_speed_dist_squared := pow(min_speed_dist + \
+		Variables.rng.randf_range(-min_speed_dist_offset,
+		min_speed_dist_offset), 2)
+onready var far_speed_dist_squared := pow(far_speed_dist + \
+		Variables.rng.randf_range(-far_speed_dist_offset,
+		far_speed_dist_offset), 2)
 
 onready var anim_sprite := $Pivot/AnimatedSprite
 onready var pivot := $Pivot
+onready var food_enemy_states := $FoodEnemyStates
+onready var idle_timer := $IdleTimer
+onready var walk_timer := $WalkTimer
 
 
 func _ready() -> void:
+	Variables.rng.randomize()
+	food = FOODS[Variables.rng.randi_range(0, len(FOODS) - 1)]
 	for i in num_rays:
 		var r := RayCast2D.new()
 		r.cast_to = Vector2.RIGHT.rotated(i / float(num_rays) * 2 * PI) *\
@@ -69,6 +96,28 @@ func _draw() -> void:
 		draw_line(Vector2(), velocity, Color.blue, 1.2)
 
 
+func set_locked(val: bool) -> void:
+	locked = val
+	if val:
+		idle_timer.stop()
+		walk_timer.stop()
+		food_enemy_states.call_deferred("set_state", "idle")
+	else:
+		food_enemy_states.call_deferred("set_state", "idle")
+
+
+func kill() -> void:
+	emit_signal("died")
+	var dp := DeathParticles.instance()
+	dp.position = anim_sprite.global_position
+	get_parent().add_child(dp)
+	queue_free()
+
+
+func play_anim(anim: String) -> void:
+	anim_sprite.play(anim + "_" + food)
+
+
 func set_player(p: Node2D) -> void:
 	target = p
 
@@ -77,6 +126,15 @@ func move(delta: float) -> void:
 	apply_acceleration(delta)
 	velocity = move_and_slide(velocity)
 	set_facing(target.position - position)
+
+
+func move_idle(delta: float) -> void:
+	velocity = move_and_slide(velocity)
+	var friction_amount := friction * delta
+	if friction_amount >= velocity.length():
+		velocity = Vector2()
+	else:
+		velocity -= velocity.normalized() * friction_amount
 
 
 func apply_acceleration(delta: float) -> void:
@@ -141,3 +199,29 @@ func get_desired_dir() -> Vector2:
 			desired_rot = i / float(num_calc_rays) * 2 * PI
 			max_desire = calc_rays[i]
 	return Vector2.RIGHT.rotated(desired_rot)
+
+
+func start_idle_timer() -> void:
+	if locked:
+		return
+	Variables.rng.randomize()
+	idle_timer.start(Variables.rng.randf_range(min_idle_time, max_idle_time))
+
+
+func start_walk_timer() -> void:
+	if locked:
+		return
+	Variables.rng.randomize()
+	walk_timer.start(Variables.rng.randf_range(min_walk_time, max_walk_time))
+
+
+func _on_IdleTimer_timeout() -> void:
+	if locked:
+		return
+	food_enemy_states.call_deferred("set_state", "walk")
+
+
+func _on_WalkTimer_timeout() -> void:
+	if locked:
+		return
+	food_enemy_states.call_deferred("set_state", "idle")

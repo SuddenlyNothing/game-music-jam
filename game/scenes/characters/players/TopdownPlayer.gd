@@ -8,17 +8,21 @@ export(float) var friction := 1000.0
 export(float) var max_speed := 100.0
 
 export(float) var dash_dist := 100.0
-export(float) var dash_hit_dur := 0.3
+export(float) var dash_hit_dur := 0.5
 export(float) var fov := 180.0
 export(float) var dash_eat_padding := 10.0
+
+export(float) var lunge_speed := 400.0
+export(float) var lunge_friction := 800.0
+
+export(int) var powerup_threshold := 3
 
 var prev_input := Vector2.RIGHT
 var input := Vector2()
 var velocity := Vector2()
-var anim_queue := ""
-var dash_finished := true
 var combo: int = 0
 var locked := false setget set_locked
+var powerup_count := 0
 
 onready var dash_dist_squared := pow(dash_dist, 2)
 onready var dash_eat_padding_squared := pow(dash_eat_padding, 2)
@@ -28,9 +32,11 @@ onready var anim_sprite := $Pivot/AnimatedSprite
 onready var dash_timer := $DashTimer
 onready var topdown_player_states := $TopdownPlayerStates
 onready var dash_line := $DashLine
+onready var powerup_particles := $PowerupParticles
 
 onready var dash_sfx := $DashSFX
 onready var eat_sfx := $EatSFX
+onready var powerup_sfx := $PowerupSFX
 
 
 func _process(delta: float) -> void:
@@ -48,13 +54,9 @@ func set_locked(val: bool) -> void:
 
 
 func play_anim(anim: String) -> void:
-	if not dash_finished and anim_sprite.animation == "dash" and anim != "dash":
-		anim_queue = anim
-	else:
-		if anim == "dash":
-			dash_finished = false
-		anim_queue = ""
-		anim_sprite.play(anim)
+	if anim_sprite.animation == "dash" and anim_sprite.animation != "dash":
+		return
+	anim_sprite.play(anim)
 
 
 func move(delta: float) -> void:
@@ -65,7 +67,46 @@ func move(delta: float) -> void:
 
 
 func can_dash() -> bool:
-	return Input.is_action_pressed("dash", true) and not locked
+	return not locked and powerup_count >= powerup_threshold
+
+
+func can_lunge() -> bool:
+	return Input.is_action_just_pressed("dash", true) and not locked\
+			and powerup_count < powerup_threshold
+
+
+func start_lunge() -> void:
+	var dashable_food := get_closest_dashable_food(90)
+	var lunge_dir: Vector2
+	if dashable_food:
+		lunge_dir = position.direction_to(dashable_food.position)
+	else:
+		lunge_dir = prev_input
+	velocity = lunge_dir * lunge_speed
+	set_facing(lunge_dir)
+	dash_sfx.play()
+
+
+func move_lunge(delta: float) -> void:
+	var collision := move_and_collide(velocity * delta)
+	if collision and collision.collider.is_in_group("food"):
+		topdown_player_states.call_deferred("set_state", "idle")
+		velocity = Vector2()
+		powerup_count += 1
+		eat_sfx.play()
+		anim_sprite.play("idle")
+		collision.collider.kill()
+		powerup_sfx.pitch_scale = 1 + (powerup_count - 1) * 0.1
+		powerup_sfx.play()
+		if powerup_count >= powerup_threshold - 1:
+			powerup_particles.emitting = true
+	else:
+		var friction_amount := lunge_friction * delta
+		if velocity.length() <= friction_amount:
+			velocity = Vector2()
+			topdown_player_states.call_deferred("set_state", "idle")
+		else:
+			velocity -= velocity.normalized() * friction_amount
 
 
 func dash() -> void:
@@ -77,9 +118,8 @@ func dash() -> void:
 	
 	var dash_food := get_closest_dashable_food()
 	if dash_food:
-		yield(get_tree(), "idle_frame")
 		var vec := dash_food.position - position
-		dash_food.free()
+		dash_food.kill()
 		move_and_collide(vec)
 		topdown_player_states.call_deferred("set_state", "idle")
 		line_dur = dash_hit_dur
@@ -92,6 +132,8 @@ func dash() -> void:
 		dash_timer.start()
 		move_and_collide(prev_input * dash_dist)
 		dash_sfx.play()
+		powerup_count = 0
+		powerup_particles.emitting = false
 	
 	if combo > 1:
 		var text_floater := TextFloater.instance()
@@ -139,11 +181,11 @@ func apply_friction(delta: float) -> void:
 		velocity -= velocity.normalized() * friction_amount
 
 
-func get_closest_dashable_food() -> Node2D:
+func get_closest_dashable_food(f: float = fov) -> Node2D:
 	var min_dist := 0.0
 	var closest_food: Node2D = null
 	for food in get_tree().get_nodes_in_group("food"):
-		if is_pos_dashable(food.position):
+		if is_pos_dashable(food.position, f):
 			var dist := position.distance_squared_to(food.position)
 			if not closest_food or dist < min_dist:
 				min_dist = dist
@@ -151,13 +193,13 @@ func get_closest_dashable_food() -> Node2D:
 	return closest_food
 
 
-func is_pos_dashable(pos: Vector2) -> bool:
+func is_pos_dashable(pos: Vector2, f: float = fov) -> bool:
 	if position.distance_squared_to(pos) > dash_dist_squared + \
 			dash_eat_padding_squared:
 		return false
 	var dot = prev_input.dot((pos - position).normalized())
 	var ang = rad2deg(acos(dot))
-	if ang < fov / 2:
+	if ang < f / 2:
 		return true
 	return false
 
@@ -168,6 +210,8 @@ func _on_DashTimer_timeout() -> void:
 
 func _on_AnimatedSprite_animation_finished() -> void:
 	if anim_sprite.animation == "dash":
-		dash_finished = true
-		if anim_queue:
-			play_anim(anim_queue)
+		match topdown_player_states.state:
+			"idle":
+				anim_sprite.play("idle")
+			"walk":
+				anim_sprite.play("walk")

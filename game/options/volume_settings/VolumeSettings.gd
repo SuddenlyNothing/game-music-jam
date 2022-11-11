@@ -3,7 +3,7 @@ extends MarginContainer
 const VolumeModule := preload("res://options/volume_settings/VolumeModule.tscn")
 
 # Will load audio bus data from this array if not empty.
-const AUDIO_BUSES: Array = []
+const AUDIO_BUSES: Array = ["Master", "Music", "SFX"]
 
 onready var reset_all := $V/ResetAll
 onready var modules_parent := $V

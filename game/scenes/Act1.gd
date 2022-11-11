@@ -68,12 +68,16 @@ func _on_PlayerPuppet_reached_waypoint(waypoint_ind: int) -> void:
 			dialog.read(dialogs[3])
 			yield(dialog, "dialog_finished")
 			door.hide()
+			door_sfx.play()
+			player_puppet.outside = false
 			var t := create_tween()
 			t.tween_property(room_elements, "modulate", Color.white, 0.5)
 		5:
 			var t := create_tween()
-			t.tween_property(outside, "modulate:a", 0.0, 0.5)
-			t.tween_callback(outside, "hide")
+			t.tween_callback(cover, "show")
+			t.tween_callback(self, "set_outdoor", [false, 0.5])
+			t.tween_property(cover, "modulate:a", 1.0, 0.5)
+			play_indoor_sfx()
 			player_puppet.z_index = 0
 		6:
 			door.show()
@@ -107,17 +111,19 @@ func _on_MinigamesManager_view_street(season: String) -> void:
 			.set_ease(Tween.EASE_OUT)
 	t.tween_property(camera, "position", Vector2(192, 128), 0.5)\
 			.set_ease(Tween.EASE_OUT)
-	t.tween_callback(outside, "show")
-	t.tween_property(outside, "modulate:a", 1.0, 0.5)
+	t.tween_callback(self, "set_outdoor", [true, 0.5])
+	t.tween_property(cover, "modulate:a", 0.0, 0.5)
 	t.parallel().tween_property(room_elements, "modulate",
-			Color("#00000000"), 0.5)
+			Color("#0000"), 0.5)
+	t.tween_callback(cover, "hide")
 	if season:
 		t.tween_callback(self, "set_season", [season, 1.5])
 		t.tween_interval(2.0)
 	t.tween_interval(1.0)
-	t.tween_property(outside, "modulate:a", 0.0, 0.5)
+	t.tween_callback(cover, "show")
+	t.tween_callback(self, "set_outdoor", [false, 0.5])
+	t.tween_property(cover, "modulate:a", 1.0, 0.5)
 	t.parallel().tween_property(room_elements, "modulate",
 			Color.white, 0.5)
-	t.tween_callback(outside, "hide")
 	t.tween_property(camera, "position", camera.position, 0.5)
 	t.tween_callback(minigames_manager, "finished_viewing_street")

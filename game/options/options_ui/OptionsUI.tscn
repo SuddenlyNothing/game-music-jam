@@ -36,7 +36,7 @@ expand_margin_right = 1.0
 anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id=17]
-draw_center = false
+bg_color = Color( 0.933333, 0.870588, 0.733333, 1 )
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -66,9 +66,10 @@ expand_margin_right = 1.0
 anti_aliasing = false
 
 [sub_resource type="Theme" id=16]
-Button/colors/font_color_disabled = Color( 0.160784, 0.188235, 0.188235, 1 )
-Button/colors/font_color_hover = Color( 0.25098, 0.262745, 0.262745, 1 )
-Button/colors/font_color_pressed = Color( 0.160784, 0.188235, 0.188235, 1 )
+Button/colors/font_color = Color( 0.690196, 0.521569, 0.478431, 1 )
+Button/colors/font_color_disabled = Color( 0.164706, 0.188235, 0.188235, 1 )
+Button/colors/font_color_hover = Color( 0.690196, 0.521569, 0.478431, 1 )
+Button/colors/font_color_pressed = Color( 0.51, 0.38352, 0.3519, 1 )
 Button/styles/disabled = SubResource( 18 )
 Button/styles/hover = SubResource( 19 )
 Button/styles/normal = SubResource( 17 )
@@ -83,7 +84,7 @@ script = ExtResource( 3 )
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.25098, 0.290196, 0.4, 0.27451 )
+color = Color( 0.580392, 0.345098, 0.27451, 0.392157 )
 
 [node name="M" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -103,22 +104,29 @@ margin_bottom = 236.0
 margin_right = 344.0
 margin_bottom = 28.0
 
-[node name="H" type="HBoxContainer" parent="M/V/PanelContainer"]
+[node name="M" type="MarginContainer" parent="M/V/PanelContainer"]
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 339.0
 margin_bottom = 23.0
+custom_constants/margin_right = 2
+custom_constants/margin_left = 2
+
+[node name="H" type="HBoxContainer" parent="M/V/PanelContainer/M"]
+margin_left = 2.0
+margin_right = 332.0
+margin_bottom = 18.0
 custom_constants/separation = 10
 
-[node name="H" type="HBoxContainer" parent="M/V/PanelContainer/H"]
-margin_right = 254.0
+[node name="H" type="HBoxContainer" parent="M/V/PanelContainer/M/H"]
+margin_right = 250.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 theme = SubResource( 16 )
 
-[node name="Audio" parent="M/V/PanelContainer/H/H" instance=ExtResource( 1 )]
+[node name="Audio" parent="M/V/PanelContainer/M/H/H" instance=ExtResource( 1 )]
 unique_name_in_owner = true
-margin_right = 82.0
+margin_right = 80.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 disabled = true
@@ -128,10 +136,10 @@ text = "Audio"
 pressed_timing = 0.2
 disabled_timing = 0.2
 
-[node name="Controls" parent="M/V/PanelContainer/H/H" instance=ExtResource( 1 )]
+[node name="Controls" parent="M/V/PanelContainer/M/H/H" instance=ExtResource( 1 )]
 unique_name_in_owner = true
-margin_left = 86.0
-margin_right = 168.0
+margin_left = 84.0
+margin_right = 165.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 toggle_mode = true
@@ -139,10 +147,10 @@ text = "Controls"
 pressed_timing = 0.2
 disabled_timing = 0.2
 
-[node name="ScreenSettings" parent="M/V/PanelContainer/H/H" instance=ExtResource( 1 )]
+[node name="ScreenSettings" parent="M/V/PanelContainer/M/H/H" instance=ExtResource( 1 )]
 unique_name_in_owner = true
-margin_left = 172.0
-margin_right = 254.0
+margin_left = 169.0
+margin_right = 250.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 toggle_mode = true
@@ -150,13 +158,13 @@ text = "Screen"
 pressed_timing = 0.2
 disabled_timing = 0.2
 
-[node name="H2" type="HBoxContainer" parent="M/V/PanelContainer/H"]
-margin_left = 264.0
-margin_right = 334.0
+[node name="H2" type="HBoxContainer" parent="M/V/PanelContainer/M/H"]
+margin_left = 260.0
+margin_right = 330.0
 margin_bottom = 18.0
 rect_pivot_offset = Vector2( -524, 33 )
 
-[node name="Back" parent="M/V/PanelContainer/H/H2" instance=ExtResource( 1 )]
+[node name="Back" parent="M/V/PanelContainer/M/H/H2" instance=ExtResource( 1 )]
 unique_name_in_owner = true
 margin_right = 33.0
 margin_bottom = 18.0
@@ -165,7 +173,7 @@ size_flags_horizontal = 3
 text = "Back"
 play_pressed = false
 
-[node name="Menu" parent="M/V/PanelContainer/H/H2" instance=ExtResource( 1 )]
+[node name="Menu" parent="M/V/PanelContainer/M/H/H2" instance=ExtResource( 1 )]
 unique_name_in_owner = true
 margin_left = 37.0
 margin_right = 70.0

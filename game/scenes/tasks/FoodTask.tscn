@@ -1,79 +1,168 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://scenes/characters/players/TopdownPlayer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/ui/progress.png" type="Texture" id=1]
 [ext_resource path="res://scenes/tasks/FoodTask.gd" type="Script" id=2]
-[ext_resource path="res://scenes/characters/enemies/FoodEnemy.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/ui/progress_over.png" type="Texture" id=3]
+[ext_resource path="res://assets/ui/progress_under.png" type="Texture" id=4]
+[ext_resource path="res://assets/environment/food/food_game_background.png" type="Texture" id=5]
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 5, 128 )
+extents = Vector2( 5, 143 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 224, 5 )
 
-[node name="FoodTask" type="Node2D"]
-script = ExtResource( 2 )
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.0784314, 0.0627451, 0.0745098, 1 )
+expand_margin_left = 2.0
+expand_margin_top = 1.0
 
-[node name="Node2D" type="Node2D" parent="."]
-z_index = -410
-
-[node name="ColorRect" type="ColorRect" parent="Node2D"]
-margin_right = 448.0
-margin_bottom = 256.0
-mouse_filter = 2
-color = Color( 0.266667, 0.0196078, 0.0196078, 1 )
-
-[node name="MarginContainer" type="MarginContainer" parent="Node2D/ColorRect"]
+[node name="FoodTask" type="Control"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 2
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+script = ExtResource( 2 )
 
-[node name="ColorRect" type="ColorRect" parent="Node2D/ColorRect/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 438.0
-margin_bottom = 246.0
-mouse_filter = 2
-color = Color( 0.329412, 0.592157, 0.431373, 1 )
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.392157 )
 
-[node name="YSort" type="YSort" parent="."]
+[node name="M" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 3
+custom_constants/margin_top = 3
+custom_constants/margin_left = 3
+custom_constants/margin_bottom = 3
 
-[node name="TopdownPlayer" parent="YSort" instance=ExtResource( 1 )]
-position = Vector2( 224, 133 )
+[node name="M" type="MarginContainer" parent="M"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 381.0
+margin_bottom = 253.0
+custom_constants/margin_right = 15
+custom_constants/margin_top = 18
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 15
 
-[node name="FoodEnemy" parent="YSort" instance=ExtResource( 3 )]
-position = Vector2( 262, 130 )
+[node name="PC" type="PanelContainer" parent="M/M"]
+unique_name_in_owner = true
+margin_left = 15.0
+margin_top = 18.0
+margin_right = 363.0
+margin_bottom = 235.0
+custom_styles/panel = SubResource( 3 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="M" type="MarginContainer" parent="M/M/PC"]
+margin_right = 348.0
+margin_bottom = 220.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 5, 128 )
+[node name="VC" type="ViewportContainer" parent="M/M/PC/M"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 343.0
+margin_bottom = 215.0
+
+[node name="Viewport" type="Viewport" parent="M/M/PC/M/VC"]
+size = Vector2( 338, 210 )
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 0
+
+[node name="FoodGameBackground" type="Sprite" parent="M/M/PC/M/VC/Viewport"]
+position = Vector2( 192, 128 )
+z_index = -610
+texture = ExtResource( 5 )
+
+[node name="YSort" type="YSort" parent="M/M/PC/M/VC/Viewport"]
+unique_name_in_owner = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="M/M/PC/M/VC/Viewport"]
+position = Vector2( 0, 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="M/M/PC/M/VC/Viewport/StaticBody2D"]
+position = Vector2( -12, 125 )
 shape = SubResource( 1 )
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="."]
-position = Vector2( 438, 0 )
+[node name="StaticBody2D2" type="StaticBody2D" parent="M/M/PC/M/VC/Viewport"]
+position = Vector2( 390, 5 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2( 5, 128 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="M/M/PC/M/VC/Viewport/StaticBody2D2"]
+position = Vector2( 6, 127 )
 shape = SubResource( 1 )
 
-[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+[node name="StaticBody2D3" type="StaticBody2D" parent="M/M/PC/M/VC/Viewport"]
 position = Vector2( 438, 0 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
-position = Vector2( -214, 5 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="M/M/PC/M/VC/Viewport/StaticBody2D3"]
+position = Vector2( -241, -11 )
 shape = SubResource( 2 )
 
-[node name="StaticBody2D4" type="StaticBody2D" parent="."]
-position = Vector2( 438, 246 )
+[node name="StaticBody2D4" type="StaticBody2D" parent="M/M/PC/M/VC/Viewport"]
+position = Vector2( 438, 260 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
-position = Vector2( -214, 5 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="M/M/PC/M/VC/Viewport/StaticBody2D4"]
+position = Vector2( -238, 7 )
 shape = SubResource( 2 )
 
-[node name="SpawnInterval" type="Timer" parent="."]
+[node name="Camera2D" type="Camera2D" parent="M/M/PC/M/VC/Viewport"]
+position = Vector2( 192, 128 )
+current = true
 
-[connection signal="timeout" from="SpawnInterval" to="." method="_on_SpawnInterval_timeout"]
+[node name="M2" type="MarginContainer" parent="M"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 381.0
+margin_bottom = 253.0
+custom_constants/margin_top = 1
+
+[node name="TimeProgress" type="TextureProgress" parent="M/M2"]
+margin_left = 39.0
+margin_top = 1.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+max_value = 1.0
+step = 0.0
+value = 1.0
+texture_under = ExtResource( 4 )
+texture_over = ExtResource( 3 )
+texture_progress = ExtResource( 1 )
+texture_progress_offset = Vector2( 2, 2 )
+
+[node name="PanelContainer" type="PanelContainer" parent="M"]
+margin_left = 192.0
+margin_top = 3.0
+margin_right = 192.0
+margin_bottom = 3.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+custom_styles/panel = SubResource( 4 )
+
+[node name="ScoreLabel" type="Label" parent="M/PanelContainer"]
+unique_name_in_owner = true
+margin_right = 8.0
+margin_bottom = 16.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "0"
+align = 1
+
+[node name="ShakeTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="PlayTimer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[connection signal="timeout" from="ShakeTimer" to="." method="_on_ShakeTimer_timeout"]
+[connection signal="timeout" from="PlayTimer" to="." method="_on_PlayTimer_timeout"]

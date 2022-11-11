@@ -11,5 +11,5 @@ dest_files=[ "res://.import/menu_play_game_long.ogg-f7ca1712d4b5d48a860e517d0510
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

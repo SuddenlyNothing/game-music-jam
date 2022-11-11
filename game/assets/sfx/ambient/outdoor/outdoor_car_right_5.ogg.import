@@ -11,5 +11,5 @@ dest_files=[ "res://.import/outdoor_car_right_5.ogg-af218b3b1e121fabcbb33642a4d8
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

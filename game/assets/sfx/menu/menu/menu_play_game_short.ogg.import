@@ -11,5 +11,5 @@ dest_files=[ "res://.import/menu_play_game_short.ogg-bb5641143619b41abfd6ca18f87
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

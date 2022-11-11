@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/characters/enemies/Particles.gd" type="Script" id=1]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.785714, 0.998344 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=1]
+colors = PoolColorArray( 0.211475, 0.0777629, 0.0134128, 1, 0, 0, 0, 0 )
+
+[node name="DeathParticles" type="CPUParticles2D"]
+emitting = false
+amount = 12
+lifetime = 0.7
+one_shot = true
+explosiveness = 0.7
+randomness = 1.0
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 8.0
+direction = Vector2( 0, -1 )
+spread = 60.0
+initial_velocity = 70.0
+initial_velocity_random = 0.5
+scale_amount = 3.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 2 )
+color_ramp = SubResource( 1 )
+script = ExtResource( 1 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

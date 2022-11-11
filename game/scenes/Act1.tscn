@@ -168,7 +168,7 @@ position = Vector2( 351, 251 )
 position = Vector2( 290, -3 )
 z_index = -130
 waypoints_path = NodePath("../Waypoints")
-move_speed = 300
+outside = true
 
 [node name="Camera2D" type="Camera2D" parent="YSort/PlayerPuppet" index="0"]
 current = true
@@ -186,5 +186,5 @@ limit_bottom = 256
 [connection signal="interacted" from="YSort/RoomElements/Enterables/Window" to="MinigamesManager" method="_on_Window_interacted"]
 [connection signal="reached_last_waypoint" from="YSort/PlayerPuppet" to="." method="_on_PlayerPuppet_reached_last_waypoint"]
 [connection signal="reached_waypoint" from="YSort/PlayerPuppet" to="." method="_on_PlayerPuppet_reached_waypoint"]
-[connection signal="view_street" from="MinigamesManager" to="." method="_on_MinigamesManager_view_street"]
 [connection signal="started" from="CanvasLayer/Menu" to="." method="_on_Menu_started"]
+[connection signal="view_street" from="MinigamesManager" to="." method="_on_MinigamesManager_view_street"]

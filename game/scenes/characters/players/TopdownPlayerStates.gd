@@ -7,6 +7,7 @@ func _ready() -> void:
 	add_state("idle")
 	add_state("walk")
 	add_state("dash")
+	add_state("lunge")
 	add_state("death")
 	call_deferred("set_state", "idle")
 
@@ -21,6 +22,8 @@ func _state_logic(delta: float) -> void:
 			parent.move(delta)
 		states.dash:
 			pass
+		states.lunge:
+			parent.move_lunge(delta)
 		states.death:
 			pass
 
@@ -29,16 +32,22 @@ func _state_logic(delta: float) -> void:
 func _get_transition(delta: float):
 	match state:
 		states.idle:
+			if parent.can_lunge():
+				return states.lunge
 			if parent.can_dash():
 				return states.dash
 			if parent.input:
 				return states.walk
 		states.walk:
+			if parent.can_lunge():
+				return states.lunge
 			if parent.can_dash():
 				return states.dash
 			if not parent.input:
 				return states.idle
 		states.dash:
+			pass
+		states.lunge:
 			pass
 		states.death:
 			pass
@@ -57,6 +66,10 @@ func _enter_state(new_state: String, old_state) -> void:
 		states.dash:
 			parent.play_anim("dash")
 			parent.dash()
+			parent.dash_sfx.play()
+		states.lunge:
+			parent.play_anim("dash")
+			parent.start_lunge()
 		states.death:
 			parent.play_anim("death")
 
@@ -71,6 +84,8 @@ func _exit_state(old_state, new_state: String) -> void:
 		states.walk:
 			pass
 		states.dash:
+			pass
+		states.lunge:
 			pass
 		states.death:
 			pass

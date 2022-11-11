@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export(String, "1", "2", "3") var act := "1"
 export(int) var move_speed := 30
-export(float) var leave_distance := 2.0
+export(float) var leave_distance := 3.0
 export(int) var num_slides := 4
 
 var locked := false setget set_locked

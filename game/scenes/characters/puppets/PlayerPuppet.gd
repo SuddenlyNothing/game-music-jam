@@ -7,11 +7,13 @@ export(NodePath) var waypoints_path
 export(String, "1", "2", "3") var act := "1" setget set_act
 export(int) var move_speed := 50
 export(bool) var muted := false
+export(bool) var outside := false
 
 var target: Vector2
 
 onready var waypoints := get_node_or_null(waypoints_path)
-onready var step_sfx := $StepSFX
+onready var outdoor_step_sfx := $OutdoorStepSFX
+onready var indoor_step_sfx := $IndoorStepSFX
 
 
 func _ready() -> void:
@@ -67,4 +69,7 @@ func _on_PlayerPuppet_frame_changed() -> void:
 	if animation.begins_with("walk"):
 		match frame:
 			1, 4:
-				step_sfx.play()
+				if outside:
+					outdoor_step_sfx.play()
+				else:
+					indoor_step_sfx.play()

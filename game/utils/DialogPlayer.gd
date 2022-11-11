@@ -134,9 +134,9 @@ func stop() -> void:
 	emit_signal("dialog_finished")
 	reading = false
 	has_dialog = false
-	text_sfx_interval.stop()
 	if t:
 		t.kill()
+	text_sfx_interval.stop()
 	text_sfx.stop()
 	next_indicator_container.hide()
 	if enter_exit_t:
@@ -157,10 +157,10 @@ func update_keys():
 
 func stop_reading() -> void:
 	reading = false
+	text_sfx_interval.stop()
 	text_sfx.stop()
 	next_indicator_container.show()
 	interact_sfx.play()
-	text_sfx_interval.stop()
 
 
 func _on_TextSFX_finished() -> void:
