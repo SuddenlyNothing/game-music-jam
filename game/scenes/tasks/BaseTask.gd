@@ -1,15 +1,14 @@
+class_name BaseTask
 extends Task
 
 const FoodEnemy := preload("res://scenes/characters/enemies/FoodEnemy.tscn")
 const Player := preload("res://scenes/characters/players/TopdownPlayer.tscn")
 const BarParticles := preload("res://scenes/tasks/BarParticles.tscn")
 
-export(int) var min_food := 6
-export(int) var max_food := 20
-export(int) var min_dist_to_player := 100.0
+export(bool) var testing := false
 
 export(float) var max_shake_time := 1.5
-export(float) var eat_shake_intensity := 0.2
+export(float) var increment_shake_intensity := 0.2
 export(float) var max_shake_offset := 10.0
 
 var score := 0
@@ -21,10 +20,6 @@ var bar_particle_settings := {
 	"scale_amount": [1, 2],
 }
 
-onready var min_dist_to_player_squared := pow(min_dist_to_player, 2)
-
-onready var player: Node2D
-onready var ysort: YSort = $"%YSort"
 onready var score_label: Label = $"%ScoreLabel"
 onready var pc: PanelContainer = $"%PC"
 onready var shake_timer := $ShakeTimer
@@ -32,6 +27,12 @@ onready var score_label_position: Vector2 = score_label.rect_position
 onready var play_timer := $PlayTimer
 onready var bar_particles: CPUParticles2D
 onready var time_progress := $M/M2/TimeProgress
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_focus_next") and testing:
+		Variables.rng.randomize()
+		start(Variables.rng.randf())
 
 
 func _process(delta: float) -> void:
@@ -71,47 +72,13 @@ func start(difficulty: float) -> void:
 			.set_trans(Tween.TRANS_BACK)
 	t.tween_property(self, "modulate:a", 1.0, start_dur)\
 			.set_trans(Tween.TRANS_QUAD)
-	player = Player.instance()
-	player.position = Vector2(192, 133)
-	ysort.call_deferred("add_child", player)
-	for _i in round(lerp(min_food, max_food, difficulty)):
-		spawn_enemy(false)
-
-
-# Stop abruptly
-# Hide and free everything
-func stop() -> void:
-	hide()
-	get_tree().call_group("food", "queue_free")
-	bar_particles.queue_free()
-	player.queue_free()
-
-
-func spawn_enemy(add_score: bool = true) -> void:
-	var fe := FoodEnemy.instance()
-	Variables.rng.randomize()
-	var new_pos := Vector2(
-		Variables.rng.randf_range(20, 380),
-			Variables.rng.randf_range(20, 250)
-	)
-	while new_pos.distance_squared_to(player.position) < \
-			min_dist_to_player_squared:
-		new_pos = Vector2(
-			Variables.rng.randf_range(20, 380),
-			Variables.rng.randf_range(20, 250)
-		)
-	if add_score:
-		add_score()
-	fe.position = new_pos
-	fe.connect("died", self, "spawn_enemy")
-	ysort.add_child(fe)
-	get_tree().call_group("needs_player", "set_player", player)
+	init(difficulty)
 
 
 func add_score() -> void:
 	score += 1
 	score_label.text = str(score)
-	var shake_time := min(shake_timer.time_left + eat_shake_intensity,
+	var shake_time := min(shake_timer.time_left + increment_shake_intensity,
 			max_shake_time)
 	shake_timer.start(shake_time)
 	if score_t:
@@ -121,15 +88,26 @@ func add_score() -> void:
 			shake_time).from(Color('c85a12'))
 
 
-func _on_Timer_timeout() -> void:
-	var fe := FoodEnemy.instance()
-	Variables.rng.randomize()
-	fe.position = Vector2(
-		Variables.rng.randf_range(10, 438),
-		Variables.rng.randf_range(10, 246)
-	)
-	ysort.add_child(fe)
-	get_tree().call_group("needs_player", "set_player", player)
+func remove_score() -> void:
+	score = max(score - 1, 0)
+	score_label.text = str(score)
+
+
+# Override
+func init(difficulty: float) -> void:
+	pass
+
+
+# Override
+func wait_stop() -> void:
+	pass
+
+
+# Stop abruptly
+# Hide and free everything
+func stop() -> void:
+	hide()
+	bar_particles.queue_free()
 
 
 func _on_ShakeTimer_timeout() -> void:
@@ -137,10 +115,9 @@ func _on_ShakeTimer_timeout() -> void:
 
 
 func _on_PlayTimer_timeout() -> void:
-	player.set_locked(true)
-	get_tree().call_group("food", "set_locked", true)
 	if t:
 		t.kill()
+	wait_stop()
 	t = create_tween()
 	t.tween_interval(1)
 	t.tween_property(self, "modulate:a", 0.0, end_dur)

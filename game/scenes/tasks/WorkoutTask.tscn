@@ -1,0 +1,152 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://scenes/tasks/BaseTask.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/tasks/WorkoutTask.gd" type="Script" id=2]
+[ext_resource path="res://assets/characters/mc/mc_workout.png" type="Texture" id=3]
+[ext_resource path="res://assets/ui/workout/progress_over.png" type="Texture" id=4]
+[ext_resource path="res://assets/ui/workout/selector.png" type="Texture" id=5]
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 3 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 3 )
+region = Rect2( 192, 0, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 2 ) ],
+"loop": false,
+"name": "curl",
+"speed": 5.0
+} ]
+
+[sub_resource type="Animation" id=7]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 187, 176 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "slide"
+length = 3.0
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.75, 1.5, 2.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 187, 176 ), Vector2( 330, 176 ), Vector2( 187, 176 ), Vector2( 45, 176 ) ]
+}
+
+[node name="WorkoutTask" instance=ExtResource( 1 )]
+visible = false
+script = ExtResource( 2 )
+increment_shake_intensity = 0.5
+min_x = 44
+max_x = 340
+min_normal_speed = 1.0
+max_normal_speed = 1.5
+min_size = 10.0
+max_size = 40.0
+easy_color = Color( 0, 0.572549, 0.631373, 1 )
+hard_color = Color( 0.811765, 0.368627, 0.152941, 1 )
+
+[node name="M" parent="M" index="0"]
+custom_constants/margin_right = 150
+custom_constants/margin_top = 80
+custom_constants/margin_left = 150
+custom_constants/margin_bottom = 80
+
+[node name="PC" parent="M/M" index="0"]
+margin_left = 150.0
+margin_top = 80.0
+margin_right = 228.0
+margin_bottom = 170.0
+
+[node name="M" parent="M/M/PC" index="0"]
+margin_right = 78.0
+margin_bottom = 90.0
+
+[node name="VC" parent="M/M/PC/M" index="0"]
+margin_right = 73.0
+margin_bottom = 85.0
+
+[node name="Viewport" parent="M/M/PC/M/VC" index="0"]
+size = Vector2( 68, 80 )
+render_target_update_mode = 0
+
+[node name="Camera2D" type="Camera2D" parent="M/M/PC/M/VC/Viewport" index="0"]
+current = true
+
+[node name="Player" type="AnimatedSprite" parent="M/M/PC/M/VC/Viewport" index="1"]
+frames = SubResource( 1 )
+animation = "curl"
+
+[node name="PanelContainer" parent="M" index="2"]
+margin_left = 192.0
+margin_right = 192.0
+margin_bottom = 3.0
+
+[node name="PlayTimer" parent="." index="3"]
+wait_time = 15.0
+
+[node name="M2" type="MarginContainer" parent="." index="4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_constants/margin_bottom = 45
+
+[node name="TextureRect" type="TextureRect" parent="M2" index="0"]
+margin_left = 42.0
+margin_top = 181.0
+margin_right = 342.0
+margin_bottom = 211.0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+texture = ExtResource( 4 )
+
+[node name="Hit" type="ColorRect" parent="." index="5"]
+visible = false
+margin_left = 171.0
+margin_top = 183.0
+margin_right = 211.0
+margin_bottom = 209.0
+color = Color( 0, 0.572549, 0.631373, 1 )
+
+[node name="Aim" type="TextureRect" parent="." index="6"]
+margin_left = 187.0
+margin_top = 176.0
+margin_right = 196.0
+margin_bottom = 216.0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+texture = ExtResource( 5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Aim" index="0"]
+anims/RESET = SubResource( 7 )
+anims/slide = SubResource( 6 )

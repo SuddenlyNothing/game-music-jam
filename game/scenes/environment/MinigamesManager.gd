@@ -21,7 +21,7 @@ export(Array, String, MULTILINE) var hint_dialog
 export(Array, String, MULTILINE) var reluctant_dialog
 
 export(float) var max_mult := 1.5
-export(float, 1) var difficulty_increment := 0.1
+export(float, 1) var difficulty_increment := 0.2
 export(float, 1) var boredom_increment := 0.5
 export(float, 1) var boredom_decrement := 1
 
@@ -34,11 +34,10 @@ onready var tasks := {
 	"food": [$FoodTask, 0, 0, false],
 	"bed": [$FoodTask, 0, 0, false],
 	"desk": [$FoodTask, 0, 0, false],
-	"weights": [$FoodTask, 0, 0, false],
+	"weights": [$WorkoutTask, 0, 0, false],
 	"window": [self, 0, 0, false],
 }
 onready var score_renderer := $ScoreRenderer
-onready var food_task := $FoodTask
 onready var dialog := $DialogPlayer
 
 
@@ -89,6 +88,8 @@ func start_task(task: String) -> void:
 				MAX_DIFFICULTY)
 		tasks[task][2] = min(tasks[task][2] + boredom_increment, MAX_BOREDOM)
 		for t in tasks:
+			if tasks[task][3]:
+				tasks[task][3] = false
 			if t == task:
 				continue
 			tasks[t][2] = max(tasks[t][2] - boredom_decrement, 0)
@@ -114,7 +115,7 @@ func _on_Window_interacted() -> void:
 	start_task("window")
 
 
-func _on_FoodTask_finished(points) -> void:
+func _on_Task_finished(points) -> void:
 	score_renderer.add_points(points, max_mult - task_boredom * max_mult)
 
 

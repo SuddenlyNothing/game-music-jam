@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/environment/MinigamesManager.gd" type="Script" id=1]
 [ext_resource path="res://scenes/ui/ScoreRenderer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/tasks/FoodTask.tscn" type="PackedScene" id=3]
 [ext_resource path="res://utils/DialogPlayer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/tasks/WorkoutTask.tscn" type="PackedScene" id=5]
 
 [node name="MinigamesManager" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -18,6 +19,9 @@ visible = false
 
 [node name="DialogPlayer" parent="." instance=ExtResource( 4 )]
 
+[node name="WorkoutTask" parent="." instance=ExtResource( 5 )]
+
 [connection signal="added_points" from="ScoreRenderer" to="." method="_on_ScoreRenderer_added_points"]
 [connection signal="max_points_reached" from="ScoreRenderer" to="." method="_on_ScoreRenderer_max_points_reached"]
-[connection signal="finished" from="FoodTask" to="." method="_on_FoodTask_finished"]
+[connection signal="finished" from="FoodTask" to="." method="_on_Task_finished"]
+[connection signal="finished" from="WorkoutTask" to="." method="_on_Task_finished"]
