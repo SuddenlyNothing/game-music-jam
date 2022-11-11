@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/outdoor_ambient_winter_loop.ogg-422981ded1f1bcc9f62675f83c7f7327.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/ambient/outdoor/outdoor_ambient_winter_loop.ogg"
+dest_files=[ "res://.import/outdoor_ambient_winter_loop.ogg-422981ded1f1bcc9f62675f83c7f7327.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

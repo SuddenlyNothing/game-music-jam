@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/boss_8.wav-332ac92f41123ca8dda6f74b0294555c.sample"
+
+[deps]
+
+source_file="res://assets/sfx/dialog/boss/boss_8.wav"
+dest_files=[ "res://.import/boss_8.wav-332ac92f41123ca8dda6f74b0294555c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

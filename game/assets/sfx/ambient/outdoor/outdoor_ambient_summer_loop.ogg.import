@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/outdoor_ambient_summer_loop.ogg-25850d64ed2bad1c53f38c30d7e77c1f.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/ambient/outdoor/outdoor_ambient_summer_loop.ogg"
+dest_files=[ "res://.import/outdoor_ambient_summer_loop.ogg-25850d64ed2bad1c53f38c30d7e77c1f.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

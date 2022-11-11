@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/player_act3_3.wav-7455208733b6269ab3344f61c5cf8aea.sample"
+
+[deps]
+
+source_file="res://assets/sfx/dialog/player act3/player_act3_3.wav"
+dest_files=[ "res://.import/player_act3_3.wav-7455208733b6269ab3344f61c5cf8aea.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

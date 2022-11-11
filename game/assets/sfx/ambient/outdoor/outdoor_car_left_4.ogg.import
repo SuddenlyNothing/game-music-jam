@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/outdoor_car_left_4.ogg-52021b5d673262adebeeb23b139e2a97.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/ambient/outdoor/outdoor_car_left_4.ogg"
+dest_files=[ "res://.import/outdoor_car_left_4.ogg-52021b5d673262adebeeb23b139e2a97.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

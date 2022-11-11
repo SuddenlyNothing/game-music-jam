@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/act1_player_open_close_door.ogg-cbaa64c691f503939dd2d092e46c3b7a.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/scene/act1/act1_player_open_close_door.ogg"
+dest_files=[ "res://.import/act1_player_open_close_door.ogg-cbaa64c691f503939dd2d092e46c3b7a.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

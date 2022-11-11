@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/room_clock.ogg-044ac1a60b2eee14e1e6bfc3552c012e.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/ambient/room/room_clock.ogg"
+dest_files=[ "res://.import/room_clock.ogg-044ac1a60b2eee14e1e6bfc3552c012e.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
