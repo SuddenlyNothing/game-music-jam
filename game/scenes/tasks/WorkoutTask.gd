@@ -39,15 +39,15 @@ func _input(event: InputEvent) -> void:
 
 # Override
 func init(difficulty: float) -> void:
+	aim.rect_position.x = 187
 	normal_speed = lerp(min_normal_speed, max_normal_speed, difficulty)
 	hit.rect_size.x = lerp(max_size, min_size, difficulty)
 	hit.color = lerp(easy_color, hard_color, difficulty)
 	anim_player.playback_speed = normal_speed
-	set_hit_pos()
 	anim_player.play("slide")
 	hit.show()
 	playing = true
-	aim.rect_position.x = 187
+	set_hit_pos()
 
 
 # Override

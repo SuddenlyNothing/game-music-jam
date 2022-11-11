@@ -22,8 +22,8 @@ export(Array, String, MULTILINE) var reluctant_dialog
 
 export(float) var max_mult := 1.5
 export(float, 1) var difficulty_increment := 0.2
-export(float, 1) var boredom_increment := 0.5
-export(float, 1) var boredom_decrement := 1
+export(float, 1) var boredom_increment := 0.333333
+export(float, 1) var boredom_decrement := 0.5
 
 var interacting := false
 var task_boredom := 0.0
@@ -33,7 +33,7 @@ var event_idx: int = -1
 onready var tasks := {
 	"food": [$FoodTask, 0, 0, false],
 	"bed": [$FoodTask, 0, 0, false],
-	"desk": [$FoodTask, 0, 0, false],
+	"desk": [$PlatformerTask, 0, 0, false],
 	"weights": [$WorkoutTask, 0, 0, false],
 	"window": [self, 0, 0, false],
 }
