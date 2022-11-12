@@ -11,5 +11,5 @@ dest_files=[ "res://.import/points_collected.ogg-f94f1b21e866f48c1cd94b99e5fb397
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

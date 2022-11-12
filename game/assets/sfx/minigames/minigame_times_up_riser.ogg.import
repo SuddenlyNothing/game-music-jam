@@ -11,5 +11,5 @@ dest_files=[ "res://.import/minigame_times_up_riser.ogg-27d702679e994aea3192a9f3
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/tasks/BaseTask.gd" type="Script" id=1]
 [ext_resource path="res://scenes/ui/Hint.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/ui/progress.png" type="Texture" id=3]
 [ext_resource path="res://assets/ui/progress_under.png" type="Texture" id=4]
 [ext_resource path="res://assets/ui/progress_over.png" type="Texture" id=5]
+[ext_resource path="res://assets/sfx/minigames/minigame_times_up.wav" type="AudioStream" id=6]
+[ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/sfx/minigames/minigame_times_up_riser.ogg" type="AudioStream" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 1 )
@@ -13,6 +16,9 @@ bg_color = Color( 0, 0, 0, 1 )
 bg_color = Color( 0.0784314, 0.0627451, 0.0745098, 1 )
 expand_margin_left = 2.0
 expand_margin_top = 1.0
+
+[sub_resource type="AudioStreamRandomPitch" id=5]
+resource_local_to_scene = true
 
 [node name="BaseTask" type="Control"]
 anchor_right = 1.0
@@ -120,6 +126,18 @@ one_shot = true
 wait_time = 30.0
 one_shot = true
 
+[node name="TimesUpSFX" parent="." instance=ExtResource( 7 )]
+stream = SubResource( 5 )
+audio_streams = [ ExtResource( 6 ) ]
+
+[node name="RiserSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+bus = "SFX"
+
+[node name="RiserTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="completed" from="Hint" to="." method="_on_Hint_completed"]
 [connection signal="timeout" from="ShakeTimer" to="." method="_on_ShakeTimer_timeout"]
 [connection signal="timeout" from="PlayTimer" to="." method="_on_PlayTimer_timeout"]
+[connection signal="timeout" from="RiserTimer" to="." method="_on_RiserTimer_timeout"]

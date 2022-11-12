@@ -34,6 +34,7 @@ onready var flip := $Flip
 onready var anim_sprite := $Flip/AnimatedSprite
 onready var coyote_timer := $CoyoteTimer
 onready var jump_buffer_timer := $JumpBufferTimer
+onready var jump_sfx := $JumpSFX
 
 
 func _process(delta : float) -> void:
@@ -123,6 +124,7 @@ func apply_gravity(delta : float, is_falling : bool) -> void:
 
 func jump() -> void:
 	velocity.y = jump_velocity
+	jump_sfx.play()
 
 
 func play_anim(anim : String) -> void:

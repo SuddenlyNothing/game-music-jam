@@ -18,6 +18,7 @@ onready var aim := $Aim
 onready var anim_player := $Aim/AnimationPlayer
 onready var anim_sprite := $M/M/PC/M/VC/Viewport/Player
 onready var hit_sfx := $HitSFX
+onready var hurt_sfx := $HurtSFX
 
 
 func _input(event: InputEvent) -> void:
@@ -34,7 +35,7 @@ func _input(event: InputEvent) -> void:
 			tw = create_tween()
 			tw.tween_property(anim_player, "playback_speed",
 					normal_speed, 0.5).from(0.0)
-			
+			hurt_sfx.play()
 
 
 # Override
