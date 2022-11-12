@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/characters/enemies/enemy_boss.png" type="Texture" id=1]
 [ext_resource path="res://assets/characters/enemies/enemy_boss_airborne.png" type="Texture" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://scenes/tasks/boss/Boss.gd" type="Script" id=7]
 [ext_resource path="res://scenes/tasks/boss/BossStates.gd" type="Script" id=8]
 [ext_resource path="res://assets/characters/enemies/boss_shadow.png" type="Texture" id=9]
+[ext_resource path="res://assets/sfx/minigames/player_ignite.wav" type="AudioStream" id=11]
+[ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=12]
 
 [sub_resource type="CapsuleShape2D" id=13]
 height = 8.0
@@ -81,6 +83,9 @@ animations = [ {
 "speed": 7.0
 } ]
 
+[sub_resource type="AudioStreamRandomPitch" id=14]
+resource_local_to_scene = true
+
 [node name="Boss" type="Area2D" groups=["food", "needs_player"]]
 script = ExtResource( 7 )
 
@@ -113,6 +118,10 @@ one_shot = true
 visible = false
 z_index = -5
 texture = ExtResource( 9 )
+
+[node name="LandSFX" parent="." instance=ExtResource( 12 )]
+stream = SubResource( 14 )
+audio_streams = [ ExtResource( 11 ) ]
 
 [connection signal="body_entered" from="." to="." method="_on_Boss_body_entered"]
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

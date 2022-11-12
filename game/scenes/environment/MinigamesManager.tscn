@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/environment/MinigamesManager.gd" type="Script" id=1]
 [ext_resource path="res://scenes/ui/ScoreRenderer.tscn" type="PackedScene" id=2]
@@ -7,6 +7,11 @@
 [ext_resource path="res://scenes/tasks/WorkoutTask.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/tasks/PlatformerTask.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/tasks/SleepTask.tscn" type="PackedScene" id=7]
+[ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/sfx/menu/menu/menu_play_game_short.ogg" type="AudioStream" id=9]
+
+[sub_resource type="AudioStreamRandomPitch" id=1]
+resource_local_to_scene = true
 
 [node name="MinigamesManager" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -26,6 +31,10 @@ visible = false
 [node name="PlatformerTask" parent="." instance=ExtResource( 6 )]
 
 [node name="SleepTask" parent="." instance=ExtResource( 7 )]
+
+[node name="StartSFX" parent="." instance=ExtResource( 8 )]
+stream = SubResource( 1 )
+audio_streams = [ ExtResource( 9 ) ]
 
 [connection signal="added_points" from="ScoreRenderer" to="." method="_on_ScoreRenderer_added_points"]
 [connection signal="max_points_reached" from="ScoreRenderer" to="." method="_on_ScoreRenderer_max_points_reached"]

@@ -41,6 +41,10 @@ onready var tasks := {
 }
 onready var score_renderer := $ScoreRenderer
 onready var dialog := $DialogPlayer
+onready var start_sfx := $StartSFX
+
+onready var indoor_sfx_idx := AudioServer.get_bus_index("SFX Indoor")
+onready var outdoor_sfx_idx := AudioServer.get_bus_index("SFX Outdoor")
 
 
 func _ready() -> void:
@@ -68,9 +72,13 @@ func unlock_room() -> void:
 	get_tree().call_group_flags(2, "enterable", "set_hint_visible", true)
 
 
-func start_task(task: String) -> void:
+func start_task(task: String, mute: bool = true) -> void:
 	if interacting:
 		return
+	start_sfx.play()
+	if mute:
+		AudioServer.set_bus_mute(outdoor_sfx_idx, true)
+		AudioServer.set_bus_mute(indoor_sfx_idx, true)
 	lock_room()
 	if tasks[task][2] >= MAX_BOREDOM and not tasks[task][3]:
 		# Tell player that they're bored of this task
@@ -98,8 +106,7 @@ func start_task(task: String) -> void:
 
 
 func finished_viewing_street() -> void:
-	score_renderer.add_points(1, stepify(max_mult - task_boredom * max_mult,
-			0.1))
+	_on_Task_finished(1)
 
 
 func _on_Weights_interacted() -> void:
@@ -107,7 +114,7 @@ func _on_Weights_interacted() -> void:
 
 
 func _on_Bed_interacted() -> void:
-	start_task("bed")
+	start_task("bed", false)
 
 
 func _on_Desk_interacted() -> void:
@@ -115,11 +122,14 @@ func _on_Desk_interacted() -> void:
 
 
 func _on_Window_interacted() -> void:
-	start_task("window")
+	start_task("window", false)
 
 
-func _on_Task_finished(points) -> void:
-	score_renderer.add_points(points, max_mult - task_boredom * max_mult)
+func _on_Task_finished(points: int) -> void:
+	AudioServer.set_bus_mute(indoor_sfx_idx, false)
+	AudioServer.set_bus_mute(outdoor_sfx_idx, false)
+	score_renderer.add_points(points,
+			stepify(max_mult - task_boredom * max_mult, 0.1))
 
 
 func _on_ScoreRenderer_added_points() -> void:

@@ -23,6 +23,8 @@ onready var mult_label := $M2/H/MultLabel
 onready var total_label := $M2/TotalLabel
 onready var cover := $Cover
 onready var h := $M2/H
+onready var points_add_sfx := $PointsAddSFX
+onready var points_collect_sfx := $PointsCollectSFX
 
 
 func _process(delta: float) -> void:
@@ -61,6 +63,7 @@ func add_points(p: int, mult: float) -> void:
 	t.tween_property(h, "custom_constants/separation", -20, points_dur / 5)\
 			.set_ease(Tween.EASE_IN)
 	t.tween_callback(h, "hide")
+	t.tween_callback(points_add_sfx, "play")
 	t.tween_callback(total_label, "show")
 	t.tween_property(total_label, "rect_scale", Vector2.ONE * 3,
 			points_dur / 5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
@@ -70,6 +73,7 @@ func add_points(p: int, mult: float) -> void:
 		bar_t.kill()
 	bar_t = create_tween().set_trans(Tween.TRANS_QUAD)
 	bar_t.tween_interval(particle_dur + points_dur + enter_dur)
+	t.tween_callback(points_collect_sfx, "play")
 	for i in total_points:
 		t.tween_callback(self, "spawn_particle")
 		t.tween_interval(dur / total_points)

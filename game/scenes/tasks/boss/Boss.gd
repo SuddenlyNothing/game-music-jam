@@ -12,6 +12,7 @@ onready var change_state_timer := $ChangeStateTimer
 onready var mark := $Mark
 onready var shadow := $Shadow
 onready var throw_pos := $AnimatedSprite/ThrowPos
+onready var land_sfx := $LandSFX
 
 
 func _ready() -> void:
@@ -21,6 +22,7 @@ func _ready() -> void:
 		t.kill()
 	t = create_tween()
 	t.tween_property(anim_sprite, "offset:y", 0.0, 1.0)
+	t.tween_callback(land_sfx, "play")
 	t.tween_callback(shadow, "show")
 	t.tween_callback(get_tree(), "call_group",
 			["effects_camera", "shake", 1])
@@ -66,6 +68,7 @@ func _on_AnimatedSprite_animation_finished() -> void:
 			t.tween_callback(shadow, "show")
 			t.tween_callback(mark, "hide")
 			t.tween_callback(anim_sprite, "play", ["land"])
+			t.tween_callback(land_sfx, "play")
 			t.tween_callback(collision, "call_deferred",
 					["set_disabled", false])
 			t.tween_callback(get_tree(), "call_group",

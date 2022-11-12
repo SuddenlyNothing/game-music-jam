@@ -214,8 +214,8 @@ resource_local_to_scene = true
 [node name="Act1" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
 next_scene = "res://scenes/tasks/BossTask.tscn"
-season_dur = 1.0
-betwee_dur = 1.5
+season_dur = 2.0
+betwee_dur = 4.0
 dialogs = [ [ "Stupid! Stupid! Stupid!", "Why do I even go there? To learn? What a joke!", "That sad excuse for a garbage dump isn't fit for dogs!" ], [ "I hate it here!", "[shake level=13]Why!?[/shake] [shake rate=3]Why won't anyone help? Why doesn't anyone look at me?", "[shake rate=3][fade start=10 length=45]Why will no one sit with me and talk with me?" ], [ "I don't want to go back.", "There's only pain there." ], [ "What if I stay here?", "Will they notice?" ], [ "I'm safe here. No one will know.", "I will play by myself until I get better." ] ]
 
 [node name="Summer" parent="Outside" index="0"]

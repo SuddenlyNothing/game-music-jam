@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=2]
+[gd_scene load_steps=96 format=2]
 
 [ext_resource path="res://assets/environment/room/room_background.png" type="Texture" id=1]
 [ext_resource path="res://assets/environment/room/trash_can.png" type="Texture" id=2]
@@ -47,6 +47,13 @@
 [ext_resource path="res://assets/sfx/room_interactions/bed_2.wav" type="AudioStream" id=45]
 [ext_resource path="res://assets/sfx/room_interactions/bed_1.wav" type="AudioStream" id=46]
 [ext_resource path="res://assets/sfx/room_interactions/bed_3.wav" type="AudioStream" id=47]
+[ext_resource path="res://assets/sfx/room_interactions/workout_3.wav" type="AudioStream" id=48]
+[ext_resource path="res://assets/sfx/room_interactions/workout_2.wav" type="AudioStream" id=49]
+[ext_resource path="res://assets/sfx/room_interactions/workout_1.wav" type="AudioStream" id=50]
+[ext_resource path="res://assets/sfx/room_interactions/window_open.wav" type="AudioStream" id=51]
+[ext_resource path="res://assets/sfx/room_interactions/computer_1.wav" type="AudioStream" id=52]
+[ext_resource path="res://assets/sfx/room_interactions/computer_3.wav" type="AudioStream" id=53]
+[ext_resource path="res://assets/sfx/room_interactions/computer_2.wav" type="AudioStream" id=54]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 particles_animation = true
@@ -439,24 +446,28 @@ script = ExtResource( 18 )
 
 [node name="Clock" type="AudioStreamPlayer" parent="Audio/Indoor"]
 stream = ExtResource( 24 )
+volume_db = -20.0
 bus = "SFX Indoor"
 
 [node name="Outdoor" type="Node" parent="Audio"]
 
 [node name="Fall" type="AudioStreamPlayer" parent="Audio/Outdoor"]
+pause_mode = 2
 stream = ExtResource( 25 )
 bus = "SFX Outdoor"
 
 [node name="Spring" type="AudioStreamPlayer" parent="Audio/Outdoor"]
+pause_mode = 2
 stream = ExtResource( 26 )
 bus = "SFX Outdoor"
 
 [node name="Summer" type="AudioStreamPlayer" parent="Audio/Outdoor"]
+pause_mode = 2
 stream = ExtResource( 27 )
-volume_db = -20.0
 bus = "SFX Outdoor"
 
 [node name="Winter" type="AudioStreamPlayer" parent="Audio/Outdoor"]
+pause_mode = 2
 stream = ExtResource( 28 )
 bus = "SFX Outdoor"
 
@@ -665,7 +676,7 @@ polygon = PoolVector2Array( -8, 29.5, 10, 37.5, 20, 35.5, 28, 23.5, 28, 15.5, 18
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Desk" instance=ExtResource( 44 )]
 stream = SubResource( 50 )
-audio_streams = [ ExtResource( 47 ), ExtResource( 45 ), ExtResource( 46 ) ]
+audio_streams = [ ExtResource( 53 ), ExtResource( 54 ), ExtResource( 52 ) ]
 
 [node name="Window" parent="YSort/RoomElements/Enterables" instance=ExtResource( 21 )]
 material = SubResource( 8 )
@@ -692,7 +703,7 @@ texture = ExtResource( 22 )
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Window" instance=ExtResource( 44 )]
 stream = SubResource( 51 )
-audio_streams = [ ExtResource( 47 ), ExtResource( 45 ), ExtResource( 46 ) ]
+audio_streams = [ ExtResource( 51 ) ]
 
 [node name="Weights" parent="YSort/RoomElements/Enterables" instance=ExtResource( 21 )]
 material = SubResource( 24 )
@@ -714,7 +725,7 @@ polygon = PoolVector2Array( -67, 63.5, -40, 75.5, -26, 71.5, -57, 55.5 )
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Weights" instance=ExtResource( 44 )]
 stream = SubResource( 52 )
-audio_streams = [ ExtResource( 47 ), ExtResource( 45 ), ExtResource( 46 ) ]
+audio_streams = [ ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ) ]
 
 [node name="Bed" parent="YSort/RoomElements/Enterables" instance=ExtResource( 21 )]
 material = SubResource( 25 )

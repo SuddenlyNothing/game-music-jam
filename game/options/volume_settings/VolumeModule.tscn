@@ -1,8 +1,17 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=11 format=2]
 
+[ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/ui/reset.png" type="Texture" id=2]
 [ext_resource path="res://options/volume_settings/VolumeModule.gd" type="Script" id=3]
 [ext_resource path="res://utils/AnimatedButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/sfx/menu/click_sfx/button_click_2.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sfx/menu/click_sfx/button_click_1.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sfx/menu/hover_sfx/button_hover_1.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/sfx/menu/hover_sfx/button_hover_3.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/sfx/menu/hover_sfx/button_hover_2.wav" type="AudioStream" id=9]
+
+[sub_resource type="AudioStreamRandomPitch" id=1]
+resource_local_to_scene = true
 
 [node name="VolumeModule" type="VBoxContainer"]
 anchor_right = 1.0
@@ -60,8 +69,12 @@ margin_right = 384.0
 margin_bottom = 148.0
 focus_mode = 0
 max_value = 2.0
-step = 0.0
+step = 0.1
 value = 1.0
+
+[node name="TickSFX" parent="." instance=ExtResource( 1 )]
+stream = SubResource( 1 )
+audio_streams = [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 7 ) ]
 
 [connection signal="pressed" from="H/Reset" to="." method="reset"]
 [connection signal="toggled" from="H/Mute" to="." method="_on_Mute_toggled"]

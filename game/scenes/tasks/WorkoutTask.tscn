@@ -1,16 +1,18 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://scenes/tasks/BaseTask.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/tasks/WorkoutTask.gd" type="Script" id=2]
 [ext_resource path="res://assets/characters/mc/mc_workout.png" type="Texture" id=3]
 [ext_resource path="res://assets/ui/workout/progress_over.png" type="Texture" id=4]
 [ext_resource path="res://assets/ui/workout/selector.png" type="Texture" id=5]
-[ext_resource path="res://assets/sfx/button_hover.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sfx/room_interactions/workout_3.wav" type="AudioStream" id=6]
 [ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/sfx/combat/player/player_hurt_2.wav" type="AudioStream" id=8]
 [ext_resource path="res://assets/sfx/combat/player/player_hurt_3.wav" type="AudioStream" id=9]
 [ext_resource path="res://assets/sfx/combat/player/player_hurt_4.wav" type="AudioStream" id=10]
 [ext_resource path="res://assets/sfx/combat/player/player_hurt_1.wav" type="AudioStream" id=11]
+[ext_resource path="res://assets/sfx/room_interactions/workout_2.wav" type="AudioStream" id=12]
+[ext_resource path="res://assets/sfx/room_interactions/workout_1.wav" type="AudioStream" id=13]
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 3 )
@@ -69,13 +71,13 @@ tracks/0/keys = {
 "values": [ Vector2( 187, 176 ), Vector2( 330, 176 ), Vector2( 187, 176 ), Vector2( 45, 176 ) ]
 }
 
-[sub_resource type="AudioStreamRandomPitch" id=8]
-audio_stream = ExtResource( 6 )
-
 [sub_resource type="AudioStreamRandomPitch" id=9]
 resource_local_to_scene = true
 
 [sub_resource type="AudioStreamRandomPitch" id=10]
+resource_local_to_scene = true
+
+[sub_resource type="AudioStreamRandomPitch" id=11]
 resource_local_to_scene = true
 
 [node name="WorkoutTask" instance=ExtResource( 1 )]
@@ -168,16 +170,16 @@ texture = ExtResource( 5 )
 anims/RESET = SubResource( 7 )
 anims/slide = SubResource( 6 )
 
-[node name="HitSFX" type="AudioStreamPlayer" parent="." index="7"]
-stream = SubResource( 8 )
-bus = "SFX"
-
-[node name="PlayTimer" parent="." index="8"]
+[node name="PlayTimer" parent="." index="7"]
 wait_time = 15.0
 
-[node name="TimesUpSFX" parent="." index="9"]
+[node name="TimesUpSFX" parent="." index="8"]
 stream = SubResource( 9 )
 
-[node name="HurtSFX" parent="." index="12" instance=ExtResource( 7 )]
+[node name="HurtSFX" parent="." index="11" instance=ExtResource( 7 )]
 stream = SubResource( 10 )
 audio_streams = [ ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 11 ) ]
+
+[node name="HitSFX" parent="." index="12" instance=ExtResource( 7 )]
+stream = SubResource( 11 )
+audio_streams = [ ExtResource( 6 ), ExtResource( 12 ), ExtResource( 13 ) ]

@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://utils/AnimatedButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/ui/Menu.gd" type="Script" id=2]
 [ext_resource path="res://assets/themes/options_ui.tres" type="Theme" id=3]
 [ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/sfx/menu/menu/menu_play_game_long.ogg" type="AudioStream" id=5]
-[ext_resource path="res://assets/sfx/menu/menu/menu_play_game_short.ogg" type="AudioStream" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.862745, 0.729412, 0.592157, 1 )
@@ -134,7 +133,7 @@ text = "Audio - Cryvera#4210"
 
 [node name="StartSFX" parent="." instance=ExtResource( 4 )]
 stream = null
-audio_streams = [ ExtResource( 5 ), ExtResource( 6 ) ]
+audio_streams = [ ExtResource( 5 ) ]
 
 [connection signal="pressed" from="M/V/M/P/V/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="M/V/M/P/V/Settings" to="." method="_on_Settings_pressed"]

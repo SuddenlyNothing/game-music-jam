@@ -23,7 +23,7 @@ func set_season(season: String, dur: float = 1.0) -> void:
 			continue
 		child.modulate.a = 1
 		if child.name == season:
-			if child.modulate.a >= 1:
+			if child.modulate.a >= 0.5:
 				child.modulate.a = 0
 			t.tween_property(child, "modulate:a", 1.0, dur)
 			child.z_index = 60
@@ -43,7 +43,7 @@ func set_season(season: String, dur: float = 1.0) -> void:
 				child.stream_paused = false
 			else:
 				child.play()
-			t.tween_property(child, "volume_db", -20.0, dur)
+			t.tween_property(child, "volume_db", 0.0, dur)
 		else:
 			if child.playing:
 				t.tween_property(child, "volume_db", -30.0, dur)

@@ -211,6 +211,7 @@ script = ExtResource( 3 )
 
 [node name="OutdoorStepSFX" parent="." instance=ExtResource( 4 )]
 stream = SubResource( 14 )
+volume_db = -10.0
 audio_streams = [ ExtResource( 6 ), ExtResource( 5 ), ExtResource( 14 ), ExtResource( 7 ) ]
 
 [node name="IndoorStepSFX" parent="." instance=ExtResource( 4 )]

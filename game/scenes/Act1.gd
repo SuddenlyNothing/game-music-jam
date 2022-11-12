@@ -4,8 +4,8 @@ const RoomPlayer := preload("res://scenes/characters/players/RoomPlayer.tscn")
 
 export(String, FILE, "*.tscn") var next_scene
 
-export(float) var season_dur := 1.0
-export(float) var betwee_dur := 1.5
+export(float) var season_dur := 2.0
+export(float) var betwee_dur := 4.0
 
 export(Array, Array, String, MULTILINE) var dialogs
 

@@ -35,6 +35,7 @@ onready var anim_sprite := $Flip/AnimatedSprite
 onready var coyote_timer := $CoyoteTimer
 onready var jump_buffer_timer := $JumpBufferTimer
 onready var jump_sfx := $JumpSFX
+onready var land_sfx := $LandSFX
 
 
 func _process(delta : float) -> void:

@@ -78,4 +78,5 @@ func _exit_state(old_state, new_state) -> void:
 		states.jump:
 			pass
 		states.fall:
-			pass
+			if new_state == "idle" or new_state == "walk":
+				parent.land_sfx.play()

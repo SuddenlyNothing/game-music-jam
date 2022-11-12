@@ -11,6 +11,7 @@ onready var b_reset := $V/V/H/BReset
 onready var c_reset := $V/V2/H/CReset
 onready var s_reset := $V/V3/H/SReset
 onready var reset := $V/Reset
+onready var tick_sfx := $TickSFX
 
 
 # Updates Save for brightness
@@ -19,6 +20,7 @@ func _on_Brightness_value_changed(value: float) -> void:
 	Save.data.screen_brightness = value
 	ScreenFilter.set_brightness(value)
 	check_defaults()
+	tick_sfx.play()
 
 
 # Updates Save for contrast
@@ -27,6 +29,7 @@ func _on_Contrast_value_changed(value: float) -> void:
 	Save.data.screen_contrast = value
 	ScreenFilter.set_contrast(value)
 	check_defaults()
+	tick_sfx.play()
 
 
 # Updates Save for saturation
@@ -35,6 +38,7 @@ func _on_Saturation_value_changed(value: float) -> void:
 	Save.data.screen_saturation = value
 	ScreenFilter.set_saturation(value)
 	check_defaults()
+	tick_sfx.play()
 
 
 # Loads data from Save.

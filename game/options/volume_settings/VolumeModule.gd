@@ -15,6 +15,7 @@ onready var mute_icon := $H/Mute/MuteIcon
 onready var reset := $H/Reset
 onready var volume_slider := $VolumeSlider
 onready var bus_label := $H/BusLabel
+onready var tick_sfx := $TickSFX
 
 
 # Sets the label to the audio bus name
@@ -31,6 +32,7 @@ func _on_VolumeSlider_value_changed(value: float) -> void:
 	Save.data.audio_buses[audio_bus_name]["volume"] = value
 	AudioServer.set_bus_volume_db(bus, linear2db(value))
 	set_reset_show()
+	tick_sfx.play()
 
 
 # Loads data from Save singleton
