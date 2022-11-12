@@ -174,7 +174,7 @@ one_shot = true
 [node name="Hint" parent="." instance=ExtResource( 6 )]
 hint_name = "food"
 label_hint = "Press {up}, {down}, {left}, {right} to move.
-Press {dash} to lunge towards enemies and eat them
+Press {interact} to lunge towards enemies and eat them
 Consume as many enemies as possible"
 
 [node name="TimesUpSFX" parent="." instance=ExtResource( 7 )]

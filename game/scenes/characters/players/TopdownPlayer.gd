@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 signal killed
+signal consumed
 
 const TextFloater := preload("res://utils/TextFloater.tscn")
 
@@ -15,7 +16,9 @@ export(float) var dash_dist := 100.0
 export(float) var dash_hit_dur := 0.5
 export(float) var fov := 180.0
 export(float) var dash_eat_padding := 10.0
-export(float) var hit_speed := 10.0
+export(float) var hit_speed := 40.0
+export(float) var hit_speed_drecrement := 10.0
+export(float) var min_hit_speed := 10.0
 
 export(float) var lunge_speed := 400.0
 export(float) var lunge_friction := 800.0
@@ -28,6 +31,7 @@ var velocity := Vector2()
 var combo: int = 0
 var locked := false setget set_locked
 var powerup_count := 0
+var show_consume_particles := false
 
 onready var dash_dist_squared := pow(dash_dist, 2)
 onready var dash_eat_padding_squared := pow(dash_eat_padding, 2)
@@ -85,7 +89,11 @@ func kill(from: Vector2) -> void:
 func hit() -> bool:
 	match topdown_player_states.state:
 		"idle", "walk":
-			max_speed = hit_speed
+			if hit_timer.is_stopped():
+				max_speed = hit_speed
+			else:
+				max_speed = max(max_speed - hit_speed_drecrement,
+						min_hit_speed)
 			hit_timer.start()
 			hurt_sfx.play()
 			return true
@@ -97,7 +105,7 @@ func can_dash() -> bool:
 
 
 func can_lunge() -> bool:
-	return Input.is_action_just_pressed("dash", true) and not locked\
+	return Input.is_action_just_pressed("interact", true) and not locked\
 			and (powerup_count < powerup_threshold or not dashable)
 
 
@@ -122,6 +130,7 @@ func move_lunge(delta: float) -> void:
 		eat_sfx.play()
 		anim_sprite.play("idle")
 		collision.collider.kill()
+		emit_signal("consumed")
 		powerup_sfx.pitch_scale = 1 + (powerup_count - 1) * 0.1
 		powerup_sfx.play()
 		if powerup_count >= powerup_threshold - 1 and \
@@ -149,6 +158,7 @@ func dash() -> void:
 	if dash_food:
 		var vec := dash_food.position - position
 		dash_food.kill()
+		emit_signal("consumed")
 		move_and_collide(vec)
 		topdown_player_states.call_deferred("set_state", "idle")
 		line_dur = dash_hit_dur
@@ -215,6 +225,8 @@ func get_closest_dashable_food(f: float = fov) -> Node2D:
 	var min_dist := 0.0
 	var closest_food: Node2D = null
 	for food in get_tree().get_nodes_in_group("food"):
+		if not food is PhysicsBody2D:
+			continue
 		if is_pos_dashable(food.position, f):
 			var dist := position.distance_squared_to(food.position)
 			if not closest_food or dist < min_dist:

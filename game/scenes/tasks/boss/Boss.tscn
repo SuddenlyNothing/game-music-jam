@@ -10,8 +10,8 @@
 [ext_resource path="res://scenes/tasks/boss/BossStates.gd" type="Script" id=8]
 [ext_resource path="res://assets/characters/enemies/boss_shadow.png" type="Texture" id=9]
 
-[sub_resource type="CircleShape2D" id=6]
-radius = 12.0
+[sub_resource type="CapsuleShape2D" id=13]
+height = 8.0
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 3 )
@@ -78,7 +78,7 @@ animations = [ {
 "frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
 "loop": false,
 "name": "throw",
-"speed": 5.0
+"speed": 7.0
 } ]
 
 [node name="Boss" type="Area2D" groups=["food", "needs_player"]]
@@ -88,7 +88,9 @@ script = ExtResource( 7 )
 script = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 6 )
+position = Vector2( 0, -5 )
+rotation = 1.5708
+shape = SubResource( 13 )
 
 [node name="Mark" type="Sprite" parent="."]
 visible = false

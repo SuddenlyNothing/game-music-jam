@@ -129,7 +129,7 @@ margin_bottom = 3.0
 
 [node name="Hint" parent="." index="2"]
 hint_name = "workout"
-label_hint = "Press {continue} while the crosshair is over the colored rectangle to do a curl.
+label_hint = "Press {interact} while the crosshair is over the colored rectangle to do a curl.
 Do as many curls as possible."
 
 [node name="M2" type="MarginContainer" parent="." index="4"]

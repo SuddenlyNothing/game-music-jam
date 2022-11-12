@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/tasks/BaseTask.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/tasks/BossTask.gd" type="Script" id=2]
@@ -11,11 +11,15 @@ extents = Vector2( 5, 143 )
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 224, 5 )
 
+[sub_resource type="AudioStreamRandomPitch" id=3]
+resource_local_to_scene = true
+
 [node name="BossTask" instance=ExtResource( 1 )]
 visible = false
 script = ExtResource( 2 )
-testing = true
 next_scene = "res://scenes/ui/FinishScreen.tscn"
+max_consumed = 1000
+consumed_message = "Your gluttony caught up to you"
 
 [node name="Viewport" parent="M/M/PC/M/VC" index="0"]
 render_target_update_mode = 0
@@ -61,9 +65,19 @@ position = Vector2( 192, 128 )
 current = true
 
 [node name="PanelContainer" parent="M" index="2"]
+visible = false
 margin_left = 192.0
 margin_right = 192.0
 margin_bottom = 3.0
+
+[node name="ConsumedLabel" type="Label" parent="M" index="3"]
+visible = false
+margin_left = 3.0
+margin_top = 120.0
+margin_right = 381.0
+margin_bottom = 136.0
+text = "Your gluttony caught up with you"
+align = 1
 
 [node name="PlayTimer" parent="." index="4"]
 wait_time = 60.0
@@ -75,6 +89,17 @@ visible = true
 character = 3
 autoplay = true
 autoplay_dialog = [ "You will forever be alone.", "Concentrate.", "You can't win. You can't hit me. And I can snap you in half." ]
+
+[node name="TimesUpSFX" parent="." index="6"]
+stream = SubResource( 3 )
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="." index="9"]
+layer = -39
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer2" index="0"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
 
 [connection signal="finished" from="." to="." method="_on_BossTask_finished"]
 [connection signal="dialog_finished" from="CanvasLayer/DialogPlayer" to="." method="_on_DialogPlayer_dialog_finished"]

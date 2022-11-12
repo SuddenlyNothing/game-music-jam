@@ -40,7 +40,7 @@ export(float) var max_idle_time := 2.0
 export(float) var min_walk_time := 2.0
 export(float) var max_walk_time := 5.0
 
-export(float) var track_speed := 90.0
+export(float) var track_speed := 70.0
 
 export(float, 1.0) var continue_straight_weight := 1
 
@@ -75,6 +75,7 @@ onready var walk_timer := $WalkTimer
 
 func _ready() -> void:
 	Variables.rng.randomize()
+	track_speed += Variables.rng.randf_range(-30, 30)
 	if randomize_food:
 		food = FOODS[Variables.rng.randi_range(0, len(FOODS) - 1)]
 	for i in num_rays:

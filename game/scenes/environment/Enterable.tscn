@@ -61,7 +61,7 @@ margin_top = 235.0
 margin_right = 223.0
 margin_bottom = 251.0
 size_flags_vertical = 8
-text = "Press {continue} to"
+text = "Press {interact} to"
 align = 1
 
 [node name="Label" type="Label" parent="InputHint/M/H"]

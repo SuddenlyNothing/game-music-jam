@@ -51,7 +51,7 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if has_dialog:
-		if event.is_action_pressed("continue", false, false):
+		if event.is_action_pressed("interact", false, true):
 			if reading:
 				t.kill()
 				label.percent_visible = 1.0

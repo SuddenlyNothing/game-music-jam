@@ -37,6 +37,7 @@ onready var bar_particles: CPUParticles2D
 onready var time_progress := $M/M2/TimeProgress
 onready var hint := $Hint
 onready var times_up_sfx := $TimesUpSFX
+onready var camera := $M/M/PC/M/VC/Viewport/Camera2D
 
 
 func _input(event: InputEvent) -> void:
@@ -90,6 +91,7 @@ func stop() -> void:
 	get_tree().call_group("food", "queue_free")
 	bar_particles.queue_free()
 	player.queue_free()
+	camera.current = true
 
 
 func spawn_enemy(add_score: bool = true) -> void:

@@ -71,7 +71,7 @@ margin_top = 26.0
 margin_right = 364.0
 margin_bottom = 42.0
 size_flags_vertical = 0
-text = "Press {continue} to continue"
+text = "Press {interact} to continue"
 align = 1
 valign = 1
 

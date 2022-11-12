@@ -175,7 +175,7 @@ z_index = -20
 texture = ExtResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -6 )
+position = Vector2( 0, -7 )
 shape = SubResource( 31 )
 
 [node name="SpawnTimer" type="Timer" parent="."]

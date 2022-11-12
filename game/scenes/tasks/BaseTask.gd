@@ -109,7 +109,8 @@ func wait_stop() -> void:
 # Hide and free everything
 func stop() -> void:
 	hide()
-	bar_particles.queue_free()
+	if bar_particles and is_instance_valid(bar_particles):
+		bar_particles.queue_free()
 
 
 func _on_ShakeTimer_timeout() -> void:

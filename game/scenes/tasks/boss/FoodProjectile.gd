@@ -46,7 +46,9 @@ func _on_SpawnTimer_timeout() -> void:
 		fe.randomize_food = false
 		fe.food = food
 		fe.target = player
-		fe.track = true
+		Variables.rng.randomize()
+		if Variables.rng.randf() > 0.4:
+			fe.track = true
 		get_parent().add_child(fe)
 	queue_free()
 

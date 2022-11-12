@@ -7,7 +7,8 @@ var disabled := false setget set_disabled
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("continue") and is_mouse_inside and not disabled:
+	if event.is_action_pressed("interact", false, true) \
+			and is_mouse_inside and not disabled:
 		emit_signal("clicked")
 
 

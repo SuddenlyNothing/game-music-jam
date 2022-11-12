@@ -16,6 +16,7 @@ onready var easy_coins := $EasyCoins
 onready var medium_coins := $MediumCoins
 onready var hard_coins := $HardCoins
 onready var picked_sfx := $PickedSFX
+onready var camera := $Camera2D
 
 
 func start(difficulty: float) -> void:
@@ -39,6 +40,7 @@ func wait_stop() -> void:
 
 func stop() -> void:
 	player.queue_free()
+	camera.current = true
 	get_tree().call_group("coins", "queue_free")
 
 

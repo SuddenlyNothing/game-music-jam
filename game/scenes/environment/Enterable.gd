@@ -22,7 +22,7 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("continue", false, true) and is_inside and \
+	if event.is_action_pressed("interact", false, true) and is_inside and \
 			not disabled:
 		emit_signal("interacted")
 

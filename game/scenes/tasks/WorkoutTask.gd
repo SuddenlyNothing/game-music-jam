@@ -22,7 +22,7 @@ onready var hurt_sfx := $HurtSFX
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("continue", false, true) and playing:
+	if event.is_action_pressed("interact", false, true) and playing:
 		if is_position_in_hit():
 			add_score()
 			hit_sfx.play()
@@ -55,6 +55,12 @@ func init(difficulty: float) -> void:
 func wait_stop() -> void:
 	anim_player.stop()
 	playing = false
+
+
+func stop() -> void:
+	hit.hide()
+	anim_player.play("RESET")
+	.stop()
 
 
 func is_position_in_hit() -> bool:

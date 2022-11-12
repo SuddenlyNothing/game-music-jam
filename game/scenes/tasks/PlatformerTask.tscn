@@ -10,7 +10,6 @@ resource_local_to_scene = true
 [node name="PlatformerTask" instance=ExtResource( 1 )]
 visible = false
 script = ExtResource( 3 )
-testing = true
 
 [node name="Viewport" parent="M/M/PC/M/VC" index="0"]
 render_target_update_mode = 0

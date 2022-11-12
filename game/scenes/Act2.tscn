@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scenes/environment/Room.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/characters/players/RoomPlayer.tscn" type="PackedScene" id=2]
@@ -90,11 +90,17 @@ shader = SubResource( 6 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
+[sub_resource type="AudioStreamRandomPitch" id=51]
+resource_local_to_scene = true
+
 [sub_resource type="ShaderMaterial" id=8]
 resource_local_to_scene = true
 shader = SubResource( 6 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AudioStreamRandomPitch" id=52]
+resource_local_to_scene = true
 
 [sub_resource type="ShaderMaterial" id=9]
 resource_local_to_scene = true
@@ -102,11 +108,17 @@ shader = SubResource( 6 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
+[sub_resource type="AudioStreamRandomPitch" id=53]
+resource_local_to_scene = true
+
 [sub_resource type="ShaderMaterial" id=10]
 resource_local_to_scene = true
 shader = SubResource( 6 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AudioStreamRandomPitch" id=54]
+resource_local_to_scene = true
 
 [sub_resource type="Shader" id=48]
 code = "shader_type canvas_item;
@@ -187,13 +199,13 @@ void fragment()
 	COLOR = final_color; 
 }"
 
-[sub_resource type="ShaderMaterial" id=49]
+[sub_resource type="ShaderMaterial" id=55]
 resource_local_to_scene = true
 shader = SubResource( 48 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AudioStreamRandomPitch" id=50]
+[sub_resource type="AudioStreamRandomPitch" id=56]
 resource_local_to_scene = true
 
 [node name="Act2" instance=ExtResource( 1 )]
@@ -206,22 +218,34 @@ modulate = Color( 1, 1, 1, 1 )
 [node name="Desk" parent="YSort/RoomElements/Enterables" index="0"]
 material = SubResource( 7 )
 
+[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Desk" index="5"]
+stream = SubResource( 51 )
+
 [node name="Window" parent="YSort/RoomElements/Enterables" index="1"]
 material = SubResource( 8 )
+
+[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Window" index="5"]
+stream = SubResource( 52 )
 
 [node name="Weights" parent="YSort/RoomElements/Enterables" index="2"]
 material = SubResource( 9 )
 disabled = true
 disabled_dialog = [ "I don't like weights anymore" ]
 
+[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Weights" index="5"]
+stream = SubResource( 53 )
+
 [node name="Bed" parent="YSort/RoomElements/Enterables" index="3"]
 material = SubResource( 10 )
 
-[node name="Enterable" parent="YSort/RoomElements/Enterables" index="4"]
-material = SubResource( 49 )
+[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Bed" index="5"]
+stream = SubResource( 54 )
 
-[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Enterable" index="5"]
-stream = SubResource( 50 )
+[node name="Door" parent="YSort/RoomElements/Enterables" index="4"]
+material = SubResource( 55 )
+
+[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Door" index="5"]
+stream = SubResource( 56 )
 
 [node name="Camera2D" type="Camera2D" parent="YSort/RoomElements" index="7"]
 current = true

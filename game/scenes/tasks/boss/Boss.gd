@@ -62,29 +62,41 @@ func _on_AnimatedSprite_animation_finished() -> void:
 			t.tween_property(anim_sprite, "offset:y", -600.0, 1)
 			t.tween_callback(self, "goto_player")
 			t.tween_callback(mark, "show")
-			t.tween_property(anim_sprite, "offset:y", 0.0, 0.5)
+			t.tween_property(anim_sprite, "offset:y", 0.0, 0.6)
 			t.tween_callback(shadow, "show")
 			t.tween_callback(mark, "hide")
 			t.tween_callback(anim_sprite, "play", ["land"])
 			t.tween_callback(collision, "call_deferred",
-					["set_disabled", true])
+					["set_disabled", false])
 			t.tween_callback(get_tree(), "call_group",
 					["effects_camera", "shake", 0.4])
 		"throw":
-			change_state_timer.start(Variables.rng.randf_range(0.1, 0.5))
+			Variables.rng.randomize()
+			change_state_timer.start(Variables.rng.randf_range(0.1, 0.3))
 			anim_sprite.play("idle")
 		"land":
-			change_state_timer.start(Variables.rng.randf_range(0.1, 0.2))
+			Variables.rng.randomize()
+			change_state_timer.start(Variables.rng.randf_range(0.1, 0.3))
 			anim_sprite.play("idle")
 
 
 func goto_player() -> void:
-	position = player.position
+	Variables.rng.randomize()
+	var new_pos: Vector2 = player.position + player.velocity * \
+			Variables.rng.randf_range(0, 0.6)
+	position = Vector2(
+		clamp(new_pos.x, 0, 384),
+		clamp(new_pos.y, 0, 256)
+	)
 
 
 func _on_ChangeStateTimer_timeout() -> void:
+	pick_rand_state()
+
+
+func pick_rand_state() -> void:
 	Variables.rng.randomize()
-	if Variables.rng.randf() > 0.8:
+	if Variables.rng.randf() > 0.6:
 		boss_states.call_deferred("set_state", "jump")
 	else:
 		boss_states.call_deferred("set_state", "throw")

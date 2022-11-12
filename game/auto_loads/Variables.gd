@@ -3,8 +3,7 @@ extends Node
 # Used for input remapping and control displays
 var user_keys := PoolStringArray([
 	"pause",
-	"dash",
-	"continue",
+	"interact",
 	"up",
 	"left",
 	"down",
