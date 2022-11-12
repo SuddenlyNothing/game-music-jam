@@ -1,12 +1,9 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/environment/Room.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/characters/puppets/PlayerPuppet.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/Act1.gd" type="Script" id=3]
-[ext_resource path="res://scenes/characters/puppets/Waypoints.tscn" type="PackedScene" id=4]
-[ext_resource path="res://utils/DialogPlayer.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/ui/Menu.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scenes/ui/Hint.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/characters/players/RoomPlayer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://utils/DialogPlayer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Act2.gd" type="Script" id=4]
 
 [sub_resource type="Shader" id=6]
 code = "shader_type canvas_item;
@@ -196,18 +193,15 @@ shader = SubResource( 48 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[node name="Act1" instance=ExtResource( 1 )]
-script = ExtResource( 3 )
-next_scene = "res://scenes/tasks/BossTask.tscn"
-season_dur = 1.0
-betwee_dur = 1.5
-dialogs = [ [ "Stupid! Stupid! Stupid!", "Why do I even go there? To learn? What a joke!", "That sad excuse for a garbage dump isn't fit for dogs!" ], [ "I hate it here!", "[shake level=13]Why!?[/shake] [shake rate=3]Why won't anyone help? Why doesn't anyone look at me?", "[shake rate=3][fade start=10 length=45]Why will no one sit with me and talk with me?" ], [ "I don't want to go back.", "There's only pain there." ], [ "What if I stay here?", "Will they notice?" ], [ "I'm safe here. No one will know.", "I will play by myself until I get better." ] ]
+[sub_resource type="AudioStreamRandomPitch" id=50]
+resource_local_to_scene = true
 
-[node name="Summer" parent="Outside" index="0"]
-z_index = 30
+[node name="Act2" instance=ExtResource( 1 )]
+script = ExtResource( 4 )
+next_scene = ""
 
-[node name="RoomElements" parent="YSort" index="0"]
-modulate = Color( 1, 1, 1, 0 )
+[node name="Cover" parent="Outside" index="4"]
+modulate = Color( 1, 1, 1, 1 )
 
 [node name="Desk" parent="YSort/RoomElements/Enterables" index="0"]
 material = SubResource( 7 )
@@ -217,6 +211,8 @@ material = SubResource( 8 )
 
 [node name="Weights" parent="YSort/RoomElements/Enterables" index="2"]
 material = SubResource( 9 )
+disabled = true
+disabled_dialog = [ "I don't like weights anymore" ]
 
 [node name="Bed" parent="YSort/RoomElements/Enterables" index="3"]
 material = SubResource( 10 )
@@ -224,63 +220,30 @@ material = SubResource( 10 )
 [node name="Enterable" parent="YSort/RoomElements/Enterables" index="4"]
 material = SubResource( 49 )
 
-[node name="LightsOver" parent="YSort/RoomElements" index="5"]
-z_index = 0
+[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Enterable" index="5"]
+stream = SubResource( 50 )
 
-[node name="Waypoints" parent="YSort" index="1" instance=ExtResource( 4 )]
-position = Vector2( -32, -1 )
-
-[node name="Position2D" type="Position2D" parent="YSort/Waypoints" index="0"]
-position = Vector2( 322, -2 )
-
-[node name="Position2D2" type="Position2D" parent="YSort/Waypoints" index="1"]
-position = Vector2( 126, 95 )
-
-[node name="Position2D7" type="Position2D" parent="YSort/Waypoints" index="2"]
-position = Vector2( 183, 144 )
-
-[node name="Position2D8" type="Position2D" parent="YSort/Waypoints" index="3"]
-position = Vector2( 250, 109 )
-
-[node name="Position2D3" type="Position2D" parent="YSort/Waypoints" index="4"]
-position = Vector2( 257, 231 )
-
-[node name="Position2D4" type="Position2D" parent="YSort/Waypoints" index="5"]
-position = Vector2( 279, 241 )
-
-[node name="Position2D5" type="Position2D" parent="YSort/Waypoints" index="6"]
-position = Vector2( 301, 249 )
-
-[node name="Position2D6" type="Position2D" parent="YSort/Waypoints" index="7"]
-position = Vector2( 351, 251 )
-
-[node name="PlayerPuppet" parent="YSort" index="2" instance=ExtResource( 2 )]
-position = Vector2( 290, -3 )
-z_index = -130
-waypoints_path = NodePath("../Waypoints")
-outside = true
-
-[node name="Camera2D" type="Camera2D" parent="YSort/PlayerPuppet" index="0"]
+[node name="Camera2D" type="Camera2D" parent="YSort/RoomElements" index="7"]
 current = true
-limit_left = 0
-limit_top = 0
-limit_right = 384
-limit_bottom = 256
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." index="4"]
+[node name="RoomPlayer" parent="YSort" index="1" instance=ExtResource( 2 )]
+position = Vector2( 327, 249 )
+z_index = 20
+act = "2"
 
-[node name="DialogPlayer" parent="CanvasLayer" index="0" instance=ExtResource( 5 )]
+[node name="MinigamesManager" parent="." index="4"]
+max_points = 30
 
-[node name="Menu" parent="CanvasLayer" index="1" instance=ExtResource( 6 )]
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="5"]
 
-[node name="Hint" parent="." index="6" instance=ExtResource( 7 )]
-hint_name = "start_room"
-label_hint = "Press {up}, {down}, {left}, {right} to move."
+[node name="DialogPlayer" parent="CanvasLayer" index="0" instance=ExtResource( 3 )]
+autoplay = true
+autoplay_dialog = [ "Hello" ]
 
-[connection signal="interacted" from="YSort/RoomElements/Enterables/Window" to="MinigamesManager" method="_on_Window_interacted"]
-[connection signal="reached_last_waypoint" from="YSort/PlayerPuppet" to="." method="_on_PlayerPuppet_reached_last_waypoint"]
-[connection signal="reached_waypoint" from="YSort/PlayerPuppet" to="." method="_on_PlayerPuppet_reached_waypoint"]
-[connection signal="started" from="CanvasLayer/Menu" to="." method="_on_Menu_started"]
+[node name="D2" parent="CanvasLayer" index="1" instance=ExtResource( 3 )]
+autoplay = true
+autoplay_dialog = [ "Hello" ]
+
 [connection signal="do_event" from="MinigamesManager" to="." method="_on_MinigamesManager_do_event"]
-[connection signal="view_street" from="MinigamesManager" to="." method="_on_MinigamesManager_view_street"]
-[connection signal="completed" from="Hint" to="." method="_on_Hint_completed"]
+[connection signal="dialog_finished" from="CanvasLayer/DialogPlayer" to="." method="_on_DialogPlayer_dialog_finished"]
+[connection signal="dialog_finished" from="CanvasLayer/D2" to="." method="_on_DialogPlayer_dialog_finished"]

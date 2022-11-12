@@ -101,19 +101,19 @@ align = 0
 margin_left = 20.0
 margin_top = 276.0
 margin_right = 172.0
-margin_bottom = 381.0
+margin_bottom = 342.0
 
 [node name="M" type="MarginContainer" parent="Credits"]
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 147.0
-margin_bottom = 100.0
+margin_bottom = 61.0
 custom_constants/margin_left = 1
 
 [node name="V" type="VBoxContainer" parent="Credits/M"]
 margin_left = 1.0
 margin_right = 142.0
-margin_bottom = 95.0
+margin_bottom = 56.0
 
 [node name="Code" type="Label" parent="Credits/M/V"]
 margin_right = 141.0
@@ -130,14 +130,7 @@ text = "Art - AJ#3414"
 margin_top = 40.0
 margin_right = 141.0
 margin_bottom = 56.0
-text = "Audio - Adam G.#6404"
-
-[node name="Dialogic" type="Label" parent="Credits/M/V"]
-margin_top = 60.0
-margin_right = 141.0
-margin_bottom = 95.0
-text = "Made with the help of Dialogic"
-autowrap = true
+text = "Audio - Cryvera#4210"
 
 [node name="StartSFX" parent="." instance=ExtResource( 4 )]
 stream = null

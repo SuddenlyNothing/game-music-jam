@@ -1,8 +1,6 @@
 class_name BaseTask
 extends Task
 
-const FoodEnemy := preload("res://scenes/characters/enemies/FoodEnemy.tscn")
-const Player := preload("res://scenes/characters/players/TopdownPlayer.tscn")
 const BarParticles := preload("res://scenes/tasks/BarParticles.tscn")
 
 export(bool) var testing := false
@@ -29,6 +27,9 @@ onready var play_timer := $PlayTimer
 onready var bar_particles: CPUParticles2D
 onready var time_progress := $M/M2/TimeProgress
 onready var hint := $Hint
+onready var times_up_sfx := $TimesUpSFX
+onready var riser_sfx := $RiserSFX
+onready var riser_timer := $RiserTimer
 
 
 func _input(event: InputEvent) -> void:
@@ -116,6 +117,7 @@ func _on_ShakeTimer_timeout() -> void:
 
 
 func _on_PlayTimer_timeout() -> void:
+	times_up_sfx.play()
 	if t:
 		t.kill()
 	wait_stop()
@@ -132,7 +134,12 @@ func _on_PlayTimer_timeout() -> void:
 
 func _on_Hint_completed() -> void:
 	play_timer.start()
+	riser_timer.start(play_timer.wait_time - riser_sfx.stream.get_length())
 	bar_particles = BarParticles.instance()
 	bar_particles.position.y = 6.5
 	time_progress.add_child(bar_particles)
 	init(diff)
+
+
+func _on_RiserTimer_timeout() -> void:
+	riser_sfx.play()

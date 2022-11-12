@@ -1,6 +1,10 @@
 extends KinematicBody2D
 
+signal killed
+
 const TextFloater := preload("res://utils/TextFloater.tscn")
+
+export(bool) var dashable := true
 
 export(float) var acceleration := 600.0
 export(float) var turn_acceleration_multiplier := 3.0
@@ -11,6 +15,7 @@ export(float) var dash_dist := 100.0
 export(float) var dash_hit_dur := 0.5
 export(float) var fov := 180.0
 export(float) var dash_eat_padding := 10.0
+export(float) var hit_speed := 10.0
 
 export(float) var lunge_speed := 400.0
 export(float) var lunge_friction := 800.0
@@ -33,10 +38,15 @@ onready var dash_timer := $DashTimer
 onready var topdown_player_states := $TopdownPlayerStates
 onready var dash_line := $DashLine
 onready var powerup_particles := $PowerupParticles
+onready var hit_timer := $HitTimer
+onready var start_max_speed := max_speed
 
 onready var dash_sfx := $DashSFX
 onready var eat_sfx := $EatSFX
 onready var powerup_sfx := $PowerupSFX
+onready var hurt_sfx := $HurtSFX
+onready var ignite_sfx := $IgniteSFX
+onready var on_fire_sfx := $OnFireSFX
 
 
 func _process(delta: float) -> void:
@@ -66,13 +76,29 @@ func move(delta: float) -> void:
 	set_facing(input)
 
 
+func kill(from: Vector2) -> void:
+	hurt_sfx.play()
+	topdown_player_states.call_deferred("set_state", "death")
+	emit_signal("killed")
+
+
+func hit() -> bool:
+	match topdown_player_states.state:
+		"idle", "walk":
+			max_speed = hit_speed
+			hit_timer.start()
+			hurt_sfx.play()
+			return true
+	return false
+
+
 func can_dash() -> bool:
-	return not locked and powerup_count >= powerup_threshold
+	return not locked and powerup_count >= powerup_threshold and dashable
 
 
 func can_lunge() -> bool:
 	return Input.is_action_just_pressed("dash", true) and not locked\
-			and powerup_count < powerup_threshold
+			and (powerup_count < powerup_threshold or not dashable)
 
 
 func start_lunge() -> void:
@@ -98,8 +124,11 @@ func move_lunge(delta: float) -> void:
 		collision.collider.kill()
 		powerup_sfx.pitch_scale = 1 + (powerup_count - 1) * 0.1
 		powerup_sfx.play()
-		if powerup_count >= powerup_threshold - 1:
+		if powerup_count >= powerup_threshold - 1 and \
+				not powerup_particles.emitting:
 			powerup_particles.emitting = true
+			ignite_sfx.play()
+			on_fire_sfx.play()
 	else:
 		var friction_amount := lunge_friction * delta
 		if velocity.length() <= friction_amount:
@@ -134,6 +163,7 @@ func dash() -> void:
 		dash_sfx.play()
 		powerup_count = 0
 		powerup_particles.emitting = false
+		on_fire_sfx.stop()
 	
 	if combo > 0:
 		var text_floater := TextFloater.instance()
@@ -215,3 +245,7 @@ func _on_AnimatedSprite_animation_finished() -> void:
 				anim_sprite.play("idle")
 			"walk":
 				anim_sprite.play("walk")
+
+
+func _on_HitTimer_timeout() -> void:
+	max_speed = start_max_speed

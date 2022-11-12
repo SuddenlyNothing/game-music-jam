@@ -29,7 +29,7 @@ func _input(event: InputEvent) -> void:
 		t.tween_property(c, "modulate:a", 0.0, 0.5)
 		t.tween_callback(self, "hide")
 		t.tween_callback(self, "emit_signal", ["completed"])
-		get_tree().set_input_as_handled()
+#		get_tree().set_input_as_handled()
 
 
 func start() -> void:

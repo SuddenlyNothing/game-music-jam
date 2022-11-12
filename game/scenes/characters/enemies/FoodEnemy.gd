@@ -40,8 +40,12 @@ export(float) var max_idle_time := 2.0
 export(float) var min_walk_time := 2.0
 export(float) var max_walk_time := 5.0
 
+export(float) var track_speed := 90.0
+
 export(float, 1.0) var continue_straight_weight := 1
 
+var randomize_food := true
+var track := false
 var rays := []
 var calc_rays := []
 var target: Node2D
@@ -71,7 +75,8 @@ onready var walk_timer := $WalkTimer
 
 func _ready() -> void:
 	Variables.rng.randomize()
-	food = FOODS[Variables.rng.randi_range(0, len(FOODS) - 1)]
+	if randomize_food:
+		food = FOODS[Variables.rng.randi_range(0, len(FOODS) - 1)]
 	for i in num_rays:
 		var r := RayCast2D.new()
 		r.cast_to = Vector2.RIGHT.rotated(i / float(num_rays) * 2 * PI) *\
@@ -81,6 +86,9 @@ func _ready() -> void:
 		rays.append(r)
 	for i in num_calc_rays:
 		calc_rays.append(1.0)
+	if track:
+		food_enemy_states.call_deferred("set_state", "track")
+		set_collision_layer_bit(0, true)
 
 
 func _draw() -> void:
@@ -104,6 +112,20 @@ func set_locked(val: bool) -> void:
 		food_enemy_states.call_deferred("set_state", "idle")
 	else:
 		food_enemy_states.call_deferred("set_state", "idle")
+
+
+func stop_timers() -> void:
+	idle_timer.stop()
+	walk_timer.stop()
+
+
+func move_track(delta: float) -> void:
+	var dir := position.direction_to(target.position)
+	var collision := move_and_collide(dir * track_speed * delta)
+	if collision and collision.collider == target:
+		if target.hit():
+			kill()
+	set_facing(dir)
 
 
 func kill() -> void:

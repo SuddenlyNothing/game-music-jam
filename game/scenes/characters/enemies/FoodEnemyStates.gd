@@ -1,9 +1,12 @@
 extends StateMachine
 
+var tracking := false
+
 
 func _ready() -> void:
 	add_state("idle")
 	add_state("walk")
+	add_state("track")
 	call_deferred("set_state", "idle")
 
 
@@ -14,6 +17,8 @@ func _state_logic(delta: float) -> void:
 			parent.move_idle(delta)
 		states.walk:
 			parent.move(delta)
+		states.track:
+			parent.move_track(delta)
 
 
 # Return value will be used to change state.
@@ -37,6 +42,9 @@ func _enter_state(new_state: String, old_state) -> void:
 		states.walk:
 			parent.start_walk_timer()
 			parent.play_anim("walk")
+		states.track:
+			parent.stop_timers()
+			parent.play_anim("walk")
 
 
 # Called on exiting state.
@@ -48,3 +56,11 @@ func _exit_state(old_state, new_state: String) -> void:
 			pass
 		states.walk:
 			pass
+
+
+func set_state(new_state: String) -> void:
+	if tracking:
+		return
+	if new_state == "track":
+		tracking = true
+	.set_state(new_state)

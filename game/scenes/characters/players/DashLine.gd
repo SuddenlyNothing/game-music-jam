@@ -5,7 +5,7 @@ export(float) var dur := 1.5
 var point_start_pos: Vector2
 var t: SceneTreeTween
 
-onready var camera := $Camera2D
+onready var camera := $EffectsCamera
 
 
 func start() -> void:

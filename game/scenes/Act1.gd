@@ -2,6 +2,8 @@ extends StreetRoom
 
 const RoomPlayer := preload("res://scenes/characters/players/RoomPlayer.tscn")
 
+export(String, FILE, "*.tscn") var next_scene
+
 export(float) var season_dur := 1.0
 export(float) var betwee_dur := 1.5
 
@@ -137,3 +139,7 @@ func _on_Hint_completed() -> void:
 	room_player.z_index = player_puppet.z_index
 	player_puppet.queue_free()
 	ysort.add_child(room_player)
+
+
+func _on_MinigamesManager_do_event() -> void:
+	SceneHandler.goto_scene(next_scene)

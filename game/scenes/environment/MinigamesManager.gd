@@ -1,6 +1,7 @@
 class_name MinigamesManager
 extends CanvasLayer
 
+signal do_event
 signal view_street(season)
 
 enum Characters {
@@ -97,7 +98,8 @@ func start_task(task: String) -> void:
 
 
 func finished_viewing_street() -> void:
-	score_renderer.add_points(1, max_mult - task_boredom * max_mult)
+	score_renderer.add_points(1, stepify(max_mult - task_boredom * max_mult,
+			0.1))
 
 
 func _on_Weights_interacted() -> void:
@@ -127,3 +129,8 @@ func _on_ScoreRenderer_added_points() -> void:
 func _on_ScoreRenderer_max_points_reached() -> void:
 	event_idx += 1
 	do_event()
+	emit_signal("do_event")
+
+
+func _on_Enterable_interacted() -> void:
+	start_task("food")

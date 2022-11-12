@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/environment/Enterable.gd" type="Script" id=1]
 [ext_resource path="res://assets/shaders/perfect_outline.tres" type="Material" id=2]
 [ext_resource path="res://utils/InputFormatLabel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://utils/DialogPlayer.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -51,6 +52,7 @@ custom_constants/margin_bottom = 5
 [node name="H" type="HBoxContainer" parent="InputHint/M"]
 margin_right = 384.0
 margin_bottom = 251.0
+mouse_filter = 2
 alignment = 1
 
 [node name="InputFormatLabel" parent="InputHint/M/H" instance=ExtResource( 3 )]
@@ -76,3 +78,8 @@ root_node = NodePath("../../../..")
 autoplay = "fade"
 anims/RESET = SubResource( 2 )
 anims/fade = SubResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DialogPlayer" parent="CanvasLayer" instance=ExtResource( 4 )]
+character = 5

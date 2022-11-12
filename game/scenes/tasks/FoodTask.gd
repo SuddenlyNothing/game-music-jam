@@ -4,6 +4,8 @@ const FoodEnemy := preload("res://scenes/characters/enemies/FoodEnemy.tscn")
 const Player := preload("res://scenes/characters/players/TopdownPlayer.tscn")
 const BarParticles := preload("res://scenes/tasks/BarParticles.tscn")
 
+export(bool) var testing := false
+
 export(int) var min_food := 6
 export(int) var max_food := 20
 export(int) var min_dist_to_player := 100.0
@@ -34,6 +36,13 @@ onready var play_timer := $PlayTimer
 onready var bar_particles: CPUParticles2D
 onready var time_progress := $M/M2/TimeProgress
 onready var hint := $Hint
+onready var times_up_sfx := $TimesUpSFX
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_focus_next") and testing:
+		Variables.rng.randomize()
+		start(1)
 
 
 func _process(delta: float) -> void:
@@ -55,7 +64,7 @@ func _process(delta: float) -> void:
 # Start minigame with difficulty 0-1
 func start(difficulty: float) -> void:
 	time_progress.value = 0
-	difficulty = diff
+	diff = difficulty
 	if bar_particles and is_instance_valid(bar_particles):
 		bar_particles.queue_free()
 	score = 0
@@ -117,22 +126,12 @@ func add_score() -> void:
 			shake_time).from(Color('c85a12'))
 
 
-func _on_Timer_timeout() -> void:
-	var fe := FoodEnemy.instance()
-	Variables.rng.randomize()
-	fe.position = Vector2(
-		Variables.rng.randf_range(10, 438),
-		Variables.rng.randf_range(10, 246)
-	)
-	ysort.add_child(fe)
-	get_tree().call_group("needs_player", "set_player", player)
-
-
 func _on_ShakeTimer_timeout() -> void:
 	score_label.rect_position = score_label_position
 
 
 func _on_PlayTimer_timeout() -> void:
+	times_up_sfx.play()
 	player.set_locked(true)
 	get_tree().call_group("food", "set_locked", true)
 	if t:
