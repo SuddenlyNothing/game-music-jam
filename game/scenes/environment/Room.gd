@@ -6,7 +6,7 @@ var audio_t: SceneTreeTween
 
 onready var outside := $Outside
 onready var outdoor_audio := $Audio/Outdoor
-onready var cover := $Outside/Cover
+onready var cover := $Outside/Cover/Cover
 onready var outdoor_bus_idx := AudioServer.get_bus_index("SFX Outdoor")
 onready var indoor_bus_idx := AudioServer.get_bus_index("SFX Indoor")
 onready var door_sfx := $Audio/DoorSFX
@@ -19,7 +19,7 @@ func set_season(season: String, dur: float = 1.0) -> void:
 		t.kill()
 	t = create_tween().set_parallel()
 	for child in outside.get_children():
-		if child == cover:
+		if child.name == "Cover":
 			continue
 		child.modulate.a = 1
 		if child.name == season:
@@ -83,3 +83,7 @@ func set_outdoor(val: bool, dur: float = 1.0) -> void:
 		audio_t.tween_method(self, "set_bus_volume_db", -20.0, 0.0, dur,
 				[indoor_bus_idx])
 		audio_t.tween_property(lpf, "cutoff_hz", 2000.0, dur)
+
+
+func _on_Door_interacted() -> void:
+	pass # Replace with function body.

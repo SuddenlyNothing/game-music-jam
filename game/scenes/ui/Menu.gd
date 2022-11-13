@@ -10,6 +10,10 @@ onready var buttons := [$"%Start", $"%Settings", $"%Credits"]
 onready var start_sfx := $StartSFX
 
 
+func _ready() -> void:
+	buttons[0].grab_focus()
+
+
 func _on_Settings_pressed() -> void:
 	OptionsMenu.set_active(true)
 
@@ -22,7 +26,7 @@ func _on_Credits_pressed() -> void:
 		t.tween_property(credits, "rect_position:y", 276.0, 0.4)\
 				.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	else:
-		t.tween_property(credits, "rect_position:y", 128.0, 0.5)\
+		t.tween_property(credits, "rect_position:y", 20.0, 0.5)\
 				.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
 	showing_credits = not showing_credits
 
@@ -40,3 +44,7 @@ func _on_Start_pressed() -> void:
 
 func _on_StartSFX_finished() -> void:
 	queue_free()
+
+
+func _on_LinkButton_pressed() -> void:
+	OS.shell_open ("https://github.com/coppolaemilio/dialogic")

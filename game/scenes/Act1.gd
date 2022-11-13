@@ -3,22 +3,26 @@ extends StreetRoom
 const RoomPlayer := preload("res://scenes/characters/players/RoomPlayer.tscn")
 
 export(String, FILE, "*.tscn") var next_scene
+export(String, FILE, "*.tscn") var starve_scene
 
 export(float) var season_dur := 2.0
 export(float) var betwee_dur := 4.0
 
-export(Array, Array, String, MULTILINE) var dialogs
+export(Array, Array, String, MULTILINE) var intro_dialogs
+
+var seasons_t: SceneTreeTween
+var room_player: Node2D
+var food_dialog_idx := 0
+var eating := false
 
 onready var player_puppet := $YSort/PlayerPuppet
-onready var door := $YSort/RoomElements/Door
+onready var door := $YSort/RoomElements/Enterables/Door
 onready var camera := $YSort/PlayerPuppet/Camera2D
 onready var room_elements := $YSort/RoomElements
 onready var dialog := $CanvasLayer/DialogPlayer
 onready var ysort := $YSort
 onready var minigames_manager := $MinigamesManager
 onready var hint := $Hint
-
-var seasons_t: SceneTreeTween
 
 
 func _ready() -> void:
@@ -42,7 +46,7 @@ func start() -> void:
 			.set_trans(Tween.TRANS_QUAD)
 	t.tween_interval(2.5)
 	t.tween_callback(player_puppet, "goto_next")
-	t.tween_callback(dialog, "read", [dialogs[0]])
+	t.tween_callback(dialog, "read", [intro_dialogs[0]])
 	t.tween_property(camera, "zoom", Vector2.ONE * 0.5, 0.3)
 	t.tween_property(camera, "zoom", Vector2.ONE, 5.0)
 
@@ -85,14 +89,14 @@ func _on_PlayerPuppet_reached_waypoint(waypoint_ind: int) -> void:
 			if dialog.has_dialog:
 				yield(dialog, "dialog_finished")
 		2:
-			dialog.read(dialogs[1])
+			dialog.read(intro_dialogs[1])
 			yield(dialog, "dialog_finished")
 		3:
 			player_puppet.move_speed /= 2
-			dialog.read(dialogs[2])
+			dialog.read(intro_dialogs[2])
 			yield(dialog, "dialog_finished")
 		4:
-			dialog.read(dialogs[3])
+			dialog.read(intro_dialogs[3])
 			yield(dialog, "dialog_finished")
 			door.hide()
 			door_sfx.play()
@@ -119,7 +123,7 @@ func _on_PlayerPuppet_reached_last_waypoint() -> void:
 	var t := create_tween()
 	t.tween_property(camera, "position", room_elements.position, 1.0)\
 			.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	t.tween_callback(dialog, "read", [dialogs[4]])
+	t.tween_callback(dialog, "read", [intro_dialogs[4]])
 	yield(dialog, "dialog_finished")
 	hint.start()
 
@@ -134,7 +138,7 @@ func _on_MinigamesManager_view_street(season: String) -> void:
 
 func _on_Hint_completed() -> void:
 	get_tree().call_group("sprite_select", "set_disabled", false)
-	var room_player := RoomPlayer.instance()
+	room_player = RoomPlayer.instance()
 	room_player.position = player_puppet.position
 	room_player.z_index = player_puppet.z_index
 	player_puppet.queue_free()
@@ -143,3 +147,39 @@ func _on_Hint_completed() -> void:
 
 func _on_MinigamesManager_do_event() -> void:
 	SceneHandler.goto_scene(next_scene)
+
+
+func _on_MinigamesManager_completed_task(points: int) -> void:
+	eating = false
+	if points >= 50 and food_dialog_idx == 0:
+		food_dialog_idx += 1
+		play_food()
+	elif points >= 80 and food_dialog_idx == 1:
+		food_dialog_idx += 1
+		play_food()
+	elif points >= 130 and food_dialog_idx == 2:
+		food_dialog_idx += 1
+		play_food()
+
+
+func play_food() -> void:
+	room_player.set_disabled(true)
+	var d: Node = Dialogic.start("food" + str(food_dialog_idx))
+	d.connect("dialogic_signal", self, "dialogic_signal")
+	d.connect("timeline_end", self, "timeline_end")
+	add_child(d)
+
+
+func dialogic_signal(val: String) -> void:
+	match val:
+		"starve":
+			SceneHandler.goto_scene(starve_scene)
+		"food":
+			eating = true
+			minigames_manager.start_task("food")
+
+
+func timeline_end(timeline: String) -> void:
+	if eating:
+		return
+	room_player.set_disabled(false)

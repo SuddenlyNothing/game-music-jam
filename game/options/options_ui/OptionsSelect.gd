@@ -10,7 +10,10 @@ enum TAB {
 	SCREEN_SETTINGS,
 }
 
+export(NodePath) var start_focus_button_path
+
 var current_setting = TAB.AUDIO setget set_current_setting
+var previous_focus: Control
 
 onready var audio: Button = $"%Audio"
 onready var controls: Button = $"%Controls"
@@ -18,6 +21,7 @@ onready var screen_settings: Button = $"%ScreenSettings"
 onready var settings: TabContainer = $"%Settings"
 onready var back: Button = $"%Back"
 onready var menu: Button = $"%Menu"
+onready var start_focus_button: Control = get_node(start_focus_button_path)
 
 
 func _ready() -> void:
@@ -38,6 +42,16 @@ func setup_signals() -> void:
 func _on_button_toggled(button_pressed: bool, button: String) -> void:
 	if button_pressed:
 		set_current_setting(TAB[button])
+
+
+func set_focus_button_active(is_active: bool) -> void:
+	if is_active:
+		previous_focus = get_focus_owner()
+		start_focus_button.grab_focus()
+	else:
+		start_focus_button = get_focus_owner()
+		if previous_focus and is_instance_valid(previous_focus):
+			previous_focus.grab_focus()
 
 
 # Sets the active tab

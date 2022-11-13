@@ -52,6 +52,8 @@ export(StyleBoxFlat) var disabled_style: StyleBoxFlat
 var is_mouse_inside := false
 var previous_disabled := false
 var pressing := false
+var focused := false
+var started_scene_transition := false
 
 onready var t := $Tween
 onready var bg := $BG
@@ -65,7 +67,8 @@ func _ready() -> void:
 
 # Goes to next_scene if the next_scene variable is set
 func _pressed() -> void:
-	if next_scene:
+	if next_scene and not started_scene_transition:
+		started_scene_transition = true
 		SceneHandler.goto_scene(next_scene)
 	if play_pressed:
 		pressed_sfx.play()
@@ -328,7 +331,8 @@ func _on_AnimButton_mouse_exited() -> void:
 	is_mouse_inside = false
 	if pressed or disabled:
 		return
-	set_style("normal")
+	if not focused:
+		set_style("normal")
 
 
 # Detects pressed
@@ -351,7 +355,7 @@ func _on_AnimButton_button_up() -> void:
 			pressed_sfx.play()
 	if pressed or disabled:
 		return
-	if is_mouse_inside and is_visible_in_tree():
+	if (is_mouse_inside or focused) and is_visible_in_tree():
 		set_style("hover")
 	else:
 		set_style("normal")
@@ -364,7 +368,7 @@ func _on_AnimatedButton_draw() -> void:
 			set_style("disabled")
 		elif pressed:
 			set_style("pressed")
-		elif is_mouse_inside:
+		elif is_mouse_inside or focused:
 			set_style("hover")
 		else:
 			set_style("normal")
@@ -376,7 +380,7 @@ func _toggled(button_pressed: bool) -> void:
 		return
 	if button_pressed:
 		set_style("pressed")
-	elif is_mouse_inside:
+	elif is_mouse_inside or focused:
 		set_style("hover")
 	else:
 		set_style("normal")
@@ -384,6 +388,22 @@ func _toggled(button_pressed: bool) -> void:
 
 func _on_AnimatedButton_hide() -> void:
 	is_mouse_inside = false
+	if disabled:
+		return
+	set_style("normal")
+
+
+func _on_AnimatedButton_focus_entered() -> void:
+	focused = true
+	if disabled:
+		return
+	if play_hover:
+		hover_sfx.play()
+	set_style("hover")
+
+
+func _on_AnimatedButton_focus_exited() -> void:
+	focused = false
 	if disabled:
 		return
 	set_style("normal")

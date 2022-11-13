@@ -47,6 +47,14 @@ onready var text_sfx_interval := $TextSFXInterval
 func _ready() -> void:
 	if autoplay:
 		read(autoplay_dialog)
+#	for i in 3:
+#		print("food" + str(i + 1))
+#		var d: Node = Dialogic.start("food" + str(i + 1))
+#		d.connect("dialogic_signal", self, "test")
+#		add_child(d)
+#		yield(d, "timeline_end")
+#		print(Dialogic.get_variable("delivery"))
+#		print("timeline ended")
 
 
 func _input(event: InputEvent) -> void:
@@ -119,7 +127,8 @@ func set_read_tween(new_dialog: String,
 			var new_percent_visible := float(i) / dialog_len
 			t.tween_property(label, "percent_visible",
 					new_percent_visible, floor((new_percent_visible - \
-					curr_percent_visible) * dialog_len) / read_speed)
+					curr_percent_visible) * dialog_len) / read_speed)\
+					.from(starting_percent_visible)
 			t.tween_callback(text_sfx, "set_stream_paused", [true])
 			t.tween_interval(max_delay / read_speed)
 			t.tween_callback(text_sfx, "set_stream_paused", [false])

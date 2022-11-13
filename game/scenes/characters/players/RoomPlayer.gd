@@ -2,13 +2,14 @@ extends KinematicBody2D
 
 export(String, "1", "2", "3") var act := "1"
 export(int) var move_speed := 30
-export(float) var leave_distance := 2.0
+export(float) var leave_distance := 2.5
 export(int) var num_slides := 4
 
 var locked := false setget set_locked
 var input := Vector2()
 var enter_point := Vector2()
 var entered_collision: PhysicsBody2D
+var disabled := false setget set_disabled
 
 onready var leave_distance_squared := pow(leave_distance, 2)
 
@@ -61,5 +62,19 @@ func set_locked(val: bool) -> void:
 	if val:
 		set_process(false)
 		input = Vector2()
+	else:
+		set_process(true)
+
+
+func set_disabled(val: bool) -> void:
+	disabled = val
+	if val:
+		set_process(false)
+		input = Vector2()
+		player_puppet.show()
+		player_puppet.muted = false
+		if entered_collision:
+			entered_collision.exit()
+			entered_collision = null
 	else:
 		set_process(true)

@@ -136,9 +136,9 @@ anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="NextIndicator" type="TextureRect" parent="M/ColorRect/NextIndicatorContainer"]
-margin_left = 365.0
+margin_left = 367.0
 margin_top = 41.0
-margin_right = 372.0
+margin_right = 374.0
 margin_bottom = 50.0
 mouse_filter = 2
 texture = ExtResource( 3 )

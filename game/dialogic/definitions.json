@@ -10,6 +10,23 @@
 		}
 	],
 	"variables": [
-
+		{
+			"id": "1668329633-107",
+			"name": "delivery",
+			"type": 0,
+			"value": "0"
+		},
+		{
+			"id": "1668362069-909",
+			"name": "knocks",
+			"type": 0,
+			"value": "0"
+		},
+		{
+			"id": "1668372683-122",
+			"name": "asks",
+			"type": 0,
+			"value": "0"
+		}
 	]
 }

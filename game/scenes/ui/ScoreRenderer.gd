@@ -5,6 +5,8 @@ signal added_points
 
 const LineParticles := preload("res://scenes/ui/LineParticle.tscn")
 
+export(bool) var do_multiply := true
+
 export(int) var max_points := 100
 export(float) var dur := 1.0
 export(float) var particle_dur := 0.5
@@ -25,6 +27,7 @@ onready var cover := $Cover
 onready var h := $M2/H
 onready var points_add_sfx := $PointsAddSFX
 onready var points_collect_sfx := $PointsCollectSFX
+onready var label_add_sfx := $LabelAddSFX
 
 
 func _process(delta: float) -> void:
@@ -54,17 +57,23 @@ func add_points(p: int, mult: float) -> void:
 	total_label.hide()
 	if t:
 		t.kill()
-	h.show()
 	t = create_tween().set_trans(Tween.TRANS_QUAD)
 	t.tween_property(cover, "modulate:a", 1.0, enter_dur)
 	t.tween_interval(points_dur / 5)
-	t.tween_property(h, "custom_constants/separation", 50, points_dur / 5)\
-			.set_ease(Tween.EASE_OUT)
-	t.tween_property(h, "custom_constants/separation", -20, points_dur / 5)\
-			.set_ease(Tween.EASE_IN)
-	t.tween_callback(h, "hide")
+	if do_multiply:
+		h.show()
+		t.tween_property(h, "custom_constants/separation", 50, points_dur / 5)\
+				.set_ease(Tween.EASE_OUT)
+		t.tween_property(h, "custom_constants/separation", -20, points_dur / 5)\
+				.set_ease(Tween.EASE_IN)
+		t.tween_callback(h, "hide")
+		t.tween_callback(total_label, "show")
+	else:
+		total_label.text = ""
+		total_label.show()
+		t.tween_method(self, "set_label_text", 0.0, float(total_points),
+				points_dur / 5 * 2)
 	t.tween_callback(points_add_sfx, "play")
-	t.tween_callback(total_label, "show")
 	t.tween_property(total_label, "rect_scale", Vector2.ONE * 3,
 			points_dur / 5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 	t.tween_property(total_label, "rect_scale", Vector2.ONE,
@@ -73,7 +82,8 @@ func add_points(p: int, mult: float) -> void:
 		bar_t.kill()
 	bar_t = create_tween().set_trans(Tween.TRANS_QUAD)
 	bar_t.tween_interval(particle_dur + points_dur + enter_dur)
-	t.tween_callback(points_collect_sfx, "play")
+	if total_points:
+		t.tween_callback(points_collect_sfx, "play")
 	for i in total_points:
 		t.tween_callback(self, "spawn_particle")
 		t.tween_interval(dur / total_points)
@@ -90,6 +100,13 @@ func add_points(p: int, mult: float) -> void:
 		bar_t.tween_callback(self, "emit_signal", ["max_points_reached"])
 	else:
 		bar_t.tween_callback(self, "emit_signal", ["added_points"])
+
+
+func set_label_text(val: int) -> void:
+	var new_text = str(val)
+	if new_text != total_label.text:
+		total_label.text = str(val)
+		label_add_sfx.play()
 
 
 func spawn_particle(dur: float = particle_dur) -> void:

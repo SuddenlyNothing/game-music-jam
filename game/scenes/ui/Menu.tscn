@@ -75,6 +75,12 @@ margin_bottom = 67.0
 unique_name_in_owner = true
 margin_right = 81.0
 margin_bottom = 18.0
+focus_neighbour_left = NodePath("../Credits")
+focus_neighbour_top = NodePath("../Credits")
+focus_neighbour_right = NodePath("../Settings")
+focus_neighbour_bottom = NodePath("../Settings")
+focus_next = NodePath("../Settings")
+focus_previous = NodePath("../Credits")
 text = "Start"
 align = 0
 play_pressed = false
@@ -84,6 +90,12 @@ unique_name_in_owner = true
 margin_top = 22.0
 margin_right = 81.0
 margin_bottom = 40.0
+focus_neighbour_left = NodePath("../Start")
+focus_neighbour_top = NodePath("../Start")
+focus_neighbour_right = NodePath("../Credits")
+focus_neighbour_bottom = NodePath("../Credits")
+focus_next = NodePath("../Credits")
+focus_previous = NodePath("../Start")
 text = "Settings"
 align = 0
 play_pressed = false
@@ -93,43 +105,87 @@ unique_name_in_owner = true
 margin_top = 44.0
 margin_right = 81.0
 margin_bottom = 62.0
+focus_neighbour_left = NodePath("../Settings")
+focus_neighbour_top = NodePath("../Settings")
+focus_neighbour_right = NodePath("../Start")
+focus_neighbour_bottom = NodePath("../Start")
+focus_next = NodePath("../Start")
+focus_previous = NodePath("../Settings")
 text = "Credits"
 align = 0
 
-[node name="Credits" type="PanelContainer" parent="."]
-margin_left = 20.0
+[node name="Credits" type="Control" parent="."]
+margin_left = 212.0
 margin_top = 276.0
-margin_right = 172.0
+margin_right = 364.0
 margin_bottom = 342.0
 
-[node name="M" type="MarginContainer" parent="Credits"]
+[node name="V" type="VBoxContainer" parent="Credits"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="PanelContainer" type="PanelContainer" parent="Credits/V"]
+margin_right = 152.0
+margin_bottom = 66.0
+
+[node name="M" type="MarginContainer" parent="Credits/V/PanelContainer"]
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 147.0
 margin_bottom = 61.0
 custom_constants/margin_left = 1
 
-[node name="V" type="VBoxContainer" parent="Credits/M"]
+[node name="V" type="VBoxContainer" parent="Credits/V/PanelContainer/M"]
 margin_left = 1.0
 margin_right = 142.0
 margin_bottom = 56.0
 
-[node name="Code" type="Label" parent="Credits/M/V"]
+[node name="Code" type="Label" parent="Credits/V/PanelContainer/M/V"]
 margin_right = 141.0
 margin_bottom = 16.0
 text = "Code - Nothing#3367"
 
-[node name="Art" type="Label" parent="Credits/M/V"]
+[node name="Art" type="Label" parent="Credits/V/PanelContainer/M/V"]
 margin_top = 20.0
 margin_right = 141.0
 margin_bottom = 36.0
 text = "Art - AJ#3414"
 
-[node name="Audio" type="Label" parent="Credits/M/V"]
+[node name="Audio" type="Label" parent="Credits/V/PanelContainer/M/V"]
 margin_top = 40.0
 margin_right = 141.0
 margin_bottom = 56.0
 text = "Audio - Cryvera#4210"
+
+[node name="PanelContainer2" type="PanelContainer" parent="Credits/V"]
+margin_top = 70.0
+margin_right = 152.0
+margin_bottom = 135.0
+
+[node name="M" type="MarginContainer" parent="Credits/V/PanelContainer2"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 147.0
+margin_bottom = 60.0
+custom_constants/margin_left = 1
+
+[node name="V" type="VBoxContainer" parent="Credits/V/PanelContainer2/M"]
+margin_left = 1.0
+margin_right = 142.0
+margin_bottom = 55.0
+
+[node name="LinkButton" type="LinkButton" parent="Credits/V/PanelContainer2/M/V"]
+margin_right = 141.0
+margin_bottom = 16.0
+text = "Dialogic Repository"
+underline = 1
+
+[node name="Label" type="Label" parent="Credits/V/PanelContainer2/M/V"]
+margin_top = 20.0
+margin_right = 141.0
+margin_bottom = 55.0
+text = "MIT - Emilio Coppola and contributors"
+autowrap = true
 
 [node name="StartSFX" parent="." instance=ExtResource( 4 )]
 stream = null
@@ -138,4 +194,5 @@ audio_streams = [ ExtResource( 5 ) ]
 [connection signal="pressed" from="M/V/M/P/V/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="M/V/M/P/V/Settings" to="." method="_on_Settings_pressed"]
 [connection signal="pressed" from="M/V/M/P/V/Credits" to="." method="_on_Credits_pressed"]
+[connection signal="pressed" from="Credits/V/PanelContainer2/M/V/LinkButton" to="." method="_on_LinkButton_pressed"]
 [connection signal="finished" from="StartSFX" to="." method="_on_StartSFX_finished"]

@@ -64,7 +64,7 @@ func _on_AnimatedSprite_animation_finished() -> void:
 			t.tween_property(anim_sprite, "offset:y", -600.0, 1)
 			t.tween_callback(self, "goto_player")
 			t.tween_callback(mark, "show")
-			t.tween_property(anim_sprite, "offset:y", 0.0, 0.6)
+			t.tween_property(anim_sprite, "offset:y", 0.0, 0.5)
 			t.tween_callback(shadow, "show")
 			t.tween_callback(mark, "hide")
 			t.tween_callback(anim_sprite, "play", ["land"])
@@ -74,19 +74,21 @@ func _on_AnimatedSprite_animation_finished() -> void:
 			t.tween_callback(get_tree(), "call_group",
 					["effects_camera", "shake", 0.4])
 		"throw":
-			Variables.rng.randomize()
-			change_state_timer.start(Variables.rng.randf_range(0.1, 0.3))
+			pick_rand_state()
+#			Variables.rng.randomize()
+#			change_state_timer.start(Variables.rng.randf_range(0.1, 0.3))
 			anim_sprite.play("idle")
 		"land":
-			Variables.rng.randomize()
-			change_state_timer.start(Variables.rng.randf_range(0.1, 0.3))
+			pick_rand_state()
+#			Variables.rng.randomize()
+#			change_state_timer.start(Variables.rng.randf_range(0.1, 0.3))
 			anim_sprite.play("idle")
 
 
 func goto_player() -> void:
 	Variables.rng.randomize()
 	var new_pos: Vector2 = player.position + player.velocity * \
-			Variables.rng.randf_range(0, 0.6)
+			Variables.rng.randf_range(0, 0.5)
 	position = Vector2(
 		clamp(new_pos.x, 0, 384),
 		clamp(new_pos.y, 0, 256)

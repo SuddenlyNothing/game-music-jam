@@ -4,6 +4,7 @@ var target: Node2D
 var duration := 0.5
 var max_points := 10
 var random_offset := (Vector2.RIGHT * 200).rotated(2 * PI * (randf() - 0.5))
+var finished := false
 
 onready var line := $Line2D
 onready var start_pos := position
@@ -19,8 +20,10 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if t.is_active():
-		line.add_point(position)
+	line.add_point(position)
+	if finished:
+		position = target.global_position
+		line.remove_point(0)
 	if len(line.points) >= max_points:
 		line.remove_point(0)
 	if len(line.points) <= 0:
@@ -36,4 +39,5 @@ func move_to_end(weight: float) -> void:
 
 func _on_Tween_tween_all_completed() -> void:
 	max_points = 0
+	finished = true
 	$EndSFX.play()

@@ -1,0 +1,77 @@
+{
+	"events": [
+		{
+			"audio": "play",
+			"audio_bus": "SFX",
+			"event_id": "dialogic_030",
+			"event_name": "AudioEvent",
+			"file": "res://assets/sfx/ambient/outdoor/outdoor_footstep_3.wav",
+			"volume": 0
+		},
+		{
+			"event_id": "dialogic_023",
+			"hide_dialogbox": true,
+			"wait_seconds": 0.1
+		},
+		{
+			"audio": "play",
+			"audio_bus": "Master",
+			"event_id": "dialogic_030",
+			"event_name": "AudioEvent",
+			"file": "res://assets/sfx/ambient/outdoor/outdoor_footstep_4.wav",
+			"volume": 0
+		},
+		{
+			"event_id": "dialogic_023",
+			"hide_dialogbox": true,
+			"wait_seconds": 0.2,
+			"waiting_skippable": true
+		},
+		{
+			"condition": ">=",
+			"definition": "1668329633-107",
+			"event_id": "dialogic_012",
+			"value": "3"
+		},
+		{
+			"change_timeline": "timeline-1668363039.json",
+			"event_id": "dialogic_020"
+		},
+		{
+			"event_id": "dialogic_013"
+		},
+		{
+			"condition": "<",
+			"definition": "1668329633-107",
+			"event_id": "dialogic_012",
+			"value": "3"
+		},
+		{
+			"character": "character-1668029464.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Yay! My food's here"
+		},
+		{
+			"event_id": "dialogic_013"
+		},
+		{
+			"condition": "<",
+			"definition": "1668329633-107",
+			"event_id": "dialogic_012",
+			"value": "3"
+		},
+		{
+			"change_timeline": "timeline-1668362582.json",
+			"event_id": "dialogic_020"
+		},
+		{
+			"event_id": "dialogic_013"
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.4.5",
+		"file": "timeline-1668362042.json",
+		"name": "food2"
+	}
+}

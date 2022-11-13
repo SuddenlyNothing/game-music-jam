@@ -1,0 +1,35 @@
+{
+	"events": [
+		{
+			"condition": "<",
+			"definition": "1668329633-107",
+			"event_id": "dialogic_012",
+			"value": "6"
+		},
+		{
+			"change_timeline": "timeline-1668362042.json",
+			"event_id": "dialogic_020"
+		},
+		{
+			"event_id": "dialogic_013"
+		},
+		{
+			"condition": ">=",
+			"definition": "1668329633-107",
+			"event_id": "dialogic_012",
+			"value": "6"
+		},
+		{
+			"change_timeline": "timeline-1668363585.json",
+			"event_id": "dialogic_020"
+		},
+		{
+			"event_id": "dialogic_013"
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.4.5",
+		"file": "timeline-1668362891.json",
+		"name": "food3"
+	}
+}

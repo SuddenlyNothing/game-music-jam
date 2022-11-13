@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=2]
+[gd_scene load_steps=98 format=2]
 
 [ext_resource path="res://assets/environment/room/room_background.png" type="Texture" id=1]
 [ext_resource path="res://assets/environment/room/trash_can.png" type="Texture" id=2]
@@ -54,6 +54,8 @@
 [ext_resource path="res://assets/sfx/room_interactions/computer_1.wav" type="AudioStream" id=52]
 [ext_resource path="res://assets/sfx/room_interactions/computer_3.wav" type="AudioStream" id=53]
 [ext_resource path="res://assets/sfx/room_interactions/computer_2.wav" type="AudioStream" id=54]
+[ext_resource path="res://assets/environment/room/shelf.png" type="Texture" id=55]
+[ext_resource path="res://assets/sfx/scene/act1/open_door.wav" type="AudioStream" id=56]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 particles_animation = true
@@ -349,7 +351,7 @@ animations = [ {
 [sub_resource type="AudioStreamRandomPitch" id=53]
 resource_local_to_scene = true
 
-[sub_resource type="Shader" id=48]
+[sub_resource type="Shader" id=57]
 code = "shader_type canvas_item;
 render_mode unshaded;
 
@@ -430,7 +432,7 @@ void fragment()
 
 [sub_resource type="ShaderMaterial" id=49]
 resource_local_to_scene = true
-shader = SubResource( 48 )
+shader = SubResource( 57 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
@@ -508,6 +510,7 @@ z_index = 25
 texture = ExtResource( 8 )
 
 [node name="Leaves" type="CPUParticles2D" parent="Outside/Fall/Background"]
+pause_mode = 2
 material = SubResource( 1 )
 position = Vector2( 0, -64 )
 amount = 16
@@ -531,6 +534,7 @@ z_index = 70
 texture = ExtResource( 9 )
 
 [node name="Leaves" type="CPUParticles2D" parent="Outside/Fall/Foreground"]
+pause_mode = 2
 material = SubResource( 1 )
 position = Vector2( 0, -64 )
 z_index = -70
@@ -557,6 +561,7 @@ visible = false
 texture = ExtResource( 14 )
 
 [node name="Snow" type="CPUParticles2D" parent="Outside/Winter/Background"]
+pause_mode = 2
 material = SubResource( 3 )
 position = Vector2( 0, -64 )
 amount = 20
@@ -579,6 +584,7 @@ z_index = 70
 texture = ExtResource( 15 )
 
 [node name="Snow" type="CPUParticles2D" parent="Outside/Winter/Foreground"]
+pause_mode = 2
 material = SubResource( 3 )
 position = Vector2( 0, -64 )
 z_index = -70
@@ -604,6 +610,7 @@ visible = false
 texture = ExtResource( 12 )
 
 [node name="Rain" type="CPUParticles2D" parent="Outside/Spring/Background"]
+pause_mode = 2
 material = SubResource( 11 )
 amount = 16
 lifetime = 0.5
@@ -619,6 +626,7 @@ z_index = 70
 texture = ExtResource( 13 )
 
 [node name="Rain" type="CPUParticles2D" parent="Outside/Spring/Foreground"]
+pause_mode = 2
 material = SubResource( 11 )
 amount = 16
 lifetime = 0.5
@@ -630,11 +638,11 @@ anim_speed = 2.0
 anim_speed_random = 0.5
 
 [node name="Cover" type="BackBufferCopy" parent="Outside"]
-modulate = Color( 1, 1, 1, 0 )
 z_index = 190
 copy_mode = 2
 
 [node name="Cover" type="Sprite" parent="Outside/Cover"]
+modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 30 )
 
 [node name="Window" type="Sprite" parent="Outside/Cover"]
@@ -672,7 +680,7 @@ frames = SubResource( 44 )
 animation = "1"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="YSort/RoomElements/Enterables/Desk"]
-polygon = PoolVector2Array( -8, 29.5, 10, 37.5, 20, 35.5, 28, 23.5, 28, 15.5, 18, 9.5, -8, 23.5 )
+polygon = PoolVector2Array( -8, 26, 2, 30, 19, 32, 28, 23.5, 28, 15.5, 18, 9.5, -8, 23.5 )
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Desk" instance=ExtResource( 44 )]
 stream = SubResource( 50 )
@@ -711,17 +719,18 @@ input_hint_text = "pump iron"
 
 [node name="Default" type="Sprite" parent="YSort/RoomElements/Enterables/Weights"]
 use_parent_material = true
+z_index = 718
 texture = ExtResource( 3 )
 
 [node name="Entered" type="AnimatedSprite" parent="YSort/RoomElements/Enterables/Weights"]
 visible = false
 use_parent_material = true
-z_index = 64
+z_index = 718
 frames = SubResource( 46 )
 animation = "1"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="YSort/RoomElements/Enterables/Weights"]
-polygon = PoolVector2Array( -67, 63.5, -40, 75.5, -26, 71.5, -57, 55.5 )
+polygon = PoolVector2Array( -60, 66, -40, 75.5, -26, 70, -47, 63 )
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Weights" instance=ExtResource( 44 )]
 stream = SubResource( 52 )
@@ -752,9 +761,12 @@ audio_streams = [ ExtResource( 47 ), ExtResource( 45 ), ExtResource( 46 ) ]
 
 [node name="Door" parent="YSort/RoomElements/Enterables" instance=ExtResource( 21 )]
 material = SubResource( 49 )
-input_hint_text = "get food"
+input_hint_text = "leave"
+disabled = true
+disabled_dialog = [ "I'm not ready to go outside yet.", "Maybe tomorrow..." ]
 
 [node name="Default" type="Sprite" parent="YSort/RoomElements/Enterables/Door"]
+texture = ExtResource( 7 )
 
 [node name="Entered" type="AnimatedSprite" parent="YSort/RoomElements/Enterables/Door"]
 visible = false
@@ -771,15 +783,37 @@ polygon = PoolVector2Array( -67, 38, -88, 48, -90, 47, -69, 35 )
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Door" instance=ExtResource( 44 )]
 stream = SubResource( 54 )
+audio_streams = [ ExtResource( 56 ) ]
+
+[node name="Shelf" parent="YSort/RoomElements/Enterables" instance=ExtResource( 21 )]
+material = SubResource( 49 )
+input_hint_text = "read"
+disabled = true
+disabled_dialog = [ "No point in studying now." ]
+
+[node name="Default" type="Sprite" parent="YSort/RoomElements/Enterables/Shelf"]
+texture = ExtResource( 55 )
+
+[node name="Entered" type="AnimatedSprite" parent="YSort/RoomElements/Enterables/Shelf"]
+visible = false
+use_parent_material = true
+position = Vector2( 104, 28 )
+z_index = 26
+frames = SubResource( 23 )
+animation = "1"
+offset = Vector2( -42, -3 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="YSort/RoomElements/Enterables/Shelf"]
+polygon = PoolVector2Array( 52, 39, 88, 57, 100, 51, 50, 26 )
+
+[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Shelf" instance=ExtResource( 44 )]
+stream = SubResource( 54 )
 audio_streams = [ ExtResource( 47 ), ExtResource( 45 ), ExtResource( 46 ) ]
 
 [node name="TrashCan" type="Sprite" parent="YSort/RoomElements"]
 position = Vector2( 0, 39 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -39 )
-
-[node name="Door" type="Sprite" parent="YSort/RoomElements"]
-texture = ExtResource( 7 )
 
 [node name="LightUnder" type="Sprite" parent="YSort/RoomElements"]
 texture = ExtResource( 19 )
@@ -816,12 +850,6 @@ polygon = PoolVector2Array( -2, 52, 2, 50, -106, -4, -110, -2 )
 position = Vector2( 106, 1.5 )
 polygon = PoolVector2Array( -2, 52, 2, 50, -106, -4, -110, -2 )
 
-[node name="StaticBody2D5" type="StaticBody2D" parent="YSort/RoomElements/Collisions"]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="YSort/RoomElements/Collisions/StaticBody2D5"]
-position = Vector2( 106, 1.5 )
-polygon = PoolVector2Array( -6, 50, -18, 56, -54, 38, -56, 24 )
-
 [node name="StaticBody2D6" type="StaticBody2D" parent="YSort/RoomElements/Collisions"]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="YSort/RoomElements/Collisions/StaticBody2D6"]
@@ -837,6 +865,7 @@ polygon = PoolVector2Array( -142, 16, -114, 28, -114, 22, -136, 12 )
 [node name="MinigamesManager" parent="." instance=ExtResource( 4 )]
 
 [connection signal="interacted" from="YSort/RoomElements/Enterables/Desk" to="MinigamesManager" method="_on_Desk_interacted"]
+[connection signal="interacted" from="YSort/RoomElements/Enterables/Window" to="MinigamesManager" method="_on_Window_interacted"]
 [connection signal="interacted" from="YSort/RoomElements/Enterables/Weights" to="MinigamesManager" method="_on_Weights_interacted"]
 [connection signal="interacted" from="YSort/RoomElements/Enterables/Bed" to="MinigamesManager" method="_on_Bed_interacted"]
-[connection signal="interacted" from="YSort/RoomElements/Enterables/Door" to="MinigamesManager" method="_on_Enterable_interacted"]
+[connection signal="interacted" from="YSort/RoomElements/Enterables/Door" to="." method="_on_Door_interacted"]

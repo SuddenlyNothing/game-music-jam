@@ -44,6 +44,7 @@ onready var dash_line := $DashLine
 onready var powerup_particles := $PowerupParticles
 onready var hit_timer := $HitTimer
 onready var start_max_speed := max_speed
+onready var no_dash_timer := $NoDashTimer
 
 onready var dash_sfx := $DashSFX
 onready var eat_sfx := $EatSFX
@@ -96,17 +97,24 @@ func hit() -> bool:
 						min_hit_speed)
 			hit_timer.start()
 			hurt_sfx.play()
+			no_dash_timer.start()
+			var t := create_tween()
+			t.tween_property(anim_sprite.get_material(),
+					"shader_param/hit_strength", 0.0, hit_timer.wait_time)\
+					.from(1.0)
 			return true
 	return false
 
 
 func can_dash() -> bool:
-	return not locked and powerup_count >= powerup_threshold and dashable
+	return not locked and powerup_count >= powerup_threshold and dashable\
+			and no_dash_timer.is_stopped()
 
 
 func can_lunge() -> bool:
 	return Input.is_action_just_pressed("interact", true) and not locked\
-			and (powerup_count < powerup_threshold or not dashable)
+			and (powerup_count < powerup_threshold or not dashable)\
+			and no_dash_timer.is_stopped()
 
 
 func start_lunge() -> void:

@@ -43,7 +43,8 @@ func _physics_process(delta: float) -> void:
 
 func set_move_speed(val: int) -> void:
 	move_speed = val
-	speed_scale = move_speed / start_move_speed * start_speed_scale
+	if is_inside_tree():
+		speed_scale = move_speed / start_move_speed * start_speed_scale
 
 
 func set_act(val: String) -> void:

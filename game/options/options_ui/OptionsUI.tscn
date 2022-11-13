@@ -80,6 +80,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 4 )
 script = ExtResource( 3 )
+start_focus_button_path = NodePath("M/V/PanelContainer/M/H/H/Audio")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
