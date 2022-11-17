@@ -44,7 +44,8 @@ export(float) var hover_timing := 0.2
 export(float) var pressed_timing := 0.02
 export(float) var disabled_timing := 0.0
 
-export(StyleBoxFlat) var normal_style: StyleBoxFlat = null setget set_normal_style
+export(StyleBoxFlat) var normal_style: StyleBoxFlat = null setget \
+		set_normal_style
 export(StyleBoxFlat) var hover_style: StyleBoxFlat
 export(StyleBoxFlat) var pressed_style: StyleBoxFlat
 export(StyleBoxFlat) var disabled_style: StyleBoxFlat
@@ -54,6 +55,7 @@ var previous_disabled := false
 var pressing := false
 var focused := false
 var started_scene_transition := false
+var current_focused: Control
 
 onready var t := $Tween
 onready var bg := $BG
@@ -63,11 +65,15 @@ onready var pressed_sfx := $PressedSFX
 
 func _ready() -> void:
 	refresh_theme()
+	if not Engine.editor_hint:
+		get_viewport().connect("gui_focus_changed", self, "_on_focus_changed")
 
 
 # Goes to next_scene if the next_scene variable is set
 func _pressed() -> void:
-	if next_scene and not started_scene_transition:
+	if started_scene_transition:
+		return
+	if next_scene:
 		started_scene_transition = true
 		SceneHandler.goto_scene(next_scene)
 	if play_pressed:
@@ -87,7 +93,8 @@ func refresh_theme() -> void:
 		else:
 			var current_theme := get_theme()
 			if current_theme:
-				$BG.add_stylebox_override("panel", current_theme.get_stylebox("normal", "Button"))
+				$BG.add_stylebox_override("panel", current_theme.get_stylebox(
+						"normal", "Button"))
 	else:
 		cover_overrides()
 		var curr_text_color := Color()
@@ -134,7 +141,8 @@ func get_theme() -> Theme:
 # override. If there is no button override, uses the theme style/color. Only
 # overrides if the respective property is not set in the export variable.
 func cover_overrides() -> void:
-	if normal_style and hover_style and pressed_style and disabled_style and override_text_colors:
+	if normal_style and hover_style and pressed_style and disabled_style and \
+			override_text_colors:
 		return
 	var scene_theme := get_theme()
 	if not scene_theme:
@@ -147,40 +155,48 @@ func cover_overrides() -> void:
 		if normal_override_color != null:
 			normal_text_color = normal_override_color
 		elif "font_color" in color_list:
-			var normal_theme_color := scene_theme.get_color("font_color", "Button")
+			var normal_theme_color := scene_theme.get_color("font_color",
+					"Button")
 			normal_text_color = normal_theme_color
 		
 		var hover_override_color = get("custom_colors/font_color_hover")
 		if hover_override_color != null:
 			hover_text_color = hover_override_color
 		elif "font_color_hover" in color_list:
-			var hover_theme_color := scene_theme.get_color("font_color_hover", "Button")
+			var hover_theme_color := scene_theme.get_color("font_color_hover",
+					"Button")
 			hover_text_color = hover_theme_color
 		
 		var pressed_override_color = get("custom_colors/font_color_pressed")
 		if pressed_override_color != null:
 			pressed_text_color = pressed_override_color
 		elif "font_color_pressed" in color_list:
-			var pressed_theme_color := scene_theme.get_color("font_color_pressed", "Button")
+			var pressed_theme_color := scene_theme.get_color(
+					"font_color_pressed", "Button")
 			pressed_text_color = pressed_theme_color
 		
 		var disabled_override_color = get("custom_colors/font_color_disabled")
 		if disabled_override_color != null:
 			disabled_text_color = disabled_override_color
 		elif "font_color_disabled" in color_list:
-			var disabled_theme_color := scene_theme.get_color("font_color_disabled", "Button")
+			var disabled_theme_color := scene_theme.get_color(
+					"font_color_disabled", "Button")
 			disabled_text_color = disabled_theme_color
 		
-	var theme_normal := empty_to_flat(scene_theme.get_stylebox("normal", "Button"))
+	var theme_normal := empty_to_flat(scene_theme.get_stylebox("normal",
+			"Button"))
 	if theme_normal is StyleBoxFlat and not normal_style:
 		normal_style = theme_normal
-	var theme_hover := empty_to_flat(scene_theme.get_stylebox("hover", "Button"))
+	var theme_hover := empty_to_flat(scene_theme.get_stylebox("hover",
+			"Button"))
 	if theme_hover is StyleBoxFlat and not hover_style:
 		hover_style = theme_hover
-	var theme_pressed := empty_to_flat(scene_theme.get_stylebox("pressed", "Button"))
+	var theme_pressed := empty_to_flat(scene_theme.get_stylebox("pressed",
+			"Button"))
 	if theme_pressed is StyleBoxFlat and not pressed_style:
 		pressed_style = theme_pressed
-	var theme_disabled := empty_to_flat(scene_theme.get_stylebox("disabled", "Button"))
+	var theme_disabled := empty_to_flat(scene_theme.get_stylebox("disabled",
+			"Button"))
 	if theme_disabled is StyleBoxFlat and not disabled_style:
 		disabled_style = theme_disabled
 
@@ -206,6 +222,8 @@ func set_color(to: Color) -> void:
 
 # Animates the current styling to the new given to style
 func set_style(to: String) -> void:
+	if started_scene_transition:
+		return
 	var from := bg.get_stylebox("panel") as StyleBoxFlat
 	var style: StyleBoxFlat = null
 	var timing := 0.0
@@ -228,7 +246,8 @@ func set_style(to: String) -> void:
 			timing = disabled_timing
 			new_color = disabled_text_color
 	t.remove_all()
-	t.interpolate_method(self, "set_color", get("custom_colors/font_color"), new_color, timing)
+	t.interpolate_method(self, "set_color", get("custom_colors/font_color"),
+			new_color, timing)
 	if from and style:
 		if (not from.bg_color.a or not from.draw_center) and style.draw_center:
 			var old_color := style.bg_color
@@ -271,22 +290,30 @@ func set_style(to: String) -> void:
 					style.border_color, timing)
 		
 		t.interpolate_property(from, "corner_radius_top_right", null, 
-				style.corner_radius_top_right, timing, transition_type, easing_type)
+				style.corner_radius_top_right, timing, transition_type,
+				easing_type)
 		t.interpolate_property(from, "corner_radius_bottom_right", null, 
-				style.corner_radius_bottom_right, timing, transition_type, easing_type)
+				style.corner_radius_bottom_right, timing, transition_type,
+				easing_type)
 		t.interpolate_property(from, "corner_radius_bottom_left", null, 
-				style.corner_radius_bottom_left, timing, transition_type, easing_type)
+				style.corner_radius_bottom_left, timing, transition_type,
+				easing_type)
 		t.interpolate_property(from, "corner_radius_top_left", null, 
-				style.corner_radius_top_left, timing, transition_type, easing_type)
+				style.corner_radius_top_left, timing, transition_type,
+				easing_type)
 		
 		t.interpolate_property(from, "expand_margin_top", null, 
-				style.expand_margin_top, timing, transition_type, easing_type)
+				style.expand_margin_top, timing, transition_type,
+				easing_type)
 		t.interpolate_property(from, "expand_margin_right", null, 
-				style.expand_margin_right, timing, transition_type, easing_type)
+				style.expand_margin_right, timing, transition_type,
+				easing_type)
 		t.interpolate_property(from, "expand_margin_bottom", null, 
-				style.expand_margin_bottom, timing, transition_type, easing_type)
+				style.expand_margin_bottom, timing, transition_type,
+				easing_type)
 		t.interpolate_property(from, "expand_margin_left", null, 
-				style.expand_margin_left, timing, transition_type, easing_type)
+				style.expand_margin_left, timing, transition_type,
+				easing_type)
 		
 		if not style.shadow_color.a or not style.shadow_size:
 			t.interpolate_property(from, "shadow_color:a", null,
@@ -305,7 +332,8 @@ func set_style(to: String) -> void:
 		t.interpolate_property(from, "shadow_size", null,
 				style.shadow_size, timing, transition_type, easing_type)
 	
-	t.start()
+	if t and is_instance_valid(t) and t.is_inside_tree():
+		t.start()
 
 
 # Normal style setget.
@@ -322,6 +350,7 @@ func _on_AnimButton_mouse_entered() -> void:
 	if pressed or disabled:
 		return
 	set_style("hover")
+	grab_focus()
 	if play_hover:
 		hover_sfx.play()
 
@@ -331,12 +360,13 @@ func _on_AnimButton_mouse_exited() -> void:
 	is_mouse_inside = false
 	if pressed or disabled:
 		return
-	if not focused:
-		set_style("normal")
+	set_style("normal")
 
 
 # Detects pressed
 func _on_AnimButton_button_down() -> void:
+	if started_scene_transition:
+		return
 	pressing = true
 	if action_mode == ACTION_MODE_BUTTON_PRESS and play_pressed:
 		pressed_sfx.play()
@@ -376,7 +406,7 @@ func _on_AnimatedButton_draw() -> void:
 
 
 func _toggled(button_pressed: bool) -> void:
-	if pressing or disabled:
+	if pressing or disabled or started_scene_transition:
 		return
 	if button_pressed:
 		set_style("pressed")
@@ -388,14 +418,16 @@ func _toggled(button_pressed: bool) -> void:
 
 func _on_AnimatedButton_hide() -> void:
 	is_mouse_inside = false
-	if disabled:
+	if disabled or started_scene_transition:
 		return
+	if current_focused == self:
+		find_next_valid_focus().grab_focus()
 	set_style("normal")
 
 
 func _on_AnimatedButton_focus_entered() -> void:
 	focused = true
-	if disabled:
+	if disabled or started_scene_transition:
 		return
 	if play_hover:
 		hover_sfx.play()
@@ -404,6 +436,15 @@ func _on_AnimatedButton_focus_entered() -> void:
 
 func _on_AnimatedButton_focus_exited() -> void:
 	focused = false
-	if disabled:
+	if disabled or started_scene_transition:
 		return
 	set_style("normal")
+
+
+func _on_AnimatedButton_gui_input(event: InputEvent) -> void:
+	if not has_focus():
+		grab_focus()
+
+
+func _on_focus_changed(control: Control) -> void:
+	current_focused = control

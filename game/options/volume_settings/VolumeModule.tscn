@@ -67,7 +67,6 @@ stretch_mode = 6
 margin_top = 132.0
 margin_right = 384.0
 margin_bottom = 148.0
-focus_mode = 0
 max_value = 2.0
 step = 0.1
 value = 1.0
