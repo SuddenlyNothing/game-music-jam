@@ -148,6 +148,8 @@ resource_local_to_scene = true
 resource_local_to_scene = true
 
 [node name="TopdownPlayer" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource( 2 )
 
 [node name="TopdownPlayerStates" type="Node" parent="."]

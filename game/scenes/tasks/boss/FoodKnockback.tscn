@@ -1,18 +1,36 @@
 [gd_scene load_steps=40 format=2]
 
-[ext_resource path="res://assets/characters/enemies/enemy_fries_idle.png" type="Texture" id=1]
-[ext_resource path="res://assets/characters/enemies/enemy_fries_run.png" type="Texture" id=2]
-[ext_resource path="res://assets/characters/enemies/enemy_burger_idle.png" type="Texture" id=3]
+[ext_resource path="res://assets/characters/enemies/enemy_burger_idle.png" type="Texture" id=1]
+[ext_resource path="res://assets/characters/enemies/enemy_pizza_idle.png" type="Texture" id=2]
+[ext_resource path="res://assets/characters/enemies/enemy_pizza_run.png" type="Texture" id=3]
 [ext_resource path="res://assets/characters/enemies/enemy_burger_run.png" type="Texture" id=4]
 [ext_resource path="res://assets/characters/enemies/enemy_donut_idle.png" type="Texture" id=5]
-[ext_resource path="res://assets/characters/enemies/enemy_pizza_idle.png" type="Texture" id=6]
-[ext_resource path="res://assets/characters/enemies/enemy_pizza_run.png" type="Texture" id=7]
-[ext_resource path="res://assets/characters/enemies/enemy_donut_run.png" type="Texture" id=8]
-[ext_resource path="res://scenes/tasks/boss/FoodProjectile.gd" type="Script" id=9]
-[ext_resource path="res://assets/characters/enemies/small_shadow.png" type="Texture" id=10]
+[ext_resource path="res://assets/characters/enemies/enemy_fries_idle.png" type="Texture" id=6]
+[ext_resource path="res://assets/characters/enemies/enemy_donut_run.png" type="Texture" id=7]
+[ext_resource path="res://assets/characters/enemies/enemy_fries_run.png" type="Texture" id=8]
+[ext_resource path="res://assets/characters/enemies/small_shadow.png" type="Texture" id=9]
+[ext_resource path="res://scenes/tasks/boss/FoodKnockback.gd" type="Script" id=11]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 hit_color : hint_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float hit_strength : hint_range(0.0,1.0) = 0.0;
+
+void fragment() {
+	vec4 custom_color = texture(TEXTURE, UV);
+	custom_color.rgb = mix(custom_color.rgb, hit_color.rgb, hit_strength);
+	COLOR = custom_color;
+}"
+
+[sub_resource type="ShaderMaterial" id=31]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/hit_color = Color( 0.705882, 0.12549, 0.164706, 1 )
+shader_param/hit_strength = 1.0
 
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=4]
@@ -44,75 +62,75 @@ atlas = ExtResource( 4 )
 region = Rect2( 16, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 7 )
 region = Rect2( 16, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 7 )
 region = Rect2( 32, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 7 )
 region = Rect2( 48, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 8 )
+atlas = ExtResource( 7 )
 region = Rect2( 16, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 8 )
 region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 8 )
 region = Rect2( 16, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 8 )
 region = Rect2( 32, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 8 )
 region = Rect2( 48, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 8 )
 region = Rect2( 0, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 8 )
 region = Rect2( 16, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 3 )
 region = Rect2( 16, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 3 )
 region = Rect2( 32, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 3 )
 region = Rect2( 48, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 3 )
 region = Rect2( 16, 16, 16, 16 )
 
 [sub_resource type="SpriteFrames" id=30]
@@ -127,12 +145,12 @@ animations = [ {
 "name": "idle_donut",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 1 ) ],
+"frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "idle_fries",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ) ],
+"frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "idle_pizza",
 "speed": 5.0
@@ -158,40 +176,24 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=31]
-extents = Vector2( 3, 2.5 )
-
-[sub_resource type="CircleShape2D" id=32]
-radius = 5.0
-
-[node name="FoodProjectile" type="KinematicBody2D" groups=["food"]]
-collision_layer = 4
-script = ExtResource( 9 )
+[node name="FoodKnockback" type="Node2D"]
+material = SubResource( 31 )
+script = ExtResource( 11 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+use_parent_material = true
 position = Vector2( 0, -8 )
-z_index = 72
 frames = SubResource( 30 )
 animation = "idle_burger"
 speed_scale = 2.0
 
 [node name="SmallShadow" type="Sprite" parent="."]
 z_index = -20
-texture = ExtResource( 10 )
+texture = ExtResource( 9 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -2.5 )
-shape = SubResource( 31 )
-
-[node name="SpawnTimer" type="Timer" parent="."]
+[node name="DeathTimer" type="Timer" parent="."]
+wait_time = 0.4
 one_shot = true
 autostart = true
 
-[node name="Hitbox" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2( 0, -7 )
-shape = SubResource( 32 )
-
-[connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
-[connection signal="body_entered" from="Hitbox" to="." method="_on_Hitbox_body_entered"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_DeathTimer_timeout"]

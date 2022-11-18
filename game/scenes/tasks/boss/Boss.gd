@@ -61,10 +61,10 @@ func _on_AnimatedSprite_animation_finished() -> void:
 			if t:
 				t.kill()
 			t = create_tween()
-			t.tween_property(anim_sprite, "offset:y", -600.0, 1)
+			t.tween_property(anim_sprite, "offset:y", -600.0, 0.6)
 			t.tween_callback(self, "goto_player")
 			t.tween_callback(mark, "show")
-			t.tween_property(anim_sprite, "offset:y", 0.0, 0.5)
+			t.tween_property(anim_sprite, "offset:y", 0.0, 0.6)
 			t.tween_callback(shadow, "show")
 			t.tween_callback(mark, "hide")
 			t.tween_callback(anim_sprite, "play", ["land"])
@@ -88,7 +88,7 @@ func _on_AnimatedSprite_animation_finished() -> void:
 func goto_player() -> void:
 	Variables.rng.randomize()
 	var new_pos: Vector2 = player.position + player.velocity * \
-			Variables.rng.randf_range(0, 0.5)
+			Variables.rng.randf_range(0, 0.6)
 	position = Vector2(
 		clamp(new_pos.x, 0, 384),
 		clamp(new_pos.y, 0, 256)
@@ -110,7 +110,7 @@ func pick_rand_state() -> void:
 func _on_AnimatedSprite_frame_changed() -> void:
 	if anim_sprite.animation == "throw" and anim_sprite.frame == 4:
 		var f := FoodProjectile.instance()
-		f.position = position
+		f.position = throw_pos.global_position
 		f.dir = throw_pos.global_position.direction_to(player.position)
 		f.player = player
 		get_parent().add_child(f)

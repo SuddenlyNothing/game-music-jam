@@ -300,6 +300,9 @@ resource_local_to_scene = true
 script = ExtResource( 4 )
 next_scene = ""
 
+[node name="YSort" parent="." index="3"]
+visible = false
+
 [node name="Desk" parent="YSort/RoomElements/Enterables" index="0"]
 material = SubResource( 7 )
 
@@ -338,13 +341,11 @@ material = SubResource( 58 )
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Shelf" index="5"]
 stream = SubResource( 59 )
 
-[node name="Camera2D" type="Camera2D" parent="YSort/RoomElements" index="6"]
-current = true
-
 [node name="RoomPlayer" parent="YSort" index="1" instance=ExtResource( 2 )]
 position = Vector2( 327, 249 )
 z_index = 20
 act = "2"
+locked = true
 
 [node name="MinigamesManager" parent="." index="4"]
 max_points = 30
@@ -352,12 +353,18 @@ max_points = 30
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="5"]
 
 [node name="DialogPlayer" parent="CanvasLayer" index="0" instance=ExtResource( 3 )]
+character = 1
 autoplay = true
 autoplay_dialog = [ "Hello" ]
 
 [node name="D2" parent="CanvasLayer" index="1" instance=ExtResource( 3 )]
+character = 1
 autoplay = true
 autoplay_dialog = [ "Hello" ]
+
+[node name="Camera2D" type="Camera2D" parent="." index="6"]
+position = Vector2( 192, 128 )
+current = true
 
 [connection signal="do_event" from="MinigamesManager" to="." method="_on_MinigamesManager_do_event"]
 [connection signal="dialog_finished" from="CanvasLayer/DialogPlayer" to="." method="_on_DialogPlayer_dialog_finished"]
