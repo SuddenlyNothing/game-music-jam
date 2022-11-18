@@ -31,7 +31,7 @@ var velocity := Vector2()
 var combo: int = 0
 var locked := false setget set_locked
 var powerup_count := 0
-var show_consume_particles := false
+var knockback_enemies := false
 
 onready var dash_dist_squared := pow(dash_dist, 2)
 onready var dash_eat_padding_squared := pow(dash_eat_padding, 2)
@@ -133,11 +133,14 @@ func move_lunge(delta: float) -> void:
 	var collision := move_and_collide(velocity * delta)
 	if collision and collision.collider.is_in_group("food"):
 		topdown_player_states.call_deferred("set_state", "idle")
-		velocity = Vector2()
 		powerup_count += 1
 		eat_sfx.play()
 		anim_sprite.play("idle")
-		collision.collider.kill()
+		if knockback_enemies:
+			collision.collider.knockback(velocity.normalized())
+		else:
+			collision.collider.kill()
+		velocity = Vector2()
 		emit_signal("consumed")
 		powerup_sfx.pitch_scale = 1 + (powerup_count - 1) * 0.1
 		powerup_sfx.play()
@@ -165,7 +168,10 @@ func dash() -> void:
 	var dash_food := get_closest_dashable_food()
 	if dash_food:
 		var vec := dash_food.position - position
-		dash_food.kill()
+		if knockback_enemies:
+			dash_food.knockback(vec.normalized() * 2)
+		else:
+			dash_food.kill()
 		emit_signal("consumed")
 		move_and_collide(vec)
 		topdown_player_states.call_deferred("set_state", "idle")

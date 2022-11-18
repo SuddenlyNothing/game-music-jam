@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=14 format=2]
+[gd_resource type="Theme" load_steps=15 format=2]
 
 [sub_resource type="StyleBoxFlat" id=15]
 draw_center = false
@@ -10,7 +10,15 @@ expand_margin_left = 2.0
 expand_margin_right = 1.0
 anti_aliasing = false
 
-[sub_resource type="StyleBoxEmpty" id=14]
+[sub_resource type="StyleBoxFlat" id=17]
+draw_center = false
+border_width_bottom = 1
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 4
+expand_margin_left = 2.0
+expand_margin_right = 1.0
+anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.388235, 0.254902, 0.219608, 1 )
@@ -64,6 +72,21 @@ color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.933333, 0.870588, 0.733333, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.388235, 0.254902, 0.219608, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id=18]
+bg_color = Color( 1, 0.909804, 0.721569, 1 )
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -132,7 +155,7 @@ Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
 Button/colors/font_color_pressed = Color( 0.301961, 0.2, 0.172549, 1 )
 Button/styles/disabled = SubResource( 15 )
-Button/styles/focus = SubResource( 14 )
+Button/styles/focus = SubResource( 17 )
 Button/styles/hover = SubResource( 3 )
 Button/styles/normal = SubResource( 2 )
 Button/styles/pressed = SubResource( 16 )
@@ -141,7 +164,7 @@ HSlider/icons/grabber = SubResource( 9 )
 HSlider/icons/grabber_disabled = SubResource( 9 )
 HSlider/icons/grabber_highlight = SubResource( 9 )
 HSlider/styles/grabber_area = SubResource( 11 )
-HSlider/styles/grabber_area_highlight = SubResource( 11 )
+HSlider/styles/grabber_area_highlight = SubResource( 18 )
 HSlider/styles/slider = SubResource( 8 )
 Label/colors/font_color = Color( 0.388235, 0.254902, 0.219608, 1 )
 Label/styles/normal = SubResource( 6 )

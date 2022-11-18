@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://utils/AnimatedButton.gd" type="Script" id=1]
 [ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=2]
@@ -8,12 +8,9 @@
 [ext_resource path="res://assets/sfx/menu/hover_sfx/button_hover_3.wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/sfx/menu/hover_sfx/button_hover_2.wav" type="AudioStream" id=7]
 
-[sub_resource type="StyleBoxEmpty" id=1]
-
 [node name="AnimatedButton" type="Button"]
 margin_right = 12.0
 margin_bottom = 22.0
-custom_styles/focus = SubResource( 1 )
 flat = true
 script = ExtResource( 1 )
 
@@ -41,6 +38,7 @@ audio_streams = [ ExtResource( 4 ), ExtResource( 3 ) ]
 [connection signal="draw" from="." to="." method="_on_AnimatedButton_draw"]
 [connection signal="focus_entered" from="." to="." method="_on_AnimatedButton_focus_entered"]
 [connection signal="focus_exited" from="." to="." method="_on_AnimatedButton_focus_exited"]
+[connection signal="gui_input" from="." to="." method="_on_AnimatedButton_gui_input"]
 [connection signal="hide" from="." to="." method="_on_AnimatedButton_hide"]
 [connection signal="mouse_entered" from="." to="." method="_on_AnimButton_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_AnimButton_mouse_exited"]

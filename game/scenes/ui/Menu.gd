@@ -38,7 +38,7 @@ func _on_Start_pressed() -> void:
 		btn.disabled = true
 	var tw := create_tween().set_ease(Tween.EASE_IN)\
 			.set_trans(Tween.TRANS_QUAD)
-	tw.tween_property(self, "rect_position:x", -175.0, 0.5)
+	tw.tween_property(self, "rect_position:x", -536.0, 1.5)
 	start_sfx.play()
 
 

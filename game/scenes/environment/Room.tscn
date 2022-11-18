@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=2]
+[gd_scene load_steps=99 format=2]
 
 [ext_resource path="res://assets/environment/room/room_background.png" type="Texture" id=1]
 [ext_resource path="res://assets/environment/room/trash_can.png" type="Texture" id=2]
@@ -56,6 +56,7 @@
 [ext_resource path="res://assets/sfx/room_interactions/computer_2.wav" type="AudioStream" id=54]
 [ext_resource path="res://assets/environment/room/shelf.png" type="Texture" id=55]
 [ext_resource path="res://assets/sfx/scene/act1/open_door.wav" type="AudioStream" id=56]
+[ext_resource path="res://assets/characters/mc/shadow.png" type="Texture" id=57]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 particles_animation = true
@@ -778,6 +779,11 @@ animation = "1"
 offset = Vector2( -42, -3 )
 flip_h = true
 
+[node name="Shadow" type="Sprite" parent="YSort/RoomElements/Enterables/Door/Entered"]
+position = Vector2( -40, 26 )
+z_index = -2
+texture = ExtResource( 57 )
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="YSort/RoomElements/Enterables/Door"]
 polygon = PoolVector2Array( -67, 38, -88, 48, -90, 47, -69, 35 )
 
@@ -802,6 +808,11 @@ z_index = 26
 frames = SubResource( 23 )
 animation = "1"
 offset = Vector2( -42, -3 )
+
+[node name="Shadow" type="Sprite" parent="YSort/RoomElements/Enterables/Shelf/Entered"]
+position = Vector2( -44, 26 )
+z_index = -2
+texture = ExtResource( 57 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="YSort/RoomElements/Enterables/Shelf"]
 polygon = PoolVector2Array( 52, 39, 88, 57, 100, 51, 50, 26 )

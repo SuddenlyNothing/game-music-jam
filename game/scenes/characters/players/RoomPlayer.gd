@@ -4,8 +4,8 @@ export(String, "1", "2", "3") var act := "1"
 export(int) var move_speed := 30
 export(float) var leave_distance := 2.5
 export(int) var num_slides := 4
+export(bool) var locked := false setget set_locked
 
-var locked := false setget set_locked
 var input := Vector2()
 var enter_point := Vector2()
 var entered_collision: PhysicsBody2D

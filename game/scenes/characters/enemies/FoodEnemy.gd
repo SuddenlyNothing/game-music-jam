@@ -4,6 +4,7 @@ signal died
 
 const DeathParticles := preload(
 		"res://scenes/characters/enemies/DeathParticles.tscn")
+const FoodKnockback := preload("res://scenes/tasks/boss/FoodKnockback.tscn")
 
 const FOODS := [
 	"pizza",
@@ -89,7 +90,6 @@ func _ready() -> void:
 		calc_rays.append(1.0)
 	if track:
 		food_enemy_states.call_deferred("set_state", "track")
-		set_collision_layer_bit(0, true)
 
 
 func _draw() -> void:
@@ -113,6 +113,16 @@ func set_locked(val: bool) -> void:
 		food_enemy_states.call_deferred("set_state", "idle")
 	else:
 		food_enemy_states.call_deferred("set_state", "idle")
+
+
+func knockback(dir: Vector2) -> void:
+	var fk := FoodKnockback.instance()
+	fk.position = position
+	fk.food = food
+	fk.dir = dir
+	fk.facing = pivot.scale.x
+	get_parent().add_child(fk)
+	queue_free()
 
 
 func stop_timers() -> void:
