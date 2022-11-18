@@ -142,7 +142,7 @@ _global_script_class_icons={
 
 config/name="Playdate With Myself"
 run/main_scene="res://scenes/Act1.tscn"
-config/icon="res://icon.png"
+config/icon="res://assets/temp/Iconv1.png"
 
 [autoload]
 

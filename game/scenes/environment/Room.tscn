@@ -644,6 +644,8 @@ copy_mode = 2
 
 [node name="Cover" type="Sprite" parent="Outside/Cover"]
 modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 256, 128 )
+scale = Vector2( 2.33333, 2 )
 texture = ExtResource( 30 )
 
 [node name="Window" type="Sprite" parent="Outside/Cover"]

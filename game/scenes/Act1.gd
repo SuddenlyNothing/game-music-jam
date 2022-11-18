@@ -9,6 +9,7 @@ export(float) var season_dur := 2.0
 export(float) var betwee_dur := 4.0
 
 export(Array, Array, String, MULTILINE) var intro_dialogs
+export(Array, String, MULTILINE) var end_dialog
 
 var seasons_t: SceneTreeTween
 var room_player: Node2D
@@ -28,20 +29,20 @@ onready var hint := $Hint
 func _ready() -> void:
 	get_tree().call_group("sprite_select", "set_disabled", true)
 	seasons_t = create_tween().set_loops()
-	seasons_t.tween_callback(self, "set_season", ["fall", season_dur])
-	seasons_t.tween_interval(season_dur + betwee_dur)
-	seasons_t.tween_callback(self, "set_season", ["winter", season_dur])
-	seasons_t.tween_interval(season_dur + betwee_dur)
 	seasons_t.tween_callback(self, "set_season", ["spring", season_dur])
 	seasons_t.tween_interval(season_dur + betwee_dur)
 	seasons_t.tween_callback(self, "set_season", ["summer", season_dur])
+	seasons_t.tween_interval(season_dur + betwee_dur)
+	seasons_t.tween_callback(self, "set_season", ["fall", season_dur])
+	seasons_t.tween_interval(season_dur + betwee_dur)
+	seasons_t.tween_callback(self, "set_season", ["winter", season_dur])
 	seasons_t.tween_interval(season_dur + betwee_dur)
 
 
 func start() -> void:
 	if seasons_t:
 		seasons_t.kill()
-	set_season("summer", 2.0)
+	set_season("fall", 2.0)
 	var t := create_tween().set_ease(Tween.EASE_IN_OUT)\
 			.set_trans(Tween.TRANS_QUAD)
 	t.tween_interval(2.5)
@@ -146,6 +147,9 @@ func _on_Hint_completed() -> void:
 
 
 func _on_MinigamesManager_do_event() -> void:
+	player_puppet.set_disabled(true)
+	dialog.read(end_dialog)
+	yield(dialog, "dialog_finished")
 	SceneHandler.goto_scene(next_scene)
 
 

@@ -18,6 +18,7 @@ const MAX_DIFFICULTY := 1
 const MAX_BOREDOM := 1
 
 export(bool) var has_boredom := true
+export(bool) var has_difficulty := true
 export(bool) var looked_outside := false
 
 export(int) var max_points := 100
@@ -108,8 +109,9 @@ func start_task(task: String, mute: bool = true,
 		else:
 			tasks[task][0].start(tasks[task][1])
 		task_boredom = tasks[task][2]
-		tasks[task][1] = min(tasks[task][1] + tasks[task][4],
-				MAX_DIFFICULTY)
+		if has_difficulty or task == "food":
+			tasks[task][1] = min(tasks[task][1] + tasks[task][4],
+					MAX_DIFFICULTY)
 		if has_boredom:
 			tasks[task][2] = min(tasks[task][2] + tasks[task][5],
 					MAX_BOREDOM)

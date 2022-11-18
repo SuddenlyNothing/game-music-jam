@@ -8,7 +8,7 @@ onready var ysort := $YSort
 
 
 func _ready() -> void:
-	pass
+	set_season("fall")
 
 
 func _on_DialogPlayer_dialog_finished() -> void:

@@ -18,6 +18,8 @@ onready var player_puppet := $PlayerPuppet
 
 func _ready() -> void:
 	player_puppet.act = act
+	if locked:
+		set_process(false)
 
 
 func _process(delta: float) -> void:

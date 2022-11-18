@@ -307,9 +307,14 @@ starve_scene = "res://scenes/end_screens/StarveScreen.tscn"
 season_dur = 2.0
 betwee_dur = 4.0
 intro_dialogs = [ [ "Stupid! Stupid! Stupid!", "Why do I even go there? To learn? What a joke!", "That sad excuse for a garbage dump isn't fit for dogs!" ], [ "I hate it here!", "[shake level=13]Why!?[/shake] [shake rate=3]Why won't anyone help? Why doesn't anyone look at me?", "[shake rate=3][fade start=10 length=45]Why will no one sit with me and talk with me?" ], [ "I don't want to go back.", "There's only pain there." ], [ "What if I stay here?", "Will they notice?" ], [ "I'm safe here. No one will know.", "I will play by myself until I get better." ] ]
+end_dialog = [ "That was a fun day.", "I think I'll enjoy living like this." ]
 
 [node name="Summer" parent="Outside" index="0"]
-z_index = 30
+visible = false
+
+[node name="Winter" parent="Outside" index="2"]
+visible = true
+z_index = 60
 
 [node name="RoomElements" parent="YSort" index="0"]
 modulate = Color( 1, 1, 1, 0 )
@@ -409,6 +414,7 @@ label_hint = "Press {up}, {down}, {left}, {right} to move."
 
 [node name="MinigamesManager" parent="." index="6"]
 has_boredom = false
+has_difficulty = false
 max_points = 200
 
 [connection signal="completed_task" from="YSort/RoomElements/Enterables/Bed/MinigamesManager" to="." method="_on_MinigamesManager_completed_task"]

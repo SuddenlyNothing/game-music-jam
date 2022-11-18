@@ -4,6 +4,7 @@ signal finished(points)
 
 export(bool) var testing := false
 
+var slept := false
 var t: SceneTreeTween
 
 
@@ -23,7 +24,8 @@ func start(diff: float) -> void:
 	t.tween_interval(1.0)
 	t.tween_property(self, "modulate:a", 0.0, 1.0)
 	t.tween_callback(self, "hide")
-	if diff > 0:
+	if slept:
 		t.tween_callback(self, "emit_signal", ["finished", 1])
 	else:
+		slept = true
 		t.tween_callback(self, "emit_signal", ["finished", 20])
