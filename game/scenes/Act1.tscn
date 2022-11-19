@@ -302,12 +302,12 @@ resource_local_to_scene = true
 
 [node name="Act1" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
-next_scene = "res://scenes/tasks/BossTask.tscn"
+next_scene = "res://scenes/Act2.tscn"
 starve_scene = "res://scenes/end_screens/StarveScreen.tscn"
 season_dur = 2.0
 betwee_dur = 4.0
 intro_dialogs = [ [ "Stupid! Stupid! Stupid!", "Why do I even go there? To learn? What a joke!", "That sad excuse for a garbage dump isn't fit for dogs!" ], [ "I hate it here!", "[shake level=13]Why!?[/shake] [shake rate=3]Why won't anyone help? Why doesn't anyone look at me?", "[shake rate=3][fade start=10 length=45]Why will no one sit with me and talk with me?" ], [ "I don't want to go back.", "There's only pain there." ], [ "What if I stay here?", "Will they notice?" ], [ "I'm safe here. No one will know.", "I will play by myself until I get better." ] ]
-end_dialog = [ "That was a fun day.", "I think I'll enjoy living like this." ]
+end_dialog = [ "That was an awesome day!", "I think I'll enjoy living like this." ]
 
 [node name="Summer" parent="Outside" index="0"]
 visible = false
@@ -358,9 +358,6 @@ material = SubResource( 59 )
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Shelf" index="5"]
 stream = SubResource( 58 )
-
-[node name="LightsOver" parent="YSort/RoomElements" index="4"]
-z_index = 0
 
 [node name="Waypoints" parent="YSort" index="1" instance=ExtResource( 4 )]
 position = Vector2( -32, -1 )

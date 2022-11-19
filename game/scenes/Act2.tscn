@@ -1,9 +1,10 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://scenes/environment/Room.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/characters/players/RoomPlayer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://utils/DialogPlayer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/Act2.gd" type="Script" id=4]
+[ext_resource path="res://assets/characters/mc/shadow.png" type="Texture" id=5]
 
 [sub_resource type="Shader" id=6]
 code = "shader_type canvas_item;
@@ -299,9 +300,10 @@ resource_local_to_scene = true
 [node name="Act2" instance=ExtResource( 1 )]
 script = ExtResource( 4 )
 next_scene = ""
+start_dialog = [ "That wasn't nearly enough food.", "I'm gonna get some more." ]
 
 [node name="YSort" parent="." index="3"]
-visible = false
+modulate = Color( 1, 1, 1, 0 )
 
 [node name="Desk" parent="YSort/RoomElements/Enterables" index="0"]
 material = SubResource( 7 )
@@ -317,8 +319,6 @@ stream = SubResource( 52 )
 
 [node name="Weights" parent="YSort/RoomElements/Enterables" index="2"]
 material = SubResource( 9 )
-disabled = true
-disabled_dialog = [ "I don't like weights anymore" ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Weights" index="5"]
 stream = SubResource( 53 )
@@ -331,6 +331,7 @@ stream = SubResource( 54 )
 
 [node name="Door" parent="YSort/RoomElements/Enterables" index="4"]
 material = SubResource( 55 )
+disabled_dialog = [ "Brrr... It's too cold to go outside." ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Door" index="5"]
 stream = SubResource( 56 )
@@ -342,8 +343,7 @@ material = SubResource( 58 )
 stream = SubResource( 59 )
 
 [node name="RoomPlayer" parent="YSort" index="1" instance=ExtResource( 2 )]
-position = Vector2( 327, 249 )
-z_index = 20
+position = Vector2( 319, 250 )
 act = "2"
 locked = true
 
@@ -351,16 +351,20 @@ locked = true
 
 [node name="DialogPlayer" parent="CanvasLayer" index="0" instance=ExtResource( 3 )]
 character = 1
-autoplay_dialog = [ "Hello" ]
 
 [node name="D2" parent="CanvasLayer" index="1" instance=ExtResource( 3 )]
 character = 1
-autoplay_dialog = [ "Hello" ]
 
 [node name="Camera2D" type="Camera2D" parent="." index="6"]
 position = Vector2( 192, 128 )
 current = true
 
+[node name="Shadow" type="Sprite" parent="." index="7"]
+position = Vector2( -44, 26 )
+z_index = -2
+texture = ExtResource( 5 )
+
+[connection signal="completed_task" from="MinigamesManager" to="." method="_on_MinigamesManager_completed_task"]
 [connection signal="do_event" from="MinigamesManager" to="." method="_on_MinigamesManager_do_event"]
-[connection signal="dialog_finished" from="CanvasLayer/DialogPlayer" to="." method="_on_DialogPlayer_dialog_finished"]
+[connection signal="view_street" from="MinigamesManager" to="." method="_on_MinigamesManager_view_street"]
 [connection signal="dialog_finished" from="CanvasLayer/D2" to="." method="_on_DialogPlayer_dialog_finished"]

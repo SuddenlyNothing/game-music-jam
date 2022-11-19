@@ -89,7 +89,7 @@ max_x = 340
 min_normal_speed = 1.0
 max_normal_speed = 1.2
 min_size = 20.0
-max_size = 40.0
+max_size = 100.0
 easy_color = Color( 0, 0.572549, 0.631373, 1 )
 hard_color = Color( 0.811765, 0.368627, 0.152941, 1 )
 

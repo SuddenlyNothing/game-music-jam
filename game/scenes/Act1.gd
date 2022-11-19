@@ -27,8 +27,8 @@ onready var hint := $Hint
 
 
 func _ready() -> void:
-	get_tree().call_group("sprite_select", "set_disabled", true)
 	seasons_t = create_tween().set_loops()
+	seasons_t.tween_interval(betwee_dur)
 	seasons_t.tween_callback(self, "set_season", ["spring", season_dur])
 	seasons_t.tween_interval(season_dur + betwee_dur)
 	seasons_t.tween_callback(self, "set_season", ["summer", season_dur])
@@ -36,7 +36,7 @@ func _ready() -> void:
 	seasons_t.tween_callback(self, "set_season", ["fall", season_dur])
 	seasons_t.tween_interval(season_dur + betwee_dur)
 	seasons_t.tween_callback(self, "set_season", ["winter", season_dur])
-	seasons_t.tween_interval(season_dur + betwee_dur)
+	seasons_t.tween_interval(season_dur)
 
 
 func start() -> void:
@@ -142,12 +142,13 @@ func _on_Hint_completed() -> void:
 	room_player = RoomPlayer.instance()
 	room_player.position = player_puppet.position
 	room_player.z_index = player_puppet.z_index
-	player_puppet.queue_free()
+	yield(get_tree(), "idle_frame")
+	player_puppet.free()
 	ysort.add_child(room_player)
 
 
 func _on_MinigamesManager_do_event() -> void:
-	player_puppet.set_disabled(true)
+	room_player.set_disabled(true)
 	dialog.read(end_dialog)
 	yield(dialog, "dialog_finished")
 	SceneHandler.goto_scene(next_scene)
@@ -155,13 +156,13 @@ func _on_MinigamesManager_do_event() -> void:
 
 func _on_MinigamesManager_completed_task(points: int) -> void:
 	eating = false
-	if points >= 50 and food_dialog_idx == 0:
+	if points >= 40 and food_dialog_idx == 0:
 		food_dialog_idx += 1
 		play_food()
-	elif points >= 80 and food_dialog_idx == 1:
+	elif points >= 90 and food_dialog_idx == 1:
 		food_dialog_idx += 1
 		play_food()
-	elif points >= 130 and food_dialog_idx == 2:
+	elif points >= 140 and food_dialog_idx == 2:
 		food_dialog_idx += 1
 		play_food()
 

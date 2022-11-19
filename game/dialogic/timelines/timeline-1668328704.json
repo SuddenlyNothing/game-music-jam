@@ -5,7 +5,7 @@
 			"audio_bus": "SFX",
 			"event_id": "dialogic_030",
 			"event_name": "AudioEvent",
-			"file": "res://assets/sfx/ambient/outdoor/outdoor_footstep_3.wav",
+			"file": "res://assets/sfx/dialog/knock/knock1.wav",
 			"volume": 0
 		},
 		{
@@ -18,7 +18,7 @@
 			"audio_bus": "Master",
 			"event_id": "dialogic_030",
 			"event_name": "AudioEvent",
-			"file": "res://assets/sfx/ambient/outdoor/outdoor_footstep_4.wav",
+			"file": "res://assets/sfx/dialog/knock/knock2.wav",
 			"volume": 0
 		},
 		{

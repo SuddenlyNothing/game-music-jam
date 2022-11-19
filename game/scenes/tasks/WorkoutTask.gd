@@ -1,5 +1,7 @@
 extends BaseTask
 
+const TextFloater := preload("res://utils/TextFloater.tscn")
+
 export(int) var min_x := 44
 export(int) var max_x := 340
 export(float) var min_normal_speed := 1
@@ -12,6 +14,7 @@ export(Color) var hard_color
 var normal_speed := 1.0
 var playing := false
 var tw: SceneTreeTween
+var combo = 0
 
 onready var hit := $Hit
 onready var aim := $Aim
@@ -29,6 +32,15 @@ func _input(event: InputEvent) -> void:
 			set_hit_pos()
 			anim_sprite.frame = 0
 			anim_sprite.play("curl")
+			combo += 1
+			if combo >= 2:
+				add_score()
+				var tf := TextFloater.instance()
+				tf.position = aim.rect_position + aim.rect_size / 2
+				tf.text = str(combo)
+				tf.pitch_scale = 1 + (combo - 5) * 0.1
+				tf.do_sfx = combo >= 5
+				add_child(tf)
 		else:
 			if tw:
 				tw.kill()
@@ -36,6 +48,7 @@ func _input(event: InputEvent) -> void:
 			tw.tween_property(anim_player, "playback_speed",
 					normal_speed, 0.5).from(0.0)
 			hurt_sfx.play()
+			combo = 0
 
 
 # Override
@@ -73,7 +86,7 @@ func set_hit_pos() -> void:
 	Variables.rng.randomize()
 	var new_pos := Variables.rng.randi_range(min_x,
 			max_x - hit.rect_size.x)
-	while abs(new_pos + hit.rect_size.x / 2 - aim.rect_position.x) < 40:
-		new_pos = Variables.rng.randi_range(min_x,
-			max_x - hit.rect_size.x)
+#	while abs(new_pos + hit.rect_size.x / 2 - aim.rect_position.x) < 40:
+#		new_pos = Variables.rng.randi_range(min_x,
+#			max_x - hit.rect_size.x)
 	hit.rect_position.x = new_pos

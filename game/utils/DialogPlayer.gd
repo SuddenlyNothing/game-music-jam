@@ -128,7 +128,7 @@ func set_read_tween(new_dialog: String,
 			t.tween_property(label, "percent_visible",
 					new_percent_visible, floor((new_percent_visible - \
 					curr_percent_visible) * dialog_len) / read_speed)\
-					.from(starting_percent_visible)
+					.from(curr_percent_visible)
 			t.tween_callback(text_sfx, "set_stream_paused", [true])
 			t.tween_interval(max_delay / read_speed)
 			t.tween_callback(text_sfx, "set_stream_paused", [false])

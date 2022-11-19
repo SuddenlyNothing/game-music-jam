@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/tasks/platformer/PlatformerBackground.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/tasks/platformer/PlatformerTiles.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://scenes/tasks/platformer/Platformer.gd" type="Script" id=4]
 [ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/sfx/minigames/coin_collect_2.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sfx/minigames/coin_collect_3.wav" type="AudioStream" id=7]
 
 [sub_resource type="AudioStreamRandomPitch" id=1]
 resource_local_to_scene = true
@@ -662,7 +663,7 @@ position = Vector2( -56, -56 )
 
 [node name="PickedSFX" parent="." instance=ExtResource( 5 )]
 stream = SubResource( 1 )
-audio_streams = [ ExtResource( 6 ), ExtResource( 3 ) ]
+audio_streams = [ ExtResource( 3 ), ExtResource( 6 ), ExtResource( 7 ) ]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true

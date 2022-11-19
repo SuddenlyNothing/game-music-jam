@@ -83,7 +83,3 @@ func set_outdoor(val: bool, dur: float = 1.0) -> void:
 		audio_t.tween_method(self, "set_bus_volume_db", -20.0, 0.0, dur,
 				[indoor_bus_idx])
 		audio_t.tween_property(lpf, "cutoff_hz", 2000.0, dur)
-
-
-func _on_Door_interacted() -> void:
-	pass # Replace with function body.

@@ -703,14 +703,21 @@ texture = ExtResource( 22 )
 [node name="Entered" type="AnimatedSprite" parent="YSort/RoomElements/Enterables/Window"]
 visible = false
 use_parent_material = true
+position = Vector2( -56, 24 )
 frames = SubResource( 23 )
 animation = "1"
-offset = Vector2( -42, -3 )
+offset = Vector2( 14, -27 )
 flip_h = true
 
 [node name="Sprite" type="Sprite" parent="YSort/RoomElements/Enterables/Window/Entered"]
 show_behind_parent = true
+position = Vector2( 56, -24 )
 texture = ExtResource( 22 )
+
+[node name="Shadow" type="Sprite" parent="YSort/RoomElements/Enterables/Window/Entered"]
+position = Vector2( 16, 2 )
+z_index = -2
+texture = ExtResource( 57 )
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Window" instance=ExtResource( 44 )]
 stream = SubResource( 51 )
@@ -731,6 +738,11 @@ use_parent_material = true
 z_index = 718
 frames = SubResource( 46 )
 animation = "1"
+
+[node name="Shadow" type="Sprite" parent="YSort/RoomElements/Enterables/Weights/Entered"]
+position = Vector2( -35, 62 )
+z_index = -2
+texture = ExtResource( 57 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="YSort/RoomElements/Enterables/Weights"]
 polygon = PoolVector2Array( -60, 66, -40, 75.5, -26, 70, -47, 63 )
@@ -833,7 +845,6 @@ texture = ExtResource( 19 )
 
 [node name="LightsOver" type="Sprite" parent="YSort/RoomElements"]
 position = Vector2( 0, 45 )
-z_index = 20
 texture = ExtResource( 20 )
 offset = Vector2( 0, -45 )
 

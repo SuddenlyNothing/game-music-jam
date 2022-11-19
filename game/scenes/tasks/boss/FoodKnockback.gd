@@ -20,6 +20,7 @@ onready var anim_sprite := $AnimatedSprite
 
 
 func _ready() -> void:
+	print(dir * speed)
 	anim_sprite.scale.x = facing
 	anim_sprite.play("idle_" + food)
 	var t := create_tween()

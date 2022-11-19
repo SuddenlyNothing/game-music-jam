@@ -52,6 +52,7 @@ onready var powerup_sfx := $PowerupSFX
 onready var hurt_sfx := $HurtSFX
 onready var ignite_sfx := $IgniteSFX
 onready var on_fire_sfx := $OnFireSFX
+onready var death_sfx := $DeathSFX
 
 
 func _process(delta: float) -> void:
@@ -83,6 +84,7 @@ func move(delta: float) -> void:
 
 func kill(from: Vector2) -> void:
 	hurt_sfx.play()
+	death_sfx.play()
 	topdown_player_states.call_deferred("set_state", "death")
 	emit_signal("killed")
 
@@ -137,7 +139,10 @@ func move_lunge(delta: float) -> void:
 		eat_sfx.play()
 		anim_sprite.play("idle")
 		if knockback_enemies:
-			collision.collider.knockback(velocity.normalized())
+			if powerup_count > powerup_threshold:
+				collision.collider.knockback(velocity.normalized() * 2)
+			else:
+				collision.collider.knockback(velocity.normalized())
 		else:
 			collision.collider.kill()
 		velocity = Vector2()

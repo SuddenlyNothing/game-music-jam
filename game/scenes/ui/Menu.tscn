@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://utils/AnimatedButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/ui/Menu.gd" type="Script" id=2]
 [ext_resource path="res://assets/themes/options_ui.tres" type="Theme" id=3]
-[ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=4]
-[ext_resource path="res://assets/sfx/menu/menu/menu_play_game_long.ogg" type="AudioStream" id=5]
+[ext_resource path="res://assets/sfx/menu/menu/menu_play_game.wav" type="AudioStream" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.862745, 0.729412, 0.592157, 1 )
@@ -75,12 +74,6 @@ margin_bottom = 67.0
 unique_name_in_owner = true
 margin_right = 81.0
 margin_bottom = 18.0
-focus_neighbour_left = NodePath("../Credits")
-focus_neighbour_top = NodePath("../Credits")
-focus_neighbour_right = NodePath("../Settings")
-focus_neighbour_bottom = NodePath("../Settings")
-focus_next = NodePath("../Settings")
-focus_previous = NodePath("../Credits")
 text = "Start"
 align = 0
 play_pressed = false
@@ -90,12 +83,6 @@ unique_name_in_owner = true
 margin_top = 22.0
 margin_right = 81.0
 margin_bottom = 40.0
-focus_neighbour_left = NodePath("../Start")
-focus_neighbour_top = NodePath("../Start")
-focus_neighbour_right = NodePath("../Credits")
-focus_neighbour_bottom = NodePath("../Credits")
-focus_next = NodePath("../Credits")
-focus_previous = NodePath("../Start")
 text = "Settings"
 align = 0
 play_pressed = false
@@ -105,12 +92,6 @@ unique_name_in_owner = true
 margin_top = 44.0
 margin_right = 81.0
 margin_bottom = 62.0
-focus_neighbour_left = NodePath("../Settings")
-focus_neighbour_top = NodePath("../Settings")
-focus_neighbour_right = NodePath("../Start")
-focus_neighbour_bottom = NodePath("../Start")
-focus_next = NodePath("../Start")
-focus_previous = NodePath("../Settings")
 text = "Credits"
 align = 0
 
@@ -187,9 +168,8 @@ margin_bottom = 55.0
 text = "MIT - Emilio Coppola and contributors"
 autowrap = true
 
-[node name="StartSFX" parent="." instance=ExtResource( 4 )]
-stream = null
-audio_streams = [ ExtResource( 5 ) ]
+[node name="StartSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
 
 [connection signal="pressed" from="M/V/M/P/V/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="M/V/M/P/V/Settings" to="." method="_on_Settings_pressed"]

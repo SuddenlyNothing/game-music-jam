@@ -12,7 +12,11 @@ onready var change_state_timer := $ChangeStateTimer
 onready var mark := $Mark
 onready var shadow := $Shadow
 onready var throw_pos := $AnimatedSprite/ThrowPos
+
 onready var land_sfx := $LandSFX
+onready var jump_sfx := $JumpSFX
+onready var throw_sfx := $ThrowSFX
+onready var fall_sfx := $FallSFX
 
 
 func _ready() -> void:
@@ -61,6 +65,7 @@ func _on_AnimatedSprite_animation_finished() -> void:
 			if t:
 				t.kill()
 			t = create_tween()
+			t.tween_callback(jump_sfx, "play")
 			t.tween_property(anim_sprite, "offset:y", -600.0, 0.6)
 			t.tween_callback(self, "goto_player")
 			t.tween_callback(mark, "show")
@@ -75,6 +80,7 @@ func _on_AnimatedSprite_animation_finished() -> void:
 					["effects_camera", "shake", 0.4])
 		"throw":
 			pick_rand_state()
+			throw_sfx.play()
 #			Variables.rng.randomize()
 #			change_state_timer.start(Variables.rng.randf_range(0.1, 0.3))
 			anim_sprite.play("idle")

@@ -1,0 +1,19 @@
+{
+	"events": [
+		{
+			"character": "character-1668030196.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "I'm feeling lightheaded. I gotta have some food."
+		},
+		{
+			"emit_signal": "food",
+			"event_id": "dialogic_040"
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.4.5",
+		"file": "timeline-1668810874.json",
+		"name": "f4"
+	}
+}

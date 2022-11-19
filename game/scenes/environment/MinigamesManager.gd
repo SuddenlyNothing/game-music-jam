@@ -30,7 +30,7 @@ export(Array, String, MULTILINE) var reluctant_dialog
 export(float) var max_mult := 1.0
 export(float, 1) var difficulty_increment := 0.3
 export(float, 1) var boredom_increment := 0.4
-export(float, 1) var boredom_decrement := 0.5
+export(float, 1) var boredom_decrement := 0.0
 
 var interacting := false
 var task_boredom := 0.0
