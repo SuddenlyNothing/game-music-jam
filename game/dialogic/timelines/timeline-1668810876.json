@@ -4,7 +4,11 @@
 			"character": "character-1668030196.json",
 			"event_id": "dialogic_001",
 			"portrait": "",
-			"text": ""
+			"text": "Gotta get some food."
+		},
+		{
+			"emit_signal": "food",
+			"event_id": "dialogic_040"
 		}
 	],
 	"metadata": {

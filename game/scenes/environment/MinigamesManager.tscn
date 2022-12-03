@@ -18,9 +18,9 @@ reluctant_dialog = [ "I guess I'll give it another shot... I won't have much fun
 [node name="ScoreRenderer" parent="." instance=ExtResource( 2 )]
 visible = false
 
-[node name="FoodTask" parent="." instance=ExtResource( 3 )]
-
 [node name="DialogPlayer" parent="." instance=ExtResource( 4 )]
+
+[node name="FoodTask" parent="." instance=ExtResource( 3 )]
 
 [node name="WorkoutTask" parent="." instance=ExtResource( 5 )]
 

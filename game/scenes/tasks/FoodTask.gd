@@ -38,10 +38,12 @@ onready var time_progress := $M/M2/TimeProgress
 onready var hint := $Hint
 onready var times_up_sfx := $TimesUpSFX
 onready var camera := $M/M/PC/M/VC/Viewport/Camera2D
+onready var riser_timer := $RiserTimer
+onready var riser_sfx := $RiserSFX
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_focus_next") and testing:
+	if event.is_action_pressed("debug_button") and testing:
 		Variables.rng.randomize()
 		start(1)
 
@@ -89,9 +91,18 @@ func start(difficulty: float) -> void:
 func stop() -> void:
 	hide()
 	get_tree().call_group("food", "queue_free")
-	bar_particles.queue_free()
-	player.queue_free()
+	if bar_particles and is_instance_valid(bar_particles):
+		bar_particles.queue_free()
+	if player and is_instance_valid(player):
+		player.queue_free()
 	camera.current = true
+	play_timer.stop()
+	shake_timer.stop()
+	score_label.rect_position = score_label_position
+	times_up_sfx.stop()
+	riser_sfx.stop()
+	riser_timer.stop()
+	hint.stop()
 
 
 func spawn_enemy(add_score: bool = true) -> void:
@@ -159,3 +170,7 @@ func _on_Hint_completed() -> void:
 	ysort.call_deferred("add_child", player)
 	for _i in round(lerp(min_food, max_food, diff)):
 		spawn_enemy(false)
+
+
+func _on_RiserTimer_timeout() -> void:
+	riser_sfx.play()

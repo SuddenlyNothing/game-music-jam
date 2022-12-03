@@ -29,7 +29,6 @@ func _input(event: InputEvent) -> void:
 		t.tween_property(c, "modulate:a", 0.0, 0.5)
 		t.tween_callback(self, "hide")
 		t.tween_callback(self, "emit_signal", ["completed"])
-#		get_tree().set_input_as_handled()
 
 
 func start() -> void:
@@ -48,3 +47,10 @@ func start() -> void:
 	t.tween_callback(self, "set_process_input", [true])
 	t.tween_interval(0.8)
 	t.tween_property(next_hint, "self_modulate:a", 1.0, 0.5)
+
+
+func stop() -> void:
+	set_process_input(false)
+	if t:
+		t.kill()
+	hide()

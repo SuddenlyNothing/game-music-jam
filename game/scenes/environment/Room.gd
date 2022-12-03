@@ -1,6 +1,8 @@
 class_name StreetRoom
 extends Node2D
 
+signal season_changed
+
 var t: SceneTreeTween
 var audio_t: SceneTreeTween
 
@@ -11,6 +13,7 @@ onready var outdoor_bus_idx := AudioServer.get_bus_index("SFX Outdoor")
 onready var indoor_bus_idx := AudioServer.get_bus_index("SFX Indoor")
 onready var door_sfx := $Audio/DoorSFX
 onready var indoor_sfx := $Audio/Indoor
+onready var enterables := $YSort/RoomElements/Enterables
 
 
 func set_season(season: String, dur: float = 1.0) -> void:
@@ -49,10 +52,17 @@ func set_season(season: String, dur: float = 1.0) -> void:
 				t.tween_property(child, "volume_db", -30.0, dur)
 				t.tween_callback(child, "set_stream_paused", [true])\
 						.set_delay(dur)
+	yield(t, "finished")
+	emit_signal("season_changed")
 
 
 func set_bus_volume_db(volume: float, bus: int) -> void:
 	AudioServer.set_bus_volume_db(bus, volume)
+
+
+func exit_enterables() -> void:
+	for child in enterables.get_children():
+		child.exit()
 
 
 func play_indoor_sfx() -> void:

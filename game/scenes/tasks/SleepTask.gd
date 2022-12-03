@@ -29,3 +29,10 @@ func start(diff: float) -> void:
 	else:
 		slept = true
 		t.tween_callback(self, "emit_signal", ["finished", 20])
+
+
+func stop() -> void:
+	if t:
+		t.kill()
+	modulate.a = 0.0
+	hide()

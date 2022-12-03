@@ -1,10 +1,11 @@
 extends KinematicBody2D
 
 export(String, "1", "2", "3") var act := "1"
-export(int) var move_speed := 30
+export(int) var move_speed := 40
 export(float) var leave_distance := 2.5
 export(int) var num_slides := 4
 export(bool) var locked := false setget set_locked
+export(bool) var start_left := false
 
 var input := Vector2()
 var enter_point := Vector2()
@@ -20,6 +21,8 @@ func _ready() -> void:
 	player_puppet.act = act
 	if locked:
 		set_process(false)
+	if start_left:
+		player_puppet.set_facing(Vector2.LEFT)
 
 
 func _process(delta: float) -> void:

@@ -33,7 +33,7 @@ onready var riser_timer := $RiserTimer
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_focus_next") and testing:
+	if event.is_action_pressed("debug_button") and testing:
 		Variables.rng.randomize()
 		start(Variables.rng.randf())
 
@@ -109,8 +109,14 @@ func wait_stop() -> void:
 # Hide and free everything
 func stop() -> void:
 	hide()
+	hint.stop()
 	if bar_particles and is_instance_valid(bar_particles):
 		bar_particles.queue_free()
+	play_timer.stop()
+	shake_timer.stop()
+	score_label.rect_position = score_label_position
+	riser_sfx.stop()
+	riser_timer.stop()
 
 
 func _on_ShakeTimer_timeout() -> void:

@@ -29,8 +29,11 @@ export(Array, String, MULTILINE) var reluctant_dialog
 
 export(float) var max_mult := 1.0
 export(float, 1) var difficulty_increment := 0.3
-export(float, 1) var boredom_increment := 0.4
-export(float, 1) var boredom_decrement := 0.0
+export(float, 1) var boredom_increment := 1.0
+export(float, 1) var boredom_decrement := 1.0
+export(float, 1) var start_difficulty := 0.0
+
+export(bool) var add_points := true
 
 var interacting := false
 var task_boredom := 0.0
@@ -39,14 +42,14 @@ var event_idx: int = -1
 # task station
 # difficulty | boredom | showed hint | diff inc | bore inc | bore dec
 onready var tasks := {
-	"food": [$FoodTask, 0, 0, false, 0.4, 0, 0],
-	"bed": [$SleepTask, 0, 0, false, difficulty_increment,
+	"food": [$FoodTask, start_difficulty, 0, false, 0.4, 0, 0],
+	"bed": [$SleepTask, start_difficulty, 0, false, difficulty_increment,
 			boredom_increment, boredom_decrement],
-	"desk": [$PlatformerTask, 0, 0, false, difficulty_increment,
+	"desk": [$PlatformerTask, start_difficulty, 0, false, difficulty_increment,
 			boredom_increment, boredom_decrement],
-	"weights": [$WorkoutTask, 0, 0, false, difficulty_increment,
+	"weights": [$WorkoutTask, start_difficulty, 0, false, difficulty_increment,
 			boredom_increment, boredom_decrement],
-	"window": [self, 0, 0, false, difficulty_increment,
+	"window": [self, start_difficulty, 0, false, difficulty_increment,
 			boredom_increment, boredom_decrement],
 }
 onready var score_renderer := $ScoreRenderer
@@ -123,6 +126,13 @@ func start_task(task: String, mute: bool = true,
 				tasks[t][2] = max(tasks[t][2] - tasks[task][6], 0)
 
 
+func stop_task(task: String) -> void:
+	AudioServer.set_bus_mute(outdoor_sfx_idx, false)
+	AudioServer.set_bus_mute(indoor_sfx_idx, false)
+	tasks[task][0].stop()
+	unlock_room()
+
+
 func finished_viewing_street() -> void:
 	if looked_outside:
 		_on_Task_finished(1)
@@ -150,11 +160,14 @@ func _on_Window_interacted() -> void:
 func _on_Task_finished(points: int) -> void:
 	AudioServer.set_bus_mute(indoor_sfx_idx, false)
 	AudioServer.set_bus_mute(outdoor_sfx_idx, false)
-	if has_boredom:
-		score_renderer.add_points(points,
-				stepify(max_mult - task_boredom * max_mult, 0.1))
+	if add_points:
+		if has_boredom:
+			score_renderer.add_points(points,
+					stepify(max_mult - task_boredom * max_mult, 0.1))
+		else:
+			score_renderer.add_points(points, max_mult)
 	else:
-		score_renderer.add_points(points, max_mult)
+		emit_signal("completed_task", score_renderer.points)
 
 
 func _on_ScoreRenderer_added_points() -> void:

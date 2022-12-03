@@ -54,6 +54,7 @@ func _input(event: InputEvent) -> void:
 # Override
 func init(difficulty: float) -> void:
 	aim.rect_position.x = 187
+	combo = 0
 	normal_speed = lerp(min_normal_speed, max_normal_speed, difficulty)
 	hit.rect_size.x = lerp(max_size, min_size, difficulty)
 	hit.color = lerp(easy_color, hard_color, difficulty)
@@ -73,6 +74,7 @@ func wait_stop() -> void:
 func stop() -> void:
 	hit.hide()
 	anim_player.play("RESET")
+	playing = false
 	.stop()
 
 

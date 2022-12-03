@@ -8,6 +8,7 @@ export(String, "1", "2", "3") var act := "1" setget set_act
 export(int) var move_speed := 50 setget set_move_speed
 export(bool) var muted := false
 export(bool) var outside := false
+export(bool) var start_left := false
 
 var target: Vector2
 
@@ -23,6 +24,8 @@ func _ready() -> void:
 		position = waypoints.get_start_point()
 	set_physics_process(false)
 	play_anim("idle")
+	if start_left:
+		set_facing(Vector2.LEFT)
 
 
 func _physics_process(delta: float) -> void:

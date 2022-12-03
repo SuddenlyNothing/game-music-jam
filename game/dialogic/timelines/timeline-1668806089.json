@@ -4,11 +4,11 @@
 			"character": "character-1668030196.json",
 			"event_id": "dialogic_001",
 			"portrait": "",
-			"text": "What should I do today?\nEverything feels kinda boring."
+			"text": "**yawn**\nHow long have I stayed here..."
 		},
 		{
 			"audio": "play",
-			"audio_bus": "Master",
+			"audio_bus": "SFX",
 			"event_id": "dialogic_030",
 			"event_name": "AudioEvent",
 			"file": "res://assets/sfx/dialog/knock/knock4.wav",
@@ -17,11 +17,11 @@
 		{
 			"event_id": "dialogic_023",
 			"hide_dialogbox": true,
-			"wait_seconds": 0.3
+			"wait_seconds": 0.5
 		},
 		{
 			"audio": "play",
-			"audio_bus": "Master",
+			"audio_bus": "SFX",
 			"event_id": "dialogic_030",
 			"event_name": "AudioEvent",
 			"file": "res://assets/sfx/dialog/knock/knock2.wav",

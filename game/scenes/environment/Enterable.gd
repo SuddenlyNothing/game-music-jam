@@ -51,6 +51,13 @@ func enter(act: String, player: Node) -> void:
 		input_hint.show()
 
 
+func show_inside(act: String) -> void:
+	get_material().set_shader_param("line_scale", 1.0)
+	default.hide()
+	entered.play(act)
+	entered.show()
+
+
 func exit() -> void:
 	is_inside = false
 	get_material().set_shader_param("line_scale", 0.0)

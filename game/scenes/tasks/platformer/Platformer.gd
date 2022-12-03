@@ -39,7 +39,8 @@ func wait_stop() -> void:
 
 
 func stop() -> void:
-	player.queue_free()
+	if player and is_instance_valid(player):
+		player.queue_free()
 	camera.current = true
 	get_tree().call_group("coins", "queue_free")
 
