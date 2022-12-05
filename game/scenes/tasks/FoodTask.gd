@@ -90,7 +90,8 @@ func start(difficulty: float) -> void:
 # Hide and free everything
 func stop() -> void:
 	hide()
-	get_tree().call_group("food", "queue_free")
+	var tree = get_tree()
+	tree.call_group_flags(tree.GROUP_CALL_REALTIME, "food", "queue_free")
 	if bar_particles and is_instance_valid(bar_particles):
 		bar_particles.queue_free()
 	if player and is_instance_valid(player):

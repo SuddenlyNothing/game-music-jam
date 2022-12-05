@@ -310,44 +310,49 @@ resource_local_to_scene = true
 script = ExtResource( 4 )
 next_scene = ""
 start_dialog = [ "That wasn't nearly enough food.", "I should get some more." ]
-food_dialog = [ [ "I'm feeling a little hungry." ], [ "I need some more energy." ], [ "I can feel my stomach rumbling." ], [ "I'm feeling lightheaded.", "I gotta have some food." ], [ "Gotta get some food." ], [ "**Grrrrrrr**", "Aughw... that's the bell for more food." ] ]
+food_dialog = [ [ "I'm feeling a little hungry." ], [ "I need some more energy." ], [ "I can feel my stomach rumbling." ], [ "I'm feeling lightheaded.", "I gotta have some food." ], [ "Gotta get some food." ], [ "**Grrrrrrr**", "That's the bell for more food." ] ]
 
 [node name="YSort" parent="." index="3"]
 modulate = Color( 1, 1, 1, 0 )
 
 [node name="Desk" parent="YSort/RoomElements/Enterables" index="0"]
 material = SubResource( 7 )
+enter_text = [ [ "My butt doesn't feel so good.", "I've been sitting down too much." ], [ "Are there any new games? This one's getting kinda boring." ], [ "So many unread emails...", "Must be spam." ] ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Desk" index="5"]
 stream = SubResource( 51 )
 
 [node name="Window" parent="YSort/RoomElements/Enterables" index="1"]
 material = SubResource( 8 )
+enter_text = [ [ "It's so bright outside! Maybe I should get some blinds." ], [ "Just thinking about the snow is making me cold." ], [ "Should I go outside and make some snowmen?", "Nah.... They'd just get knocked down." ] ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Window" index="5"]
 stream = SubResource( 52 )
 
 [node name="Weights" parent="YSort/RoomElements/Enterables" index="2"]
 material = SubResource( 9 )
+enter_text = [ [ "I don't seem to be getting any stronger." ], [ "These weights just keep getting heavier and heavier." ], [ "I'm struggling so much.... Maybe I should give up." ] ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Weights" index="5"]
 stream = SubResource( 53 )
 
 [node name="Bed" parent="YSort/RoomElements/Enterables" index="3"]
 material = SubResource( 10 )
+enter_text = [ [ "I feel exhausted." ], [ "I wish I could just lie here forever." ], [ "Ah... so warm!" ] ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Bed" index="5"]
 stream = SubResource( 54 )
 
 [node name="Door" parent="YSort/RoomElements/Enterables" index="4"]
 material = SubResource( 55 )
-disabled_dialog = [ "Brrr... It's too cold to go outside." ]
+disabled_dialog = [ "Brrr... It's too cold to go outside.", "Inside is much better." ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Door" index="5"]
 stream = SubResource( 56 )
 
 [node name="Shelf" parent="YSort/RoomElements/Enterables" index="5"]
 material = SubResource( 58 )
+disabled_dialog = [ "Maybe I should throw these books away..." ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Shelf" index="5"]
 stream = SubResource( 59 )
@@ -359,8 +364,9 @@ locked = true
 start_left = true
 
 [node name="MinigamesManager" parent="." index="4"]
-max_points = 200
+max_points = 300
 character = 1
+start_difficulty = 0.1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="5"]
 

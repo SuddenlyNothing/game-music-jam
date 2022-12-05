@@ -53,10 +53,12 @@ func _input(event: InputEvent) -> void:
 	if has_dialog:
 		if event.is_action_pressed("interact", false, true):
 			if reading:
+				print("dialog interact stop")
 				t.kill()
 				label.percent_visible = 1.0
 				stop_reading()
 			else:
+				print("dialog interact next")
 				interact_sfx.play()
 				read_next()
 			accept_event()
@@ -65,7 +67,6 @@ func _input(event: InputEvent) -> void:
 func read(d: Array = autoplay_dialog, c: int = character) -> void:
 	label.modulate = character_colors[c]
 	text_sfx.audio_streams = character_audios[c]
-	has_dialog = true
 	if t:
 		t.kill()
 	label.percent_visible = 0.0
@@ -78,6 +79,8 @@ func read(d: Array = autoplay_dialog, c: int = character) -> void:
 	enter_exit_t = create_tween()
 	enter_exit_t.tween_property(self, "modulate:a", 1.0, 0.43).from(0.0)
 	enter_exit_t.tween_callback(self, "read_next")
+	yield(enter_exit_t, "finished")
+	has_dialog = true
 
 
 func read_next() -> void:
@@ -96,6 +99,7 @@ func read_next() -> void:
 	
 	set_read_tween(new_dialog)
 	
+	print("reading = true")
 	reading = true
 
 

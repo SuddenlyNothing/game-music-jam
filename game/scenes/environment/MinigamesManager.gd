@@ -87,25 +87,27 @@ func unlock_room() -> void:
 
 
 func start_task(task: String, mute: bool = true,
-		force_difficulty: bool = false, diff: float = 0.0) -> void:
+		force_difficulty: bool = false, diff: float = 0.0,
+		force_start: bool = false) -> void:
 	if interacting:
 		return
-	start_sfx.play()
 	if mute:
 		AudioServer.set_bus_mute(outdoor_sfx_idx, true)
 		AudioServer.set_bus_mute(indoor_sfx_idx, true)
 	lock_room()
-	if tasks[task][2] >= MAX_BOREDOM and not tasks[task][3] and has_boredom:
+	if tasks[task][2] >= MAX_BOREDOM and not tasks[task][3] and has_boredom \
+			and not force_start:
 		# Tell player that they're bored of this task
 		dialog.read(hint_dialog)
 		tasks[task][3] = true
 		yield(dialog, "dialog_finished")
 		unlock_room()
 	else:
-		if tasks[task][3]:
+		if tasks[task][3] and not force_start:
 			dialog.read(reluctant_dialog)
 			tasks[task][3] = false
 			yield(dialog, "dialog_finished")
+		start_sfx.play()
 		score_renderer.hide()
 		if force_difficulty:
 			tasks[task][0].start(diff)
@@ -177,5 +179,6 @@ func _on_ScoreRenderer_added_points() -> void:
 
 func _on_ScoreRenderer_max_points_reached() -> void:
 	event_idx += 1
+	unlock_room()
 	do_event()
 	emit_signal("do_event")

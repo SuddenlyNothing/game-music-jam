@@ -6,8 +6,11 @@ export(String) var input_hint_text := "interact"
 
 export(bool) var disabled := false
 export(Array, String, MULTILINE) var disabled_dialog
+export(Array, Array, String, MULTILINE) var enter_text
 
 var is_inside := false
+var enter_text_ind := 0
+var reading := false
 
 onready var default := $Default
 onready var entered := $Entered
@@ -23,7 +26,7 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact", false, true) and is_inside and \
-			not disabled:
+			not disabled and not reading:
 		emit_signal("interacted")
 
 
@@ -36,18 +39,18 @@ func enter(act: String, player: Node) -> void:
 	enter_sfx.play()
 	if disabled:
 		player.set_locked(true)
-		var a := 0
-		match act:
-			"1":
-				a = 0
-			"2":
-				a = 1
-			"3":
-				a = 2
-		dialog.read(disabled_dialog, a)
+		dialog.read(disabled_dialog, int(act))
 		yield(dialog, "dialog_finished")
 		player.set_locked(false)
 	else:
+		if len(enter_text) > enter_text_ind:
+			player.set_locked(true)
+			reading = true
+			dialog.read(enter_text[enter_text_ind], int(act))
+			enter_text_ind = wrapi(enter_text_ind + 1, 0, len(enter_text))
+			yield(dialog, "dialog_finished")
+			player.set_locked(false)
+			reading = false
 		input_hint.show()
 
 

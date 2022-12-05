@@ -12,6 +12,7 @@ var ate_start := false
 var food_finish_dialog := false
 var montage_started := false
 var player_puppet: Node
+var was_eating := false
 
 onready var player := $YSort/RoomPlayer
 onready var ysort := $YSort
@@ -27,7 +28,7 @@ onready var weights_enterable := $YSort/RoomElements/Enterables/Weights
 
 
 func _ready() -> void:
-#	set_season("winter", 0.0)
+#	set_season("fall", 0.0)
 #	play_montage()
 	set_season("fall", 0.0)
 	var d: Node = Dialogic.start("food1_2")
@@ -161,13 +162,16 @@ func _on_MinigamesManager_completed_task(points: int) -> void:
 		])
 		yield(dialog_player, "dialog_finished")
 		player.set_disabled(false)
-	elif not eating:
+	elif not was_eating:
+		was_eating = true
 		player.set_disabled(true)
 		dialog_player.read(food_dialog[Variables.rng.randi_range(0,
 				len(food_dialog) - 1)])
 		yield(dialog_player, "dialog_finished")
 		eating = true
 		minigames_manager.start_task("food")
+	else:
+		was_eating = false
 	eating = false
 
 
@@ -196,7 +200,7 @@ func montage_task(task: String, dur: float) -> void:
 			desk_enterable.show_inside("2")
 		"weights":
 			weights_enterable.show_inside("2")
-	minigames_manager.start_task(task)
+	minigames_manager.start_task(task, true, false, 0.0, true)
 	yield(get_tree().create_timer(dur, false), "timeout")
 	player_puppet.show()
 	minigames_manager.stop_task(task)
