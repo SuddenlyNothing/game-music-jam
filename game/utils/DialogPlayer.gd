@@ -64,6 +64,54 @@ func _input(event: InputEvent) -> void:
 			accept_event()
 
 
+func read_line(dialogs: Array, wait: float = 0.0) -> void:
+	next_indicator_container.hide()
+	reading = true
+	modulate.a = 1.0
+	show()
+	if t:
+		t.kill()
+	t = create_tween()
+	for dialog in dialogs:
+		print(dialog)
+		text_sfx.audio_streams = character_audios[character]
+		t.tween_callback(text_sfx, "play")
+		t.tween_callback(text_sfx_interval, "start")
+		label.text = dialog
+		t.tween_callback(label, "set_percent_visible", [0.0])
+		t.tween_callback(label, "set_text", [dialog])
+		var new_dialog_spaceless: String = dialog.replace(" ", "")
+		var dialog_len := len(new_dialog_spaceless)
+		var curr_percent_visible: float = 0.0
+		var max_delay := 0.0
+		var has_pause := false
+		t.tween_callback(text_sfx, "set_stream_paused", [false])
+		for i in range(int(curr_percent_visible * dialog_len), dialog_len):
+			var curr_char := new_dialog_spaceless[i]
+			if curr_char in PAUSE_SYMBOLS:
+				has_pause = true
+				max_delay = max(max_delay, PAUSE_SYMBOLS[curr_char])
+			elif has_pause:
+				has_pause = false
+				var new_percent_visible := float(i) / dialog_len
+				t.tween_property(label, "percent_visible",
+						new_percent_visible, floor((new_percent_visible - \
+						curr_percent_visible) * dialog_len) / read_speed)\
+						.from(curr_percent_visible)
+				t.tween_callback(text_sfx, "set_stream_paused", [true])
+				t.tween_interval(max_delay / read_speed)
+				t.tween_callback(text_sfx, "set_stream_paused", [false])
+				curr_percent_visible = new_percent_visible
+				max_delay = 0.0
+		t.tween_property(label, "percent_visible", 1.0,
+				(1 - curr_percent_visible) * dialog_len / read_speed)
+		t.tween_interval(wait)
+		t.tween_callback(text_sfx, "stop")
+		t.tween_callback(text_sfx_interval, "stop")
+	yield(t, "finished")
+	reading = false
+
+
 func read(d: Array = autoplay_dialog, c: int = character) -> void:
 	label.modulate = character_colors[c]
 	text_sfx.audio_streams = character_audios[c]

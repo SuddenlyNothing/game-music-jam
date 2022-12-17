@@ -25,25 +25,26 @@ onready var knock1 := $Knock1
 onready var knock2 := $Knock2
 onready var desk_enterable := $YSort/RoomElements/Enterables/Desk
 onready var weights_enterable := $YSort/RoomElements/Enterables/Weights
+onready var waypoints := $Waypoints
 
 
 func _ready() -> void:
-#	set_season("fall", 0.0)
-#	play_montage()
 	set_season("fall", 0.0)
-	var d: Node = Dialogic.start("food1_2")
-	d.connect("dialogic_signal", self, "dialogic_signal")
-	d.connect("timeline_end", self, "timeline_end")
-	var t := create_tween().set_trans(Tween.TRANS_QUAD)\
-			.set_ease(Tween.EASE_IN_OUT)
-	t.tween_interval(1.0)
-	t.tween_callback(self, "set_season", ["winter", 2])
-	t.tween_interval(3.0)
-	t.tween_property(cover, "modulate:a", 1.0, 0.5)
-	t.parallel().tween_property(ysort, "modulate:a", 1.0, 0.5)
-	t.parallel().tween_callback(self, "set_outdoor", [false, 0.5])
-	t.tween_property(camera, "position", room_elements.position, 1)
-	t.tween_callback(self, "add_child", [d])
+	play_montage()
+#	set_season("fall", 0.0)
+#	var d: Node = Dialogic.start("food1_2")
+#	d.connect("dialogic_signal", self, "dialogic_signal")
+#	d.connect("timeline_end", self, "timeline_end")
+#	var t := create_tween().set_trans(Tween.TRANS_QUAD)\
+#			.set_ease(Tween.EASE_IN_OUT)
+#	t.tween_interval(1.0)
+#	t.tween_callback(self, "set_season", ["winter", 2])
+#	t.tween_interval(3.0)
+#	t.tween_property(cover, "modulate:a", 1.0, 0.5)
+#	t.parallel().tween_property(ysort, "modulate:a", 1.0, 0.5)
+#	t.parallel().tween_callback(self, "set_outdoor", [false, 0.5])
+#	t.tween_property(camera, "position", room_elements.position, 1)
+#	t.tween_callback(self, "add_child", [d])
 
 
 func play_montage() -> void:
@@ -51,6 +52,7 @@ func play_montage() -> void:
 	yield(get_tree(), "idle_frame")
 	exit_enterables()
 	player_puppet = PlayerPuppet.instance()
+	player_puppet.waypoints_path = waypoints.get_path()
 	player_puppet.position = player.position
 	player_puppet.start_left = player.player_puppet.scale.x < 0
 	player.free()
@@ -67,69 +69,100 @@ func play_montage() -> void:
 	t.tween_property(fade, "modulate:a", 0.0, 1.0)
 	yield(t, "finished")
 	
-	# Season change
-	yield(view_season_change_to("spring"), "completed")
+#	# Season change
+#	dialog_player.read_line(
+#		["Time is flying by so fast. Is it because I'm having fun?"], 1)
+#	yield(view_season_change_to("spring"), "completed")
+#
+#	# Workout
+#	dialog_player.read_line(["That can't be it... I feel miserable."])
+#	yield(montage_task("weights", 10.0), "completed")
+#
+#	# Food Inturrupt
+#	yield(knock(), "completed")
+#	dialog_player.read_line(["The only thing I enjoy is sleep and food."])
+#	yield(montage_task("food", 9.0), "completed")
+#
+#	# Platformer
+#	dialog_player.read_line(
+#		["I play games all day to bide time, but " + \
+#		"I don't enjoy them like I used to"]
+#	)
+#	yield(montage_task("desk", 8.0), "completed")
+#
+#	# Food Inturrupt
+#	yield(knock(0.4), "completed")
+#	dialog_player.read_line(["I feel so sluggish. Everything is exhausting. "])
+#	yield(montage_task("food", 7.0), "completed")
+#
+#	# Change season
+#	yield(view_season_change_to("summer", 1.7), "completed")
+#
+#	# Food
+#	yield(knock(0.3), "completed")
+#	yield(montage_task("food", 6.0), "completed")
+#
+#	# Workout
+#	yield(montage_task("weights", 5.0), "completed")
+#
+#	# Change season
+#	yield(view_season_change_to("fall", 1.4), "completed")
+#
+#	# Food
+#	yield(knock(0.2), "completed")
+#	yield(montage_task("food", 4.0), "completed")
+#
+#	# Change season
+#	yield(view_season_change_to("winter", 1.1), "completed")
+#
+#	# Desk
+#	yield(montage_task("desk", 3.0), "completed")
+#
+#	# Change season
+#	yield(view_season_change_to("spring", 0.8), "completed")
+#
+#	# Food
+#	yield(knock(0.1), "completed")
+#	yield(montage_task("food", 2.0), "completed")
+#
+#	# Change season
+#	yield(view_season_change_to("summer", 0.5), "completed")
+#
+#	# Workout
+#	yield(montage_task("weights", 2.0), "completed")
+#
+#	# Desk
+#	yield(montage_task("desk", 2.0), "completed")
+#
+#	# Food
+#	yield(knock(0.1), "completed")
+#	yield(montage_task("food", 2.0), "completed")
 	
-	# Workout
-	yield(montage_task("weights", 10.0), "completed")
+	var dur = 3.0
+	var season = "fall"
+	player_puppet.set_act("3")
+	player_puppet.set_facing(Vector2.LEFT)
+	player_puppet.goto_next()
+	yield(player_puppet, "reached_waypoint")
 	
-	# Food Inturrupt
-	yield(knock(), "completed")
-	yield(montage_task("food", 9.0), "completed")
+	t = create_tween()
+	t.tween_property(camera, "position", Vector2(192, 128), dur / 2)
+	t.tween_property(cover, "modulate:a", 0.0, dur / 4)
+#	t.parallel().tween_property(ysort, "modulate:a", 0.0, 0.5)
+	t.parallel().tween_callback(self, "set_outdoor", [true, 0.5])
+	t.tween_callback(self, "set_season", [season, dur])
+	t.tween_interval(dur * 1.5)
+	t.tween_property(cover, "modulate:a", 1.0, dur / 4)
+	t.parallel().tween_property(ysort, "modulate:a", 1.0, dur / 4)
+	t.parallel().tween_callback(self, "set_outdoor", [false, dur / 4])
+	t.tween_property(camera, "position", room_elements.position, dur / 2)
+	t.tween_interval(dur / 2)
+	yield(t, "finished")
+	dialog_player.read_line([
+		"Hello World"
+	])
 	
-	# Platformer
-	yield(montage_task("desk", 8.0), "completed")
-	
-	# Food Inturrupt
-	yield(knock(0.4), "completed")
-	yield(montage_task("food", 7.0), "completed")
-	
-	# Change season
-	yield(view_season_change_to("summer", 1.7), "completed")
-	
-	# Food
-	yield(knock(0.3), "completed")
-	yield(montage_task("food", 6.0), "completed")
-	
-	# Workout
-	yield(montage_task("weights", 5.0), "completed")
-	
-	# Change season
-	yield(view_season_change_to("fall", 1.4), "completed")
-	
-	# Food
-	yield(knock(0.2), "completed")
-	yield(montage_task("food", 4.0), "completed")
-	
-	# Change season
-	yield(view_season_change_to("winter", 1.1), "completed")
-	
-	# Desk
-	yield(montage_task("desk", 3.0), "completed")
-	
-	# Change season
-	yield(view_season_change_to("spring", 0.8), "completed")
-	
-	# Food
-	yield(knock(0.1), "completed")
-	yield(montage_task("food", 2.0), "completed")
-	
-	# Change season
-	yield(view_season_change_to("summer", 0.5), "completed")
-	
-	# Workout
-	yield(montage_task("weights", 2.0), "completed")
-	
-	# Desk
-	yield(montage_task("desk", 2.0), "completed")
-	
-	# Food
-	yield(knock(0.1), "completed")
-	yield(montage_task("food", 2.0), "completed")
-	
-	yield(view_season_change_to("fall", 3.0), "completed")
-	
-	SceneHandler.goto_scene(next_scene)
+#	SceneHandler.goto_scene(next_scene)
 
 
 func dialogic_signal(val: String) -> void:
