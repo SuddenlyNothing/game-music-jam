@@ -60,6 +60,9 @@ func _ready() -> void:
 
 func play_montage() -> void:
 	montage_started = true
+	
+	yield(minigames_manager.hide_score_renderer(0.5), "completed")
+	
 	yield(get_tree(), "idle_frame")
 	exit_enterables()
 	player_puppet = PlayerPuppet.instance()
