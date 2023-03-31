@@ -363,7 +363,7 @@ stream = SubResource( 58 )
 position = Vector2( -32, -1 )
 
 [node name="Position2D" type="Position2D" parent="YSort/Waypoints" index="0"]
-position = Vector2( 322, -2 )
+position = Vector2( 322, -5 )
 
 [node name="Position2D2" type="Position2D" parent="YSort/Waypoints" index="1"]
 position = Vector2( 126, 95 )
@@ -387,7 +387,7 @@ position = Vector2( 301, 249 )
 position = Vector2( 351, 251 )
 
 [node name="PlayerPuppet" parent="YSort" index="2" instance=ExtResource( 2 )]
-position = Vector2( 290, -3 )
+position = Vector2( 290, -6 )
 z_index = -130
 waypoints_path = NodePath("../Waypoints")
 outside = true

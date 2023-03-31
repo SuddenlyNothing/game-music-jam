@@ -67,7 +67,11 @@ func goto_next() -> void:
 func set_facing(dir: Vector2) -> void:
 	if (dir.x > 0 and scale.x < 0) or\
 			(dir.x < 0 and scale.x > 0):
-		scale.x *= -1
+		flip()
+
+
+func flip() -> void:
+	scale.x *= -1
 
 
 func play_anim(anim: String) -> void:

@@ -1,0 +1,252 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://scenes/environment/Room.tscn" type="PackedScene" id=1]
+
+[sub_resource type="Shader" id=6]
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform float line_scale : hint_range(0, 4) = 1.0;
+
+//If not using a texture, will blend between these two colors
+uniform vec4 outline_color : hint_color;
+
+varying vec2 o;
+varying vec2 f;
+
+void vertex()
+{
+	//Expands the vertexes so we have space to draw the outline if we were on the edge.
+	o = VERTEX;
+	vec2 uv = (UV - 0.5);
+	VERTEX += uv * line_scale * TEXTURE_PIXEL_SIZE * 100.0;
+	f = VERTEX;
+}
+
+void fragment()
+{
+	ivec2 t = textureSize(TEXTURE, 0);
+	vec2 regular_uv;
+	regular_uv.x = UV.x + (f.x - o.x)/float(t.x);
+	regular_uv.y = UV.y + (f.y - o.y)/float(t.y);
+	
+	vec4 regular_color = texture(TEXTURE, regular_uv);
+	
+	if((regular_uv.x < 0.0 || regular_uv.x > 1.0) || (regular_uv.y < 0.0 || regular_uv.y > 1.0) || regular_color.a <=0.25){
+		regular_color = vec4(0.0); 
+	}
+	
+	vec2 ps = TEXTURE_PIXEL_SIZE * line_scale;
+	
+	vec4 final_color = regular_color;
+	if (regular_color.a <= 0.0)
+	{
+		
+		vec2 outline_uv = regular_uv + vec2(1.0 * ps.x, 0.0 * ps.y); 
+		vec4 outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(-1.0 * ps.x, 0.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(0.0 * ps.x, -1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(0.0 * ps.x, 1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+	}
+	COLOR = final_color; 
+}"
+
+[sub_resource type="ShaderMaterial" id=58]
+resource_local_to_scene = true
+shader = SubResource( 6 )
+shader_param/line_scale = 0.0
+shader_param/outline_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AudioStreamRandomPitch" id=59]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id=60]
+resource_local_to_scene = true
+shader = SubResource( 6 )
+shader_param/line_scale = 0.0
+shader_param/outline_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AudioStreamRandomPitch" id=61]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id=62]
+resource_local_to_scene = true
+shader = SubResource( 6 )
+shader_param/line_scale = 0.0
+shader_param/outline_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AudioStreamRandomPitch" id=63]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id=64]
+resource_local_to_scene = true
+shader = SubResource( 6 )
+shader_param/line_scale = 0.0
+shader_param/outline_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AudioStreamRandomPitch" id=65]
+resource_local_to_scene = true
+
+[sub_resource type="Shader" id=57]
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform float line_scale : hint_range(0, 4) = 1.0;
+
+//If not using a texture, will blend between these two colors
+uniform vec4 outline_color : hint_color;
+
+varying vec2 o;
+varying vec2 f;
+
+void vertex()
+{
+	//Expands the vertexes so we have space to draw the outline if we were on the edge.
+	o = VERTEX;
+	vec2 uv = (UV - 0.5);
+	VERTEX += uv * line_scale * TEXTURE_PIXEL_SIZE * 100.0;
+	f = VERTEX;
+}
+
+void fragment()
+{
+	ivec2 t = textureSize(TEXTURE, 0);
+	vec2 regular_uv;
+	regular_uv.x = UV.x + (f.x - o.x)/float(t.x);
+	regular_uv.y = UV.y + (f.y - o.y)/float(t.y);
+	
+	vec4 regular_color = texture(TEXTURE, regular_uv);
+	
+	if((regular_uv.x < 0.0 || regular_uv.x > 1.0) || (regular_uv.y < 0.0 || regular_uv.y > 1.0) || regular_color.a <=0.25){
+		regular_color = vec4(0.0); 
+	}
+	
+	vec2 ps = TEXTURE_PIXEL_SIZE * line_scale;
+	
+	vec4 final_color = regular_color;
+	if (regular_color.a <= 0.0)
+	{
+		
+		vec2 outline_uv = regular_uv + vec2(1.0 * ps.x, 0.0 * ps.y); 
+		vec4 outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(-1.0 * ps.x, 0.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(0.0 * ps.x, -1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(0.0 * ps.x, 1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+	}
+	COLOR = final_color; 
+}"
+
+[sub_resource type="ShaderMaterial" id=66]
+resource_local_to_scene = true
+shader = SubResource( 57 )
+shader_param/line_scale = 0.0
+shader_param/outline_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AudioStreamRandomPitch" id=67]
+resource_local_to_scene = true
+
+[node name="Act3" instance=ExtResource( 1 )]
+
+[node name="Cover" parent="Outside/Cover" index="0"]
+modulate = Color( 1, 1, 1, 1 )
+
+[node name="Desk" parent="YSort/RoomElements/Enterables" index="0"]
+material = SubResource( 58 )
+
+[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Desk" index="5"]
+stream = SubResource( 59 )
+
+[node name="Window" parent="YSort/RoomElements/Enterables" index="1"]
+material = SubResource( 60 )
+
+[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Window" index="5"]
+stream = SubResource( 61 )
+
+[node name="Weights" parent="YSort/RoomElements/Enterables" index="2"]
+material = SubResource( 62 )
+
+[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Weights" index="5"]
+stream = SubResource( 63 )
+
+[node name="Bed" parent="YSort/RoomElements/Enterables" index="3"]
+material = SubResource( 64 )
+
+[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Bed" index="5"]
+stream = SubResource( 65 )
+
+[node name="Door" parent="YSort/RoomElements/Enterables" index="4"]
+material = SubResource( 66 )
+
+[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Door" index="5"]
+stream = SubResource( 67 )
+
+[node name="Shelf" parent="YSort/RoomElements/Enterables" index="5"]
+material = SubResource( 66 )
+
+[node name="EnterSFX" parent="YSort/RoomElements/Enterables/Shelf" index="5"]
+stream = SubResource( 67 )
+
+[node name="Camera2D" type="Camera2D" parent="." index="5"]
+position = Vector2( 326, 200 )
+z_index = 327
+current = true

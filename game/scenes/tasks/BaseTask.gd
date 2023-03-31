@@ -11,6 +11,7 @@ export(float) var max_shake_offset := 10.0
 
 var score := 0
 var t: SceneTreeTween
+var stop_t: SceneTreeTween
 var score_t: SceneTreeTween
 var bar_particle_settings := {
 	"lifetime": [0.1, 2],
@@ -110,6 +111,8 @@ func wait_stop() -> void:
 func stop() -> void:
 	hide()
 	hint.stop()
+	if t:
+		t.kill()
 	if bar_particles and is_instance_valid(bar_particles):
 		bar_particles.queue_free()
 	play_timer.stop()
@@ -125,18 +128,18 @@ func _on_ShakeTimer_timeout() -> void:
 
 func _on_PlayTimer_timeout() -> void:
 	times_up_sfx.play()
-	if t:
-		t.kill()
+	if stop_t:
+		stop_t.kill()
 	wait_stop()
-	t = create_tween()
-	t.tween_interval(1)
-	t.tween_property(self, "modulate:a", 0.0, end_dur)
-	t.set_parallel()
-	t.tween_property(pc, "rect_scale", Vector2(), end_dur)\
+	stop_t = create_tween()
+	stop_t.tween_interval(1)
+	stop_t.tween_property(self, "modulate:a", 0.0, end_dur)
+	stop_t.set_parallel()
+	stop_t.tween_property(pc, "rect_scale", Vector2(), end_dur)\
 			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
-	t.set_parallel(false)
-	t.tween_callback(self, "stop")
-	t.tween_callback(self, "finished", [score])
+	stop_t.set_parallel(false)
+	stop_t.tween_callback(self, "stop")
+	stop_t.tween_callback(self, "finished", [score])
 
 
 func _on_Hint_completed() -> void:

@@ -68,16 +68,16 @@ func read_line(dialogs: Array, wait: float = 0.0) -> void:
 	next_indicator_container.hide()
 	reading = true
 	modulate.a = 1.0
+	text_sfx.audio_streams = character_audios[character]
 	show()
 	if t:
 		t.kill()
 	t = create_tween()
 	for dialog in dialogs:
-		print(dialog)
-		text_sfx.audio_streams = character_audios[character]
 		t.tween_callback(text_sfx, "play")
 		t.tween_callback(text_sfx_interval, "start")
-		label.text = dialog
+		t.tween_callback(label, "set_text", [dialog])
+		t.tween_interval(0.01)
 		t.tween_callback(label, "set_percent_visible", [0.0])
 		t.tween_callback(label, "set_text", [dialog])
 		var new_dialog_spaceless: String = dialog.replace(" ", "")
@@ -147,7 +147,6 @@ func read_next() -> void:
 	
 	set_read_tween(new_dialog)
 	
-	print("reading = true")
 	reading = true
 
 

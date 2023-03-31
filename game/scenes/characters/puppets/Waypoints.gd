@@ -1,10 +1,12 @@
 tool
 extends Node2D
 
+export(bool) var has_start_point := true
+
 export(Color) var start_color
 export(Color) var end_color
 
-var waypoint_ind := 0
+var waypoint_ind := -1
 
 
 func _process(delta: float) -> void:
@@ -28,6 +30,7 @@ func _draw() -> void:
 
 
 func get_start_point() -> Vector2:
+	waypoint_ind = 0
 	return get_child(0).global_position
 
 
@@ -41,4 +44,4 @@ func has_next_point() -> bool:
 
 
 func has_start_point() -> bool:
-	return get_child_count() > 0
+	return has_start_point && get_child_count() > 0
