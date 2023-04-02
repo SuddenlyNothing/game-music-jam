@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 signal killed
 signal consumed
+signal hit
 
 const TextFloater := preload("res://utils/TextFloater.tscn")
 
@@ -24,6 +25,8 @@ export(float) var lunge_speed := 400.0
 export(float) var lunge_friction := 800.0
 
 export(int) var powerup_threshold := 3
+
+export(bool) var do_eat_sfx := true
 
 var prev_input := Vector2.RIGHT
 var input := Vector2()
@@ -104,6 +107,7 @@ func hit() -> bool:
 			t.tween_property(anim_sprite.get_material(),
 					"shader_param/hit_strength", 0.0, hit_timer.wait_time)\
 					.from(1.0)
+			emit_signal("hit")
 			return true
 	return false
 
@@ -136,7 +140,8 @@ func move_lunge(delta: float) -> void:
 	if collision and collision.collider.is_in_group("food"):
 		topdown_player_states.call_deferred("set_state", "idle")
 		powerup_count += 1
-		eat_sfx.play()
+		if do_eat_sfx:
+			eat_sfx.play()
 		anim_sprite.play("idle")
 		if knockback_enemies:
 			if powerup_count > powerup_threshold:
@@ -182,7 +187,8 @@ func dash() -> void:
 		topdown_player_states.call_deferred("set_state", "idle")
 		line_dur = dash_hit_dur
 		velocity = vec.normalized() * max_speed
-		eat_sfx.play()
+		if do_eat_sfx:
+			eat_sfx.play()
 		combo += 1
 	else:
 		combo = 0

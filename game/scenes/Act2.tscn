@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://scenes/environment/Room.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/characters/players/RoomPlayer.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://scenes/environment/FoodParticles.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/environment/room/particles_wall_cover.png" type="Texture" id=15]
 [ext_resource path="res://assets/sfx/room_interactions/window_close.wav" type="AudioStream" id=16]
+[ext_resource path="res://scenes/environment/FoodSpawner.tscn" type="PackedScene" id=17]
 
 [sub_resource type="Shader" id=6]
 code = "shader_type canvas_item;
@@ -374,9 +375,27 @@ shader_param/shake_speed = 5.0
 shader_param/shake_block_size = 30.5
 shader_param/shake_color_rate = 0.01
 
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 hit_color : hint_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float hit_strength : hint_range(0.0,1.0) = 0.0;
+
+void fragment() {
+	vec4 custom_color = texture(TEXTURE, UV);
+	custom_color.rgb = mix(custom_color.rgb, hit_color.rgb, hit_strength);
+	COLOR = custom_color;
+}"
+
+[sub_resource type="ShaderMaterial" id=63]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/hit_color = Color( 1, 1, 1, 1 )
+shader_param/hit_strength = 0.0
+
 [node name="Act2" instance=ExtResource( 1 )]
 script = ExtResource( 4 )
-next_scene = ""
+next_scene = "res://scenes/tasks/BossTask.tscn"
 start_dialog = [ "That wasn't nearly enough food.", "I should get some more." ]
 food_dialog = [ [ "I'm feeling a little hungry." ], [ "I need some more energy." ], [ "I can feel my stomach rumbling." ], [ "I'm feeling lightheaded.", "I gotta have some food." ], [ "Gotta get some food." ], [ "**Grrrrrrr**", "That's the bell for more food." ] ]
 
@@ -429,8 +448,9 @@ stream = SubResource( 59 )
 position = Vector2( -92, 18 )
 z_index = 471
 
-[node name="Node2D" type="Node2D" parent="YSort/RoomElements" index="7"]
-z_index = 1167
+[node name="FoodSpawner" parent="YSort/RoomElements" index="7" instance=ExtResource( 17 )]
+position = Vector2( -92, 20 )
+z_index = 565
 
 [node name="ParticlesWallCover" type="Sprite" parent="YSort/RoomElements" index="8"]
 visible = false
@@ -443,12 +463,8 @@ act = "2"
 locked = true
 start_left = true
 
-[node name="MinigamesManager" parent="." index="4"]
-max_points = 300
-character = 1
-start_difficulty = 0.1
-
-[node name="CanvasLayer" type="CanvasLayer" parent="." index="5"]
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="4"]
+layer = 2
 
 [node name="DialogPlayer" parent="CanvasLayer" index="0" instance=ExtResource( 3 )]
 character = 1
@@ -460,19 +476,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="Camera2D" type="Camera2D" parent="." index="6"]
+[node name="Camera2D" type="Camera2D" parent="." index="5"]
 position = Vector2( 192, 128 )
 current = true
 
-[node name="Knock1" parent="." index="7" instance=ExtResource( 5 )]
+[node name="Knock1" parent="." index="6" instance=ExtResource( 5 )]
 stream = SubResource( 60 )
 audio_streams = [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 6 ) ]
 
-[node name="Knock2" parent="." index="8" instance=ExtResource( 5 )]
+[node name="Knock2" parent="." index="7" instance=ExtResource( 5 )]
 stream = SubResource( 60 )
 audio_streams = [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 6 ) ]
 
-[node name="Waypoints" parent="." index="9" instance=ExtResource( 13 )]
+[node name="Waypoints" parent="." index="8" instance=ExtResource( 13 )]
 z_index = 597
 has_start_point = false
 
@@ -480,7 +496,7 @@ has_start_point = false
 position = Vector2( 290, 228 )
 
 [node name="Position2D2" type="Position2D" parent="Waypoints" index="1"]
-position = Vector2( 309, 249 )
+position = Vector2( 326, 249 )
 
 [node name="Position2D3" type="Position2D" parent="Waypoints" index="2"]
 position = Vector2( 257, 248 )
@@ -488,7 +504,7 @@ position = Vector2( 257, 248 )
 [node name="Position2D4" type="Position2D" parent="Waypoints" index="3"]
 position = Vector2( 386, 253 )
 
-[node name="GhostPoints" parent="." index="10" instance=ExtResource( 13 )]
+[node name="GhostPoints" parent="." index="9" instance=ExtResource( 13 )]
 position = Vector2( -32, -1 )
 
 [node name="Position2D" type="Position2D" parent="GhostPoints" index="0"]
@@ -515,7 +531,7 @@ position = Vector2( 301, 249 )
 [node name="Position2D6" type="Position2D" parent="GhostPoints" index="7"]
 position = Vector2( 351, 251 )
 
-[node name="FlashbackPoints" parent="." index="11" instance=ExtResource( 13 )]
+[node name="FlashbackPoints" parent="." index="10" instance=ExtResource( 13 )]
 
 [node name="Position2D" type="Position2D" parent="FlashbackPoints" index="0"]
 position = Vector2( 290, 228 )
@@ -535,27 +551,46 @@ position = Vector2( 148, 115 )
 [node name="Position2D6" type="Position2D" parent="FlashbackPoints" index="5"]
 position = Vector2( 290, 228 )
 
-[node name="YSort2" type="YSort" parent="." index="12"]
+[node name="YSort2" type="YSort" parent="." index="11"]
 
 [node name="OldSelfPuppet" parent="YSort2" index="0" instance=ExtResource( 12 )]
 material = SubResource( 62 )
 position = Vector2( 298, -10 )
+frame = 0
 waypoints_path = NodePath("../../GhostPoints")
 outside = true
 
 [node name="NewSelfPuppet" parent="YSort2" index="1" instance=ExtResource( 12 )]
 visible = false
+material = SubResource( 63 )
 position = Vector2( 369, 200 )
 animation = "idle3"
+frame = 4
 waypoints_path = NodePath("../../FlashbackPoints")
 act = "3"
 outside = true
 start_left = true
 
-[node name="DoorOpen" type="AudioStreamPlayer2D" parent="." index="13"]
+[node name="DoorOpen" type="AudioStreamPlayer2D" parent="." index="12"]
 stream = ExtResource( 16 )
 bus = "SFX"
 
+[node name="MinigamesManager" parent="." index="13"]
+max_points = 300
+character = 1
+start_difficulty = 0.1
+
+[node name="ScreenFlash" type="CanvasLayer" parent="." index="14"]
+
+[node name="ScreenRect" type="ColorRect" parent="ScreenFlash" index="0"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+
+[connection signal="finished_eating" from="YSort/RoomElements/FoodSpawner" to="." method="_on_FoodSpawner_finished_eating"]
+[connection signal="food_ate" from="YSort/RoomElements/FoodSpawner" to="." method="_on_FoodSpawner_food_ate"]
 [connection signal="completed_task" from="MinigamesManager" to="." method="_on_MinigamesManager_completed_task"]
 [connection signal="do_event" from="MinigamesManager" to="." method="_on_MinigamesManager_do_event"]
 [connection signal="view_street" from="MinigamesManager" to="." method="_on_MinigamesManager_view_street"]

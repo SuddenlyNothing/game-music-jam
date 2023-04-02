@@ -136,7 +136,7 @@ func stop_task(task: String) -> void:
 
 
 func hide_score_renderer(duration: float) -> void:
-	var t := get_tree().create_tween()
+	var t := create_tween()
 	t.tween_property(score_renderer, "rect_scale", Vector2.ONE * 1.25,
 			duration / 2).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	t.tween_property(score_renderer, "rect_scale", Vector2.ONE, duration / 2)\

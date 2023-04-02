@@ -4,7 +4,7 @@ const Player := preload("res://scenes/characters/players/TopdownPlayer.tscn")
 const Boss := preload("res://scenes/tasks/boss/Boss.tscn")
 
 export(String, FILE, "*.tscn") var next_scene
-export(int) var max_consumed := 1000
+export(int) var max_consumed := 5
 export(String) var consumed_message := "Your gluttony caught up to you"
 
 var consumed := 0
@@ -20,10 +20,11 @@ onready var consumed_label := $M/ConsumedLabel
 # Override
 func init(difficulty: float = 0.0) -> void:
 	p = Player.instance()
+	p.do_eat_sfx = false
 	p.position = Vector2(192, 133)
 	p.knockback_enemies = true
 	p.connect("killed", self, "_on_Player_killed")
-	p.connect("consumed", self, "_on_Player_consumed")
+	p.connect("hit", self, "_on_Player_hit")
 	var b := Boss.instance()
 	b.position = Vector2(192, 100)
 	b.player = p
@@ -45,7 +46,7 @@ func _on_PlayTimer_timeout() -> void:
 	t.tween_callback(SceneHandler, "goto_scene", [next_scene])
 
 
-func _on_Player_consumed() -> void:
+func _on_Player_hit() -> void:
 	consumed += 1
 	if consumed >= max_consumed:
 		display_consumed_message = true

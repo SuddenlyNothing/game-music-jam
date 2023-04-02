@@ -443,6 +443,15 @@ resource_local_to_scene = true
 [node name="Room" type="Node2D"]
 script = ExtResource( 18 )
 
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -76
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+
 [node name="Audio" type="Node" parent="."]
 
 [node name="Indoor" type="Node" parent="Audio"]
@@ -477,17 +486,6 @@ bus = "SFX Outdoor"
 [node name="DoorSFX" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource( 32 )
 bus = "SFX"
-
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_mirroring = Vector2( 448, 256 )
-
-[node name="ColorRect" type="ColorRect" parent="ParallaxBackground/ParallaxLayer"]
-margin_right = 448.0
-margin_bottom = 256.0
-mouse_filter = 2
-color = Color( 0, 0, 0, 1 )
 
 [node name="Outside" type="Node2D" parent="."]
 position = Vector2( 192, 128 )

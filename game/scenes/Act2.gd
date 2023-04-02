@@ -14,6 +14,11 @@ var montage_started := false
 var player_puppet: Node
 var was_eating := false
 var m_t: SceneTreeTween
+var player_puppet_target_pos: Vector2
+var f_t: SceneTreeTween
+var camera_offset: Vector2
+var food_knockback := Vector2(30, 3)
+var right_limit := 700
 
 onready var player := $YSort/RoomPlayer
 onready var ysort := $YSort
@@ -33,7 +38,8 @@ onready var food_particles := $YSort/RoomElements/FoodParticles
 onready var particles_wall_cover := $YSort/RoomElements/ParticlesWallCover
 onready var door := $YSort/RoomElements/Enterables/Door
 onready var door_open := $DoorOpen
-
+onready var food_spawner := $YSort/RoomElements/FoodSpawner
+onready var screen_rect := $ScreenFlash/ScreenRect
 
 func _ready() -> void:
 #	yield(get_tree().create_timer(1.0, false), "timeout")
@@ -71,6 +77,7 @@ func play_montage() -> void:
 	player_puppet.start_left = player.player_puppet.scale.x < 0
 	player.free()
 	ysort.add_child(player_puppet)
+	food_spawner.target_node = player_puppet
 
 	# Fade out in
 	fade.show()
@@ -178,6 +185,7 @@ func play_montage() -> void:
 	var season := "winter"
 #
 	player_puppet.set_act("3")
+	dialog_player.character = dialog_player.Characters.MC3
 	player_puppet.goto_next()
 	player_puppet.set_facing(Vector2.LEFT)
 	yield(player_puppet, "reached_waypoint")
@@ -292,9 +300,13 @@ func dialogic_signal(val: String) -> void:
 		"bad_ending":
 			door_open.play()
 			door.hide()
-			var dur := 2.0
 			yield(get_tree().create_timer(1, false), "timeout")
-			food_particles.emitting = true
+			food_spawner.start(ceil((right_limit - camera.position.x) /\
+					food_knockback.x))
+			camera.limit_left = camera.position.x - 192
+			player_puppet_target_pos = player_puppet.position
+			camera_offset = camera.position - player_puppet.position
+#			food_particles.emitting = true
 			particles_wall_cover.show()
 		"true_ending":
 			print("true_ending")
@@ -406,3 +418,54 @@ func view_street(season: String) -> void:
 
 func _on_MinigamesManager_do_event() -> void:
 	play_montage()
+
+
+func _on_FoodSpawner_food_ate() -> void:
+	player_puppet_target_pos += food_knockback
+	player_puppet.play("hurt3")
+	player_puppet.frame = 0
+	if f_t:
+		f_t.kill()
+	f_t = create_tween().set_parallel().set_trans(Tween.TRANS_EXPO)\
+			.set_ease(Tween.EASE_OUT)
+	f_t.tween_property(player_puppet, "position",
+			player_puppet_target_pos, 0.3)
+	f_t.tween_property(camera, "position", player_puppet_target_pos +\
+			camera_offset, 0.3)
+	f_t.tween_property(player_puppet.get_material(),
+			"shader_param/hit_strength", 0.0, 0.3).from(1.0)
+	f_t.tween_property(screen_rect, "modulate:a", 0.0, 0.3).from(1.0)\
+			.set_trans(Tween.TRANS_LINEAR)
+
+
+func _on_FoodSpawner_finished_eating() -> void:
+	if f_t:
+		f_t.kill()
+	f_t = create_tween().set_parallel().set_trans(Tween.TRANS_EXPO)\
+			.set_ease(Tween.EASE_OUT)
+	f_t.tween_property(player_puppet, "position",
+			player_puppet_target_pos, 0.3)
+	f_t.tween_property(camera, "position", player_puppet_target_pos +\
+			camera_offset, 0.3)
+	f_t.tween_property(player_puppet.get_material(),
+			"shader_param/hit_strength", 0.0, 0.3).from(1.0)
+	screen_rect.modulate.a = 1.0
+	yield(f_t, "finished")
+	yield(get_tree().create_timer(2), "timeout")
+	dialog_player.read([
+		"Where am I?",
+		"I'm so sleepy. Is this what death feels like?",
+	])
+	yield(dialog_player, "dialog_finished")
+	if f_t:
+		f_t.kill()
+	f_t = create_tween()
+	f_t.tween_property(screen_rect, "modulate:a", 0.0, 1.0)
+	yield(f_t, "finished")
+	dialog_player.read([
+		"...",
+		"I think I remember now. I remember eating until I passed out.",
+		"I've got to get out of here. I'm going to die here."
+	])
+	yield(dialog_player, "dialog_finished")
+	SceneHandler.goto_scene(next_scene)

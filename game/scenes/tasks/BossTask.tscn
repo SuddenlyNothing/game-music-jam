@@ -18,7 +18,7 @@ resource_local_to_scene = true
 visible = false
 script = ExtResource( 2 )
 next_scene = "res://scenes/ui/FinishScreen.tscn"
-max_consumed = 1000
+max_consumed = 5
 consumed_message = "Your gluttony caught up to you"
 
 [node name="Viewport" parent="M/M/PC/M/VC" index="0"]
@@ -73,9 +73,10 @@ margin_bottom = 3.0
 [node name="ConsumedLabel" type="Label" parent="M" index="3"]
 visible = false
 margin_left = 3.0
-margin_top = 120.0
+margin_top = 103.0
 margin_right = 381.0
-margin_bottom = 136.0
+margin_bottom = 153.0
+rect_min_size = Vector2( 0, 50 )
 text = "Your gluttony caught up with you"
 align = 1
 
@@ -88,7 +89,8 @@ wait_time = 45.0
 visible = true
 character = 3
 autoplay = true
-autoplay_dialog = [ "You will forever be alone.", "Concentrate.", "You can't win. You can't hit me. And I can snap you in half." ]
+autoplay_dialog = [ "Trying to leave are we? That's not how this is gonna go.", "You can't win this battle. I'm the only friend you need. Stay here with me." ]
+character_colors = [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.705882, 0.12549, 0.164706, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 
 [node name="TimesUpSFX" parent="." index="6"]
 stream = SubResource( 3 )
