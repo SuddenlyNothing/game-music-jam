@@ -11,6 +11,7 @@ export(bool) var outside := false
 export(bool) var start_left := false
 
 var target: Vector2
+var rng := RandomNumberGenerator.new()
 
 onready var waypoints := get_node_or_null(waypoints_path)
 onready var outdoor_step_sfx := $OutdoorStepSFX
@@ -62,6 +63,10 @@ func goto_next() -> void:
 		play_anim("walk")
 	else:
 		emit_signal("reached_last_waypoint")
+
+
+func play_hurt() -> void:
+	play("hurt3_" + str(rng.randi_range(1, 3)))
 
 
 func set_facing(dir: Vector2) -> void:
