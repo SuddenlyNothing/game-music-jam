@@ -408,7 +408,7 @@ position = Vector2( 351, 251 )
 material = SubResource( 60 )
 position = Vector2( 290, -6 )
 z_index = -130
-frame = 0
+frame = 2
 waypoints_path = NodePath("../Waypoints")
 outside = true
 

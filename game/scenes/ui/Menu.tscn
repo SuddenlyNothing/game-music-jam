@@ -107,19 +107,19 @@ anchor_bottom = 1.0
 
 [node name="PanelContainer" type="PanelContainer" parent="Credits/V"]
 margin_right = 152.0
-margin_bottom = 66.0
+margin_bottom = 86.0
 
 [node name="M" type="MarginContainer" parent="Credits/V/PanelContainer"]
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 147.0
-margin_bottom = 61.0
+margin_bottom = 81.0
 custom_constants/margin_left = 1
 
 [node name="V" type="VBoxContainer" parent="Credits/V/PanelContainer/M"]
 margin_left = 1.0
 margin_right = 142.0
-margin_bottom = 56.0
+margin_bottom = 76.0
 
 [node name="Code" type="Label" parent="Credits/V/PanelContainer/M/V"]
 margin_right = 141.0
@@ -138,10 +138,16 @@ margin_right = 141.0
 margin_bottom = 56.0
 text = "Audio - Cryvera#4210"
 
+[node name="Audio2" type="Label" parent="Credits/V/PanelContainer/M/V"]
+margin_top = 60.0
+margin_right = 141.0
+margin_bottom = 76.0
+text = "Audio - 36Nexus#0091"
+
 [node name="PanelContainer2" type="PanelContainer" parent="Credits/V"]
-margin_top = 70.0
+margin_top = 90.0
 margin_right = 152.0
-margin_bottom = 135.0
+margin_bottom = 155.0
 
 [node name="M" type="MarginContainer" parent="Credits/V/PanelContainer2"]
 margin_left = 5.0
@@ -159,7 +165,6 @@ margin_bottom = 55.0
 margin_right = 141.0
 margin_bottom = 16.0
 text = "Dialogic Repository"
-underline = 1
 
 [node name="Label" type="Label" parent="Credits/V/PanelContainer2/M/V"]
 margin_top = 20.0
