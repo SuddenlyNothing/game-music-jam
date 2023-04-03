@@ -19,6 +19,7 @@ var bar_particle_settings := {
 	"scale_amount": [1, 2],
 }
 var diff: float
+var play_music := true
 
 onready var score_label: Label = $"%ScoreLabel"
 onready var pc: PanelContainer = $"%PC"
@@ -31,12 +32,13 @@ onready var hint := $Hint
 onready var times_up_sfx := $TimesUpSFX
 onready var riser_sfx := $RiserSFX
 onready var riser_timer := $RiserTimer
+onready var music := $Music
 
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_button") and testing:
 		Variables.rng.randomize()
-		start(Variables.rng.randf())
+		start(Variables.rng.randf(), true)
 
 
 func _process(delta: float) -> void:
@@ -56,9 +58,10 @@ func _process(delta: float) -> void:
 
 
 # Start minigame with difficulty 0-1
-func start(difficulty: float) -> void:
+func start(difficulty: float, music: bool) -> void:
 	diff = difficulty
 	play_timer.stop()
+	play_music = music
 	time_progress.value = 0
 	if bar_particles and is_instance_valid(bar_particles):
 		bar_particles.queue_free()
@@ -120,6 +123,7 @@ func stop() -> void:
 	score_label.rect_position = score_label_position
 	riser_sfx.stop()
 	riser_timer.stop()
+	music.stop()
 
 
 func _on_ShakeTimer_timeout() -> void:
@@ -149,6 +153,8 @@ func _on_Hint_completed() -> void:
 	bar_particles.position.y = 6.5
 	time_progress.add_child(bar_particles)
 	init(diff)
+	if play_music:
+		music.play()
 
 
 func _on_RiserTimer_timeout() -> void:

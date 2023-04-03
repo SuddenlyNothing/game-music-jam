@@ -19,6 +19,7 @@ var f_t: SceneTreeTween
 var camera_offset: Vector2
 var food_knockback := Vector2(30, 3)
 var right_limit := 700
+var playback_pos := 0.0
 
 onready var player := $YSort/RoomPlayer
 onready var ysort := $YSort
@@ -44,6 +45,8 @@ onready var static_overlay := $CanvasLayer/StaticOverlay
 onready var new_self_out := $YSort2/NewSelfOut
 onready var black_overlay := $CanvasLayer/BlackOverlay
 onready var door_close := $DoorClose
+onready var music := $Music
+onready var tension := $Tension
 
 
 func _ready() -> void:
@@ -67,10 +70,12 @@ func _ready() -> void:
 	t.parallel().tween_callback(self, "set_outdoor", [false, 0.5])
 	t.tween_property(camera, "position", room_elements.position, 1)
 	t.tween_callback(self, "add_child", [d])
+	t.tween_callback(music, "play")
 
 
 func play_montage() -> void:
 	montage_started = true
+	music.stop()
 	
 	yield(minigames_manager.hide_score_renderer(0.5), "completed")
 	
@@ -96,6 +101,7 @@ func play_montage() -> void:
 	yield(m_t, "finished")
 
 	# Season change
+	tension.play()
 	dialog_player.read_line(
 		["Time is flying by so fast. Is it because I'm having fun?"], 1)
 	yield(view_season_change_to("spring"), "completed")
@@ -122,7 +128,9 @@ func play_montage() -> void:
 	yield(montage_task("food", 2.5), "completed")
 
 	# Change season
-	dialog_player.read_line(["How long has it been? A few months? A few years?"])
+	dialog_player.read_line(
+		["How long has it been? A few months? A few years?"
+	])
 	yield(view_season_change_to("summer", 1.0), "completed")
 
 	# Food
@@ -177,6 +185,10 @@ func play_montage() -> void:
 	dialog_player.read_line(["STOP!"])
 	yield(montage_task("food", 0.4), "completed")
 	dialog_player.stop()
+	var t := create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+	t.tween_property(tension, "volume_db", -80.0, 2.0)
+	t.tween_callback(tension, "stop")
+	yield(t, "finished")
 	
 #	#TEMP WORK##################################################################
 #
@@ -328,7 +340,7 @@ func dialogic_signal(val: String) -> void:
 			new_self_out.show()
 			yield(t, "finished")
 			dialog_player.read_line([
-				"Finally some fresh air to breath in I sure hope nothing bad happens"
+				"Finally, some fresh air to breath in. There's so much to do."
 			])
 			yield(get_tree().create_timer(0.4, false), "timeout")
 			static_overlay.show()
@@ -383,6 +395,7 @@ func timeline_end(timeline: String) -> void:
 func _on_MinigamesManager_completed_task(points: int) -> void:
 	if montage_started:
 		return
+	music.play(playback_pos)
 	if not ate_start:
 		ate_start = true
 		player.set_disabled(true)
@@ -434,7 +447,7 @@ func montage_task(task: String, dur: float) -> void:
 			desk_enterable.show_inside("2")
 		"weights":
 			weights_enterable.show_inside("2")
-	minigames_manager.start_task(task, true, false, 0.0, true)
+	minigames_manager.start_task(task, true, false, 0.0, true, false)
 	yield(get_tree().create_timer(dur, false), "timeout")
 	player_puppet.show()
 	minigames_manager.stop_task(task)
@@ -531,3 +544,8 @@ func _on_FoodSpawner_finished_eating() -> void:
 	])
 	yield(dialog_player, "dialog_finished")
 	SceneHandler.goto_scene(next_scene)
+
+
+func _on_MinigamesManager_task_started() -> void:
+	playback_pos = music.get_playback_position()
+	music.stop()

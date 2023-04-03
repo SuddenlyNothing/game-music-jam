@@ -4,6 +4,7 @@ extends CanvasLayer
 signal do_event
 signal view_street(season)
 signal completed_task(points)
+signal task_started
 
 enum Characters {
 	MC1 = 0,
@@ -55,6 +56,7 @@ onready var tasks := {
 onready var score_renderer := $ScoreRenderer
 onready var dialog := $DialogPlayer
 onready var start_sfx := $StartSFX
+onready var window_sfx := $WindowSFX
 
 onready var indoor_sfx_idx := AudioServer.get_bus_index("SFX Indoor")
 onready var outdoor_sfx_idx := AudioServer.get_bus_index("SFX Outdoor")
@@ -70,7 +72,8 @@ func do_event() -> void:
 	pass
 
 
-func start(_difficulty: float) -> void:
+func start(_difficulty: float, music: bool = true) -> void:
+	window_sfx.play()
 	emit_signal("view_street", "")
 
 
@@ -88,7 +91,7 @@ func unlock_room() -> void:
 
 func start_task(task: String, mute: bool = true,
 		force_difficulty: bool = false, diff: float = 0.0,
-		force_start: bool = false) -> void:
+		force_start: bool = false, music: bool = true) -> void:
 	if interacting:
 		return
 	if mute:
@@ -107,12 +110,13 @@ func start_task(task: String, mute: bool = true,
 			dialog.read(reluctant_dialog)
 			tasks[task][3] = false
 			yield(dialog, "dialog_finished")
+		emit_signal("task_started")
 		start_sfx.play()
 		score_renderer.hide()
 		if force_difficulty:
-			tasks[task][0].start(diff)
+			tasks[task][0].start(diff, music)
 		else:
-			tasks[task][0].start(tasks[task][1])
+			tasks[task][0].start(tasks[task][1], music)
 		task_boredom = tasks[task][2]
 		if has_difficulty or task == "food":
 			tasks[task][1] = min(tasks[task][1] + tasks[task][4],

@@ -8,7 +8,7 @@ export(float) var end_dur := 0.5
 
 
 # Start minigame with difficulty 0-1
-func start(difficulty: float) -> void:
+func start(difficulty: float, music: bool) -> void:
 	pass
 
 

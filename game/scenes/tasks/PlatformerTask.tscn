@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/tasks/BaseTask.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/tasks/platformer/Platformer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/tasks/PlatformerTask.gd" type="Script" id=3]
+[ext_resource path="res://assets/music/platformer.ogg" type="AudioStream" id=4]
 
 [sub_resource type="AudioStreamRandomPitch" id=1]
 resource_local_to_scene = true
@@ -28,9 +29,12 @@ Press {up} to jump
 Collect as many coins as possible."
 
 [node name="PlayTimer" parent="." index="4"]
-wait_time = 15.0
+wait_time = 18.9
 
 [node name="TimesUpSFX" parent="." index="5"]
 stream = SubResource( 1 )
+
+[node name="Music" parent="." index="8"]
+stream = ExtResource( 4 )
 
 [connection signal="collected" from="M/M/PC/M/VC/Viewport/Platformer" to="." method="_on_Platformer_collected"]

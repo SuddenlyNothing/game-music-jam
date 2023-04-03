@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://scenes/environment/Room.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/characters/puppets/PlayerPuppet.tscn" type="PackedScene" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://scenes/ui/Menu.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/ui/Hint.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/environment/MinigamesManager.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/music/room_1.ogg" type="AudioStream" id=9]
+[ext_resource path="res://assets/music/intro.ogg" type="AudioStream" id=10]
 
 [sub_resource type="Shader" id=6]
 code = "shader_type canvas_item;
@@ -408,6 +410,7 @@ position = Vector2( 351, 251 )
 material = SubResource( 60 )
 position = Vector2( 290, -6 )
 z_index = -130
+frame = 5
 waypoints_path = NodePath("../Waypoints")
 outside = true
 
@@ -433,6 +436,16 @@ has_boredom = false
 has_difficulty = false
 max_points = 200
 
+[node name="IntroMusic" type="AudioStreamPlayer" parent="." index="7"]
+stream = ExtResource( 10 )
+volume_db = -7.0
+bus = "Music"
+
+[node name="RoomMusic" type="AudioStreamPlayer" parent="." index="8"]
+stream = ExtResource( 9 )
+volume_db = -7.0
+bus = "Music"
+
 [connection signal="completed_task" from="YSort/RoomElements/Enterables/Bed/MinigamesManager" to="." method="_on_MinigamesManager_completed_task"]
 [connection signal="do_event" from="YSort/RoomElements/Enterables/Bed/MinigamesManager" to="." method="_on_MinigamesManager_do_event"]
 [connection signal="view_street" from="YSort/RoomElements/Enterables/Bed/MinigamesManager" to="." method="_on_MinigamesManager_view_street"]
@@ -442,4 +455,5 @@ max_points = 200
 [connection signal="completed" from="Hint" to="." method="_on_Hint_completed"]
 [connection signal="completed_task" from="MinigamesManager" to="." method="_on_MinigamesManager_completed_task"]
 [connection signal="do_event" from="MinigamesManager" to="." method="_on_MinigamesManager_do_event"]
+[connection signal="task_started" from="MinigamesManager" to="." method="_on_MinigamesManager_task_started"]
 [connection signal="view_street" from="MinigamesManager" to="." method="_on_MinigamesManager_view_street"]

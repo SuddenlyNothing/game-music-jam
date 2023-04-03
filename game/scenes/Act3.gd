@@ -12,13 +12,16 @@ onready var particles_wall_cover := $YSort/ParticlesWallCover
 onready var door := $YSort/RoomElements/Enterables/Door
 onready var door_open_sfx := $DoorOpen
 onready var dialog_player := $CanvasLayer/DialogPlayer
+onready var friend_theme := $FriendTheme
 
 
 func _ready() -> void:
 	yield(knock(), "completed")
+	friend_theme.play()
 	var t := create_tween().set_parallel()
 	t.tween_property(ysort, "modulate:a", 1.0, 1.0)
 	t.tween_property(window, "modulate:a", 1.0, 1.0)
+	t.tween_property(friend_theme, "volume_db", -7.0, 1.0)
 	yield(t, "finished")
 	
 	dialog_player.read(friend_dialog)
@@ -39,7 +42,9 @@ func _ready() -> void:
 	player_puppet.z_index = 80
 	player_puppet.outside = true
 	player_puppet.goto_next()
-	yield(player_puppet, "reached_last_waypoint")
+	t = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+	t.tween_property(friend_theme, "volume_db", -80.0, 4.0)
+	yield(t, "finished")
 	Variables.restarted = true
 	SceneHandler.goto_scene(next_scene)
 

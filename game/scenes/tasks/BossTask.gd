@@ -82,7 +82,10 @@ func _on_Player_killed() -> void:
 	t.tween_property(bg, "modulate:a", 0.0, 0.1)
 	t.tween_property(time_progress, "modulate:a", 0.0, 0.1)
 	t.tween_property(cbg, "color", Color.black, 1.0)
-	t.set_parallel(false)
+	t.tween_property(music, "volume_db", -80.0, 2.0).set_ease(Tween.EASE_IN)\
+			.set_trans(Tween.TRANS_EXPO)
+	t.set_parallel(false).set_trans(Tween.TRANS_LINEAR)
+	t.tween_callback(music, "stop")
 	t.tween_interval(1.0)
 	t.tween_callback(retry, "show")
 	t.tween_callback(retry_button, "grab_focus")
@@ -90,7 +93,7 @@ func _on_Player_killed() -> void:
 
 
 func _on_DialogPlayer_dialog_finished() -> void:
-	start(0)
+	start(0, true)
 
 
 func _on_BossTask_finished(points) -> void:

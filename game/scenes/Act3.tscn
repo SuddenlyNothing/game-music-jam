@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://scenes/environment/Room.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sfx/dialog/knock/knock6.wav" type="AudioStream" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://assets/environment/room/particles_wall_cover.png" type="Texture" id=12]
 [ext_resource path="res://assets/sfx/scene/act1/open_door.wav" type="AudioStream" id=13]
 [ext_resource path="res://utils/DialogPlayer.tscn" type="PackedScene" id=14]
+[ext_resource path="res://assets/music/friend_theme.ogg" type="AudioStream" id=15]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -254,7 +255,7 @@ modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 69 )
 position = Vector2( 326, 249 )
 z_index = 153
-frame = 3
+frame = 4
 waypoints_path = NodePath("../Waypoints")
 act = "3"
 start_left = true
@@ -342,3 +343,8 @@ bus = "SFX"
 [node name="DialogPlayer" parent="CanvasLayer" index="0" instance=ExtResource( 14 )]
 character = 4
 autoplay = true
+
+[node name="FriendTheme" type="AudioStreamPlayer" parent="." index="12"]
+stream = ExtResource( 15 )
+volume_db = -20.0
+bus = "Music"

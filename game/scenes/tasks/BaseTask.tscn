@@ -137,6 +137,10 @@ bus = "SFX"
 [node name="RiserTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="Music" type="AudioStreamPlayer" parent="."]
+volume_db = -7.0
+bus = "Music"
+
 [connection signal="completed" from="Hint" to="." method="_on_Hint_completed"]
 [connection signal="timeout" from="ShakeTimer" to="." method="_on_ShakeTimer_timeout"]
 [connection signal="timeout" from="PlayTimer" to="." method="_on_PlayTimer_timeout"]

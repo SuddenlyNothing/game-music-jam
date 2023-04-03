@@ -11,5 +11,5 @@ dest_files=[ "res://.import/food_game.ogg-37d684f10e414a859db7af8b7ea8d3e4.oggst
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

@@ -24,6 +24,7 @@ var bar_particle_settings := {
 	"scale_amount": [1, 2],
 }
 var diff: float
+var play_music := true
 
 onready var min_dist_to_player_squared := pow(min_dist_to_player, 2)
 
@@ -41,12 +42,13 @@ onready var times_up_sfx := $TimesUpSFX
 onready var camera := $M/M/PC/M/VC/Viewport/Camera2D
 onready var riser_timer := $RiserTimer
 onready var riser_sfx := $RiserSFX
+onready var food_music := $FoodMusic
 
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_button") and testing:
 		Variables.rng.randomize()
-		start(1)
+		start(1, true)
 
 
 func _process(delta: float) -> void:
@@ -66,9 +68,10 @@ func _process(delta: float) -> void:
 
 
 # Start minigame with difficulty 0-1
-func start(difficulty: float) -> void:
+func start(difficulty: float, music: bool) -> void:
 	time_progress.value = 0
 	diff = difficulty
+	play_music = music
 	if bar_particles and is_instance_valid(bar_particles):
 		bar_particles.queue_free()
 	score = 0
@@ -107,6 +110,7 @@ func stop() -> void:
 	riser_sfx.stop()
 	riser_timer.stop()
 	hint.stop()
+	food_music.stop()
 
 
 func spawn_enemy(add_score: bool = true) -> void:
@@ -171,9 +175,12 @@ func _on_Hint_completed() -> void:
 	play_timer.start()
 	player = Player.instance()
 	player.position = Vector2(192, 133)
+	riser_timer.start(play_timer.wait_time - riser_sfx.stream.get_length())
 	ysort.call_deferred("add_child", player)
 	for _i in round(lerp(min_food, max_food, diff)):
 		spawn_enemy(false)
+	if play_music:
+		food_music.play()
 
 
 func _on_RiserTimer_timeout() -> void:

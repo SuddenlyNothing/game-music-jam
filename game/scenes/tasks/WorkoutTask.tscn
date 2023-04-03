@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://scenes/tasks/BaseTask.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/tasks/WorkoutTask.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://assets/sfx/combat/player/player_hurt_1.wav" type="AudioStream" id=11]
 [ext_resource path="res://assets/sfx/room_interactions/workout_2.wav" type="AudioStream" id=12]
 [ext_resource path="res://assets/sfx/room_interactions/workout_1.wav" type="AudioStream" id=13]
+[ext_resource path="res://assets/music/workout.ogg" type="AudioStream" id=14]
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 3 )
@@ -183,3 +184,7 @@ audio_streams = [ ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ), ExtReso
 [node name="HitSFX" parent="." index="12" instance=ExtResource( 7 )]
 stream = SubResource( 11 )
 audio_streams = [ ExtResource( 6 ), ExtResource( 12 ), ExtResource( 13 ) ]
+
+[node name="Music" parent="." index="13"]
+stream = ExtResource( 14 )
+volume_db = -4.0

@@ -11,5 +11,5 @@ dest_files=[ "res://.import/workout.ogg-4c608c69dcb3a3f68ae69169545dc84f.oggstr"
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

@@ -11,5 +11,5 @@ dest_files=[ "res://.import/platformer.ogg-a7fe50c72bc9d30782967c2e26ab7275.oggs
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/ui/progress.png" type="Texture" id=1]
 [ext_resource path="res://scenes/tasks/FoodTask.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/sfx/minigames/minigame_times_up.wav" type="AudioStream" id=8]
 [ext_resource path="res://assets/sfx/minigames/minigame_times_up_riser.ogg" type="AudioStream" id=9]
+[ext_resource path="res://assets/music/food_game.ogg" type="AudioStream" id=10]
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0, 0, 0, 1 )
@@ -170,7 +171,7 @@ align = 1
 one_shot = true
 
 [node name="PlayTimer" type="Timer" parent="."]
-wait_time = 30.0
+wait_time = 29.54
 one_shot = true
 
 [node name="Hint" parent="." instance=ExtResource( 6 )]
@@ -189,6 +190,10 @@ bus = "SFX"
 
 [node name="RiserTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="FoodMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+bus = "Music"
 
 [connection signal="timeout" from="ShakeTimer" to="." method="_on_ShakeTimer_timeout"]
 [connection signal="timeout" from="PlayTimer" to="." method="_on_PlayTimer_timeout"]

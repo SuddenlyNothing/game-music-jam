@@ -15,6 +15,7 @@ var seasons_t: SceneTreeTween
 var room_player: Node2D
 var food_dialog_idx := 0
 var eating := false
+var music_playback := 0.0
 
 onready var player_puppet := $YSort/PlayerPuppet
 onready var door := $YSort/RoomElements/Enterables/Door
@@ -25,6 +26,8 @@ onready var ysort := $YSort
 onready var minigames_manager := $MinigamesManager
 onready var hint := $Hint
 onready var menu := $CanvasLayer/Menu
+onready var intro_music := $IntroMusic
+onready var room_music := $RoomMusic
 
 
 func _ready() -> void:
@@ -54,6 +57,7 @@ func start() -> void:
 	var t := create_tween().set_ease(Tween.EASE_IN_OUT)\
 			.set_trans(Tween.TRANS_QUAD)
 	t.tween_interval(2.5)
+	t.tween_callback(intro_music, "play")
 	t.tween_callback(player_puppet, "goto_next")
 	t.tween_callback(dialog, "read", [intro_dialogs[0]])
 	t.tween_property(camera, "zoom", Vector2.ONE * 0.5, 0.3)
@@ -133,7 +137,14 @@ func _on_PlayerPuppet_reached_last_waypoint() -> void:
 	t.tween_property(camera, "position", room_elements.position, 1.0)\
 			.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	t.tween_callback(dialog, "read", [intro_dialogs[4]])
+	t.set_trans(Tween.TRANS_EXPO)
 	yield(dialog, "dialog_finished")
+	var t2 := create_tween().set_trans(Tween.TRANS_EXPO)
+	t2.tween_property(intro_music, "volume_db", -80.0, 2.0)\
+			.set_ease(Tween.EASE_IN)
+	t2.tween_callback(intro_music, "stop")
+	t2.tween_callback(room_music, "play")
+	yield(t2, "finished")
 	hint.start()
 
 
@@ -159,11 +170,15 @@ func _on_MinigamesManager_do_event() -> void:
 	room_player.set_disabled(true)
 	dialog.read(end_dialog)
 	yield(dialog, "dialog_finished")
+	var t := create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+	t.tween_property(room_music, "volume_db", -80.0, 1.0)
+	yield(t, "finished")
 	SceneHandler.goto_scene(next_scene)
 
 
 func _on_MinigamesManager_completed_task(points: int) -> void:
 	eating = false
+	room_music.play(music_playback)
 	if points >= 40 and food_dialog_idx == 0:
 		food_dialog_idx += 1
 		play_food()
@@ -196,3 +211,8 @@ func timeline_end(timeline: String) -> void:
 	if eating:
 		return
 	room_player.set_disabled(false)
+
+
+func _on_MinigamesManager_task_started() -> void:
+	music_playback = room_music.get_playback_position()
+	room_music.stop()
