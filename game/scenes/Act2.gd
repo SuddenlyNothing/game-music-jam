@@ -82,6 +82,7 @@ func play_montage() -> void:
 	yield(get_tree(), "idle_frame")
 	exit_enterables()
 	player_puppet = PlayerPuppet.instance()
+	player_puppet.act = "2"
 	player_puppet.waypoints_path = waypoints.get_path()
 	player_puppet.position = player.position
 	player_puppet.start_left = player.player_puppet.scale.x < 0
