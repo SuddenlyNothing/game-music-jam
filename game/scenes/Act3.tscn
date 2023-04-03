@@ -1,6 +1,37 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://scenes/environment/Room.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/sfx/dialog/knock/knock6.wav" type="AudioStream" id=2]
+[ext_resource path="res://assets/sfx/dialog/knock/knock1.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/sfx/dialog/knock/knock3.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/sfx/dialog/knock/knock4.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sfx/dialog/knock/knock5.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sfx/dialog/knock/knock2.wav" type="AudioStream" id=7]
+[ext_resource path="res://utils/MultiAudioPlayer.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/Act3.gd" type="Script" id=9]
+[ext_resource path="res://scenes/characters/puppets/PlayerPuppet.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/characters/puppets/Waypoints.tscn" type="PackedScene" id=11]
+[ext_resource path="res://assets/environment/room/particles_wall_cover.png" type="Texture" id=12]
+[ext_resource path="res://assets/sfx/scene/act1/open_door.wav" type="AudioStream" id=13]
+[ext_resource path="res://utils/DialogPlayer.tscn" type="PackedScene" id=14]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 hit_color : hint_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float hit_strength : hint_range(0.0,1.0) = 0.0;
+
+void fragment() {
+	vec4 custom_color = texture(TEXTURE, UV);
+	custom_color.rgb = mix(custom_color.rgb, hit_color.rgb, hit_strength);
+	COLOR = custom_color;
+}"
+
+[sub_resource type="ShaderMaterial" id=69]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/hit_color = Color( 0.705882, 0.12549, 0.164706, 1 )
+shader_param/hit_strength = 0.0
 
 [sub_resource type="Shader" id=6]
 code = "shader_type canvas_item;
@@ -205,10 +236,30 @@ shader_param/outline_color = Color( 1, 1, 1, 1 )
 [sub_resource type="AudioStreamRandomPitch" id=67]
 resource_local_to_scene = true
 
+[sub_resource type="AudioStreamRandomPitch" id=68]
+resource_local_to_scene = true
+
 [node name="Act3" instance=ExtResource( 1 )]
+script = ExtResource( 9 )
+next_scene = "res://scenes/Act1.tscn"
+friend_dialog = [ "Hey, I know you're in there.", "You've been in there so long... I've forgotten the days we spent together.", "But I know I liked the chemistry we had together.", "I'm struggling out there. I want to go back to what it was.", "I know it wasn't great out there, but I know that if we work together, we can deal with it.", "Please...", "I miss you so much." ]
 
 [node name="Cover" parent="Outside/Cover" index="0"]
 modulate = Color( 1, 1, 1, 1 )
+
+[node name="Window" parent="Outside/Cover" index="1"]
+modulate = Color( 1, 1, 1, 0 )
+
+[node name="PlayerPuppet" parent="." index="3" instance=ExtResource( 10 )]
+material = SubResource( 69 )
+position = Vector2( 326, 249 )
+z_index = 153
+frame = 5
+waypoints_path = NodePath("../Waypoints")
+start_left = true
+
+[node name="YSort" parent="." index="4"]
+modulate = Color( 1, 1, 1, 0 )
 
 [node name="Desk" parent="YSort/RoomElements/Enterables" index="0"]
 material = SubResource( 58 )
@@ -246,7 +297,47 @@ material = SubResource( 66 )
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Shelf" index="5"]
 stream = SubResource( 67 )
 
-[node name="Camera2D" type="Camera2D" parent="." index="5"]
+[node name="ParticlesWallCover" type="Sprite" parent="YSort" index="1"]
+visible = false
+position = Vector2( 326, 200 )
+z_index = 588
+texture = ExtResource( 12 )
+
+[node name="Camera2D" type="Camera2D" parent="." index="6"]
 position = Vector2( 326, 200 )
 z_index = 327
 current = true
+
+[node name="Knock1" parent="." index="7" instance=ExtResource( 8 )]
+stream = SubResource( 68 )
+audio_streams = [ ExtResource( 3 ), ExtResource( 7 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 2 ) ]
+
+[node name="Knock2" parent="." index="8" instance=ExtResource( 8 )]
+stream = SubResource( 68 )
+audio_streams = [ ExtResource( 3 ), ExtResource( 7 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 2 ) ]
+
+[node name="Waypoints" parent="." index="9" instance=ExtResource( 11 )]
+z_index = 136
+
+[node name="Position2D" type="Position2D" parent="Waypoints" index="0"]
+position = Vector2( 326, 249 )
+
+[node name="Position2D2" type="Position2D" parent="Waypoints" index="1"]
+position = Vector2( 252, 243 )
+
+[node name="Position2D3" type="Position2D" parent="Waypoints" index="2"]
+position = Vector2( 240, 234 )
+
+[node name="Position2D4" type="Position2D" parent="Waypoints" index="3"]
+position = Vector2( 133, 136 )
+
+[node name="DoorOpen" type="AudioStreamPlayer2D" parent="." index="10"]
+position = Vector2( 246, 215 )
+stream = ExtResource( 13 )
+bus = "SFX"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="11"]
+
+[node name="DialogPlayer" parent="CanvasLayer" index="0" instance=ExtResource( 14 )]
+character = 4
+autoplay = true

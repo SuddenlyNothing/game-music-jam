@@ -330,7 +330,7 @@ func dialogic_signal(val: String) -> void:
 			dialog_player.read_line([
 				"Finally some fresh air to breath in I sure hope nothing bad happens"
 			])
-			yield(get_tree().create_timer(0.4), "timeout")
+			yield(get_tree().create_timer(0.4, false), "timeout")
 			static_overlay.show()
 			black_overlay.show()
 			# 3 1 2 0.5 1 0
@@ -513,7 +513,7 @@ func _on_FoodSpawner_finished_eating() -> void:
 			"shader_param/hit_strength", 0.0, 0.3).from(1.0)
 	screen_rect.modulate.a = 1.0
 	yield(f_t, "finished")
-	yield(get_tree().create_timer(2), "timeout")
+	yield(get_tree().create_timer(2, false), "timeout")
 	dialog_player.read([
 		"Where am I?",
 		"I'm so sleepy. Is this what death feels like?",

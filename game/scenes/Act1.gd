@@ -24,9 +24,16 @@ onready var dialog := $CanvasLayer/DialogPlayer
 onready var ysort := $YSort
 onready var minigames_manager := $MinigamesManager
 onready var hint := $Hint
+onready var menu := $CanvasLayer/Menu
 
 
 func _ready() -> void:
+	if Variables.restarted:
+		var t := create_tween().set_ease(Tween.EASE_OUT)\
+				.set_trans(Tween.TRANS_QUAD)
+		t.tween_property(menu, "rect_position:x", menu.rect_position.x, 3.0)\
+				.from(-536.0).set_delay(3.0)
+		menu.rect_position.x = -536
 	seasons_t = create_tween().set_loops()
 	seasons_t.tween_interval(betwee_dur)
 	seasons_t.tween_callback(self, "set_season", ["spring", season_dur])

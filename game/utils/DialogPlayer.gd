@@ -42,6 +42,7 @@ onready var text_sfx := $TextSFX
 onready var next_indicator_container := $M/ColorRect/NextIndicatorContainer
 onready var interact_sfx := $InteractSFX
 onready var text_sfx_interval := $TextSFXInterval
+onready var text_sfx_volume: float = text_sfx.volume_db
 
 
 func _ready() -> void:
@@ -53,12 +54,10 @@ func _input(event: InputEvent) -> void:
 	if has_dialog:
 		if event.is_action_pressed("interact", false, true):
 			if reading:
-				print("dialog interact stop")
 				t.kill()
 				label.percent_visible = 1.0
 				stop_reading()
 			else:
-				print("dialog interact next")
 				interact_sfx.play()
 				read_next()
 			accept_event()
@@ -75,6 +74,7 @@ func read_line(dialogs: Array, wait: float = 0.0) -> void:
 		t.kill()
 	t = create_tween()
 	for dialog in dialogs:
+		t.tween_callback(text_sfx, "set_volume_db", [text_sfx_volume])
 		t.tween_callback(text_sfx, "play")
 		t.tween_callback(text_sfx_interval, "start")
 		t.tween_callback(label, "set_text", [dialog])
@@ -109,6 +109,7 @@ func read_line(dialogs: Array, wait: float = 0.0) -> void:
 		t.tween_interval(wait)
 		t.tween_callback(text_sfx, "stop")
 		t.tween_callback(text_sfx_interval, "stop")
+		t.tween_callback(text_sfx, "set_volume_db", [-INF])
 	yield(t, "finished")
 	reading = false
 
@@ -138,6 +139,7 @@ func read_next() -> void:
 		stop()
 		return
 	text_sfx.play()
+	text_sfx.volume_db = text_sfx_volume
 	curr_text = dialogs[d_ind]
 	var new_dialog: String = dialogs[d_ind].format(Variables.input_format)
 	if len(new_dialog) <= 0:
@@ -191,6 +193,7 @@ func stop() -> void:
 		t.kill()
 	text_sfx_interval.stop()
 	text_sfx.stop()
+	text_sfx.volume_db = -INF
 	next_indicator_container.hide()
 	if enter_exit_t:
 		enter_exit_t.kill()
@@ -212,13 +215,9 @@ func stop_reading() -> void:
 	reading = false
 	text_sfx_interval.stop()
 	text_sfx.stop()
+	text_sfx.volume_db = -INF
 	next_indicator_container.show()
 	interact_sfx.play()
-
-
-func _on_TextSFX_finished() -> void:
-	if reading:
-		text_sfx.play()
 
 
 func _on_TextSFXInterval_timeout() -> void:

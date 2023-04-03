@@ -908,7 +908,7 @@ func event_handler(event: Dictionary):
 			if event.get('hide_dialogbox', true):
 				$TextBubble.visible = false
 			set_state(state.WAITING)
-			var timer = get_tree().create_timer(event['wait_seconds'])
+			var timer = get_tree().create_timer(event['wait_seconds'], false)
 			if event.get('waiting_skippable', false):
 				event['waiting_timer_skippable'] = timer
 			yield(timer, "timeout")

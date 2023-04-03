@@ -93,3 +93,8 @@ func _on_PlayerPuppet_frame_changed() -> void:
 					outdoor_step_sfx.play()
 				else:
 					indoor_step_sfx.play()
+
+
+func lower_volume(dur: float) -> void:
+	var t := create_tween()
+	t.tween_property(outdoor_step_sfx, "volume_db", -80.0, dur)

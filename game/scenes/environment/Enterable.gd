@@ -2,8 +2,9 @@ extends StaticBody2D
 
 signal interacted
 
+export(int, "MC1", "MC2", "MC3", "BOSS", "FRIEND", "MISC") var voice := 5 \
+		setget set_voice
 export(String) var input_hint_text := "interact"
-
 export(bool) var disabled := false
 export(Array, String, MULTILINE) var disabled_dialog
 export(Array, Array, String, MULTILINE) var enter_text
@@ -30,6 +31,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		emit_signal("interacted")
 
 
+func set_voice(val: int) -> void:
+	voice = val
+	if is_inside_tree():
+		dialog.character = voice
+
+
 func enter(act: String, player: Node) -> void:
 	is_inside = true
 	get_material().set_shader_param("line_scale", 1.0)
@@ -39,6 +46,7 @@ func enter(act: String, player: Node) -> void:
 	enter_sfx.play()
 	if disabled:
 		player.set_locked(true)
+		dialog.character = dialog.Characters.MISC
 		dialog.read(disabled_dialog, int(act))
 		yield(dialog, "dialog_finished")
 		player.set_locked(false)

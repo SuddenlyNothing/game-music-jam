@@ -95,7 +95,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
 character_audios = [ [ ExtResource( 15 ), ExtResource( 30 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 31 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ) ], [ ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 19 ) ], [ ExtResource( 24 ), ExtResource( 38 ), ExtResource( 26 ), ExtResource( 23 ), ExtResource( 36 ), ExtResource( 25 ), ExtResource( 39 ), ExtResource( 37 ) ], [ ExtResource( 2 ), ExtResource( 8 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 7 ), ExtResource( 41 ), ExtResource( 9 ), ExtResource( 40 ) ], [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ], [ ExtResource( 27 ) ] ]
-character_colors = [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+character_colors = [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.137255, 0.682353, 0.788235, 1 ), Color( 1, 1, 1, 1 ) ]
 
 [node name="M" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -160,5 +160,4 @@ audio_streams = [ ExtResource( 5 ) ]
 [node name="TextSFXInterval" type="Timer" parent="."]
 wait_time = 0.1
 
-[connection signal="finished" from="TextSFX" to="." method="_on_TextSFX_finished"]
 [connection signal="timeout" from="TextSFXInterval" to="." method="_on_TextSFXInterval_timeout"]

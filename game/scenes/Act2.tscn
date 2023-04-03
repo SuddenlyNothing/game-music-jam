@@ -468,6 +468,7 @@ modulate = Color( 1, 1, 1, 0 )
 
 [node name="Desk" parent="YSort/RoomElements/Enterables" index="0"]
 material = SubResource( 7 )
+voice = 1
 enter_text = [ [ "I've been sitting down too much. My butt hurts." ], [ "Are there any new games? This one's getting kinda boring." ], [ "So many unread emails...", "Must be spam." ] ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Desk" index="5"]
@@ -475,6 +476,7 @@ stream = SubResource( 51 )
 
 [node name="Window" parent="YSort/RoomElements/Enterables" index="1"]
 material = SubResource( 8 )
+voice = 1
 enter_text = [ [ "It's so bright outside! Maybe I should get some blinds." ], [ "Just thinking about the snow is making me cold." ], [ "Should I go outside and make some snowmen?", "Nah.... They'd just get knocked down." ] ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Window" index="5"]
@@ -482,6 +484,7 @@ stream = SubResource( 52 )
 
 [node name="Weights" parent="YSort/RoomElements/Enterables" index="2"]
 material = SubResource( 9 )
+voice = 1
 enter_text = [ [ "I don't seem to be getting any stronger." ], [ "These weights just keep getting heavier and heavier." ], [ "I'm struggling so much.... Maybe I should give up." ] ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Weights" index="5"]
@@ -489,6 +492,7 @@ stream = SubResource( 53 )
 
 [node name="Bed" parent="YSort/RoomElements/Enterables" index="3"]
 material = SubResource( 10 )
+voice = 1
 enter_text = [ [ "I feel exhausted." ], [ "I wish I could just lie here forever." ], [ "Ah... so warm!" ] ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Bed" index="5"]
@@ -496,6 +500,7 @@ stream = SubResource( 54 )
 
 [node name="Door" parent="YSort/RoomElements/Enterables" index="4"]
 material = SubResource( 55 )
+voice = 1
 disabled_dialog = [ "Brrr... It's too cold to go outside.", "Inside is much better." ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Door" index="5"]
@@ -503,6 +508,7 @@ stream = SubResource( 56 )
 
 [node name="Shelf" parent="YSort/RoomElements/Enterables" index="5"]
 material = SubResource( 58 )
+voice = 1
 disabled_dialog = [ "Maybe I should throw these books away..." ]
 
 [node name="EnterSFX" parent="YSort/RoomElements/Enterables/Shelf" index="5"]
@@ -644,7 +650,7 @@ position = Vector2( 290, 228 )
 [node name="OldSelfPuppet" parent="YSort2" index="0" instance=ExtResource( 12 )]
 material = SubResource( 62 )
 position = Vector2( 298, -10 )
-frame = 0
+frame = 3
 waypoints_path = NodePath("../../GhostPoints")
 muted = true
 outside = true
@@ -654,7 +660,7 @@ visible = false
 material = SubResource( 63 )
 position = Vector2( 369, 200 )
 animation = "idle3"
-frame = 3
+frame = 2
 waypoints_path = NodePath("../../FlashbackPoints")
 act = "3"
 outside = true
@@ -664,7 +670,7 @@ start_left = true
 visible = false
 material = SubResource( 67 )
 position = Vector2( 257, 248 )
-frame = 0
+frame = 3
 act = "3"
 outside = true
 start_left = true

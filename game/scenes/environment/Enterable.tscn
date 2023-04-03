@@ -82,4 +82,4 @@ anims/fade = SubResource( 1 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="DialogPlayer" parent="CanvasLayer" instance=ExtResource( 4 )]
-character = 5
+character = 1

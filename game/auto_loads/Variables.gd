@@ -16,3 +16,5 @@ var input_format := {}
 var rng := RandomNumberGenerator.new()
 
 var hints := {}
+
+var restarted := false
