@@ -12,6 +12,7 @@ export(Array, String, MULTILINE) var retry_message
 var consumed := 0
 var p
 var display_consumed_message := false
+var retry_pressed := false
 
 onready var ysort := $M/M/PC/M/VC/Viewport/YSort
 onready var bg := $M/M/PC/M/VC/Viewport/FoodGameBackground
@@ -97,4 +98,7 @@ func _on_BossTask_finished(points) -> void:
 
 
 func _on_AnimatedButton_pressed() -> void:
+	if retry_pressed:
+		return
+	retry_pressed = true
 	SceneHandler.restart_scene()

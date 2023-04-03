@@ -256,6 +256,7 @@ position = Vector2( 326, 249 )
 z_index = 153
 frame = 3
 waypoints_path = NodePath("../Waypoints")
+act = "3"
 start_left = true
 
 [node name="YSort" parent="." index="4"]
