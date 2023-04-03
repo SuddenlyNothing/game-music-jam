@@ -18,3 +18,5 @@ var rng := RandomNumberGenerator.new()
 var hints := {}
 
 var restarted := false
+
+var played_boss := false

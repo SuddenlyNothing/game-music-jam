@@ -28,6 +28,7 @@ onready var menu := $CanvasLayer/Menu
 
 
 func _ready() -> void:
+	Variables.played_boss = false
 	if Variables.restarted:
 		var t := create_tween().set_ease(Tween.EASE_OUT)\
 				.set_trans(Tween.TRANS_QUAD)

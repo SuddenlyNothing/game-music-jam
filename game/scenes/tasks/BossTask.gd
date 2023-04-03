@@ -6,6 +6,8 @@ const Boss := preload("res://scenes/tasks/boss/Boss.tscn")
 export(String, FILE, "*.tscn") var next_scene
 export(int) var max_consumed := 5
 export(String) var consumed_message := "Your gluttony caught up to you"
+export(Array, String, MULTILINE) var first_message
+export(Array, String, MULTILINE) var retry_message
 
 var consumed := 0
 var p
@@ -15,6 +17,16 @@ onready var ysort := $M/M/PC/M/VC/Viewport/YSort
 onready var bg := $M/M/PC/M/VC/Viewport/FoodGameBackground
 onready var cbg := $ColorRect
 onready var consumed_label := $M/ConsumedLabel
+onready var dialog := $CanvasLayer/DialogPlayer
+onready var retry := $Retry
+onready var retry_button := $Retry/AnimatedButton
+
+
+func _ready() -> void:
+	if Variables.played_boss:
+		dialog.read(retry_message)
+	else:
+		dialog.read(first_message)
 
 
 # Override
@@ -54,6 +66,7 @@ func _on_Player_hit() -> void:
 
 
 func _on_Player_killed() -> void:
+	Variables.played_boss = true
 	play_timer.stop()
 	riser_timer.stop()
 	riser_sfx.stop()
@@ -70,7 +83,9 @@ func _on_Player_killed() -> void:
 	t.tween_property(cbg, "color", Color.black, 1.0)
 	t.set_parallel(false)
 	t.tween_interval(1.0)
-	t.tween_callback(SceneHandler, "goto_scene", [next_scene])
+	t.tween_callback(retry, "show")
+	t.tween_callback(retry_button, "grab_focus")
+	t.tween_property(retry, "modulate:a", 1.0, 1.0)
 
 
 func _on_DialogPlayer_dialog_finished() -> void:
@@ -79,3 +94,7 @@ func _on_DialogPlayer_dialog_finished() -> void:
 
 func _on_BossTask_finished(points) -> void:
 	SceneHandler.goto_scene(next_scene)
+
+
+func _on_AnimatedButton_pressed() -> void:
+	SceneHandler.restart_scene()
