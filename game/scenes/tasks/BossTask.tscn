@@ -89,7 +89,7 @@ wait_time = 45.0
 visible = true
 character = 3
 autoplay = true
-autoplay_dialog = [ "Trying to leave are we? That's not how this is gonna go.", "You can't win this battle. I'm the only friend you need. Stay here with me." ]
+autoplay_dialog = [ "Trying to leave are we? That's not how this is gonna go.", "You can't win this battle. I'm the only one you need. Stay here with me." ]
 character_colors = [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.705882, 0.12549, 0.164706, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 
 [node name="TimesUpSFX" parent="." index="6"]

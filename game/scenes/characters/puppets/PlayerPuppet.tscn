@@ -253,8 +253,8 @@ resource_local_to_scene = true
 [node name="PlayerPuppet" type="AnimatedSprite"]
 material = ExtResource( 19 )
 frames = SubResource( 1 )
-animation = "hurt3_3"
-frame = 3
+animation = "idle1"
+frame = 4
 speed_scale = 1.5
 playing = true
 offset = Vector2( 2, -32 )

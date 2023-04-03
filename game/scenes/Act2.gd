@@ -39,12 +39,17 @@ onready var particles_wall_cover := $YSort/RoomElements/ParticlesWallCover
 onready var door := $YSort/RoomElements/Enterables/Door
 onready var door_open := $DoorOpen
 onready var food_spawner := $YSort/RoomElements/FoodSpawner
-onready var screen_rect := $ScreenFlash/ScreenRect
+onready var screen_rect := $CanvasLayer/ScreenRect
+onready var static_overlay := $CanvasLayer/StaticOverlay
+onready var new_self_out := $YSort2/NewSelfOut
+onready var black_overlay := $CanvasLayer/BlackOverlay
+onready var door_close := $DoorClose
+
 
 func _ready() -> void:
 #	yield(get_tree().create_timer(1.0, false), "timeout")
 #	dialogic_signal("bad_ending")
-
+#
 #	set_season("fall", 0.0)
 #	play_montage()
 
@@ -187,8 +192,8 @@ func play_montage() -> void:
 	player_puppet.set_act("3")
 	dialog_player.character = dialog_player.Characters.MC3
 	player_puppet.goto_next()
-	player_puppet.set_facing(Vector2.LEFT)
 	yield(player_puppet, "reached_waypoint")
+	player_puppet.set_facing(Vector2.LEFT)
 
 	m_t = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	m_t.tween_property(camera, "position", Vector2(192, 128), dur / 2)
@@ -309,7 +314,64 @@ func dialogic_signal(val: String) -> void:
 #			food_particles.emitting = true
 			particles_wall_cover.show()
 		"true_ending":
-			print("true_ending")
+			player_puppet.goto_next()
+			yield(player_puppet, "reached_waypoint")
+			door_open.play()
+			door.hide()
+			var dur := 2.0
+			var t := create_tween().set_trans(Tween.TRANS_QUAD)\
+					.set_ease(Tween.EASE_OUT)
+			t.tween_property(camera, "position", Vector2(192, 128), dur / 2)
+			t.tween_property(cover, "modulate:a", 0.0, dur / 4)
+			t.parallel().tween_property(ysort, "modulate:a", 0.0, 0.5)
+			t.parallel().tween_callback(self, "set_outdoor", [true, 0.5])
+			new_self_out.show()
+			yield(t, "finished")
+			dialog_player.read_line([
+				"Finally some fresh air to breath in I sure hope nothing bad happens"
+			])
+			yield(get_tree().create_timer(0.4), "timeout")
+			static_overlay.show()
+			black_overlay.show()
+			# 3 1 2 0.5 1 0
+			var dur3 := 0.5
+			var t3 := create_tween().set_trans(Tween.TRANS_QUAD)\
+			.set_ease(Tween.EASE_OUT)
+			t3.tween_interval(1.5)
+			t3.tween_property(cover, "modulate:a", 1.0, dur3)
+			t3.parallel().tween_property(ysort, "modulate:a", 1.0, dur3)
+			t3.parallel().tween_callback(self, "set_outdoor", [false, dur3])
+			t3.tween_property(camera, "position",
+					room_elements.position, dur3)
+			t3.tween_callback(door_close, "play")
+			t3.tween_callback(door, "show")
+			
+			var dur2 := 0.5
+			var t2 := create_tween().set_trans(Tween.TRANS_QUAD)\
+					.set_ease(Tween.EASE_IN_OUT)
+			t2.tween_property(static_overlay, "modulate:a", 1.0, dur2)
+			t2.tween_property(static_overlay.get_material(),
+					"shader_param/EDGE_BLUR", 1.0, dur2 * 2)
+			t2.parallel().tween_property(black_overlay, "modulate:a",
+					0.2, dur2 * 2)
+			
+			t2.tween_property(static_overlay.get_material(),
+					"shader_param/EDGE_BLUR", 2.0, dur2)
+			t2.parallel().tween_property(black_overlay, "modulate:a", 0.0, dur2)
+			
+			t2.tween_property(static_overlay.get_material(),
+					"shader_param/EDGE_BLUR", 0.5, dur2)
+			t2.parallel().tween_property(black_overlay, "modulate:a", 0.5, dur2)
+			
+			t2.tween_property(static_overlay.get_material(),
+					"shader_param/EDGE_BLUR", 1.0, dur2)
+			t2.parallel().tween_property(black_overlay, "modulate:a", 0.0, dur2)
+			
+			t2.tween_property(static_overlay.get_material(),
+					"shader_param/EDGE_BLUR", 0.0, dur2)
+			t2.parallel().tween_property(black_overlay, "modulate:a", 1.0, dur2)
+			yield(t2, "finished")
+			SceneHandler.goto_scene(next_scene)
 
 
 func timeline_end(timeline: String) -> void:
@@ -349,7 +411,8 @@ func _on_MinigamesManager_completed_task(points: int) -> void:
 
 
 func view_season_change_to(season: String, dur: float = 2.0) -> void:
-	var t := create_tween()
+	var t := create_tween().set_trans(Tween.TRANS_QUAD)\
+			.set_ease(Tween.EASE_OUT)
 	t.tween_property(camera, "position", Vector2(192, 128), dur / 2)
 	t.tween_property(cover, "modulate:a", 0.0, dur / 4)
 	t.parallel().tween_property(ysort, "modulate:a", 0.0, 0.5)
@@ -396,8 +459,7 @@ func _on_MinigamesManager_view_street(season) -> void:
 func view_street(season: String) -> void:
 	var t := create_tween().set_trans(Tween.TRANS_QUAD)\
 			.set_ease(Tween.EASE_OUT)
-	t.tween_property(camera, "position", Vector2(192, 128), 0.5)\
-			.set_ease(Tween.EASE_OUT)
+	t.tween_property(camera, "position", Vector2(192, 128), 0.5)
 	t.tween_callback(self, "set_outdoor", [true, 0.5])
 	t.tween_property(cover, "modulate:a", 0.0, 0.5)
 	t.parallel().tween_property(room_elements, "modulate",
@@ -422,7 +484,7 @@ func _on_MinigamesManager_do_event() -> void:
 
 func _on_FoodSpawner_food_ate() -> void:
 	player_puppet_target_pos += food_knockback
-	player_puppet.play("hurt3")
+	player_puppet.play_hurt()
 	player_puppet.frame = 0
 	if f_t:
 		f_t.kill()

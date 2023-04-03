@@ -67,9 +67,10 @@ func _input(event: InputEvent) -> void:
 func read_line(dialogs: Array, wait: float = 0.0) -> void:
 	next_indicator_container.hide()
 	reading = true
+	label.percent_visible = 0.0
 	modulate.a = 1.0
 	text_sfx.audio_streams = character_audios[character]
-	show()
+	call_deferred("show")
 	if t:
 		t.kill()
 	t = create_tween()
